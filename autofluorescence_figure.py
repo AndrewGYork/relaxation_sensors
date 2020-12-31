@@ -137,6 +137,10 @@ def main():
                   vmin=100, vmax=625)
         ax1.set_xticks([])
         ax1.set_yticks([])
+        ax1.text(100, 100, "Raw data",
+            fontdict={'color': (1, 1, 1),
+                      'weight': 'bold',
+                      'size': 32})
         ax1.text(
             1200, 650,
             "t=%5ss"%('%0.2f'%(cycle_timestamps[i])),
@@ -144,7 +148,7 @@ def main():
                       'weight': 'bold',
                       'size': 20,
                       'family': 'monospace',})
-        ax2 = plt.axes([0.4, 0.095, 0.57, 0.35])
+        ax2 = plt.axes([0.5, 0.095, 0.47, 0.35])
         ax1.add_patch(Rectangle(
             (279, 789), 21, 21,
             fill=False, linewidth=3, linestyle=(0, (0.5, 0.5)),
@@ -174,14 +178,14 @@ def main():
                  color=(0, 1, 0))
         ax2.text(
             3.79, 93,
-            "%0.1f%%"%(100 * (box_1_photons.max() - box_1_photons.min()) /
+            "%0.0f%%"%(100 * (box_1_photons.max() - box_1_photons.min()) /
                        box_1_photons.min()),
             fontdict={'color': (1, 0, 1),
                       'weight': 'bold',
                       'size': 10,})
         ax2.text(
-            3.95, 65,
-            "%0.1f%%"%(100 * (box_2_photons.max() - box_2_photons.min()) /
+            3.98, 65,
+            "%0.0f%%"%(100 * (box_2_photons.max() - box_2_photons.min()) /
                        box_2_photons.min()),
             fontdict={'color': (0, 0.5, 0),
                       'weight': 'bold',
@@ -202,7 +206,7 @@ def main():
             "405 nm\nillumination",
             fontdict={'color': (0, 0, 1),
                       'weight': 'bold',
-                      'size': 10,
+                      'size': 8.5,
                       'horizontalalignment': 'center',})
         plt.savefig(temp_dir / ("data_frame_%03i.png"%i), dpi=100)
 
