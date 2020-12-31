@@ -25,7 +25,8 @@ def main():
     timestamps = decode_timestamps(data)['microseconds'].astype('float64')
     
     # Crop, flip, convert to float:
-    data = data[:, 1776:162:-1, 1329:48:-1].transpose((0, 2, 1)).astype('float32')
+    data = data[:, 1776:162:-1, 1329:48:-1
+                ].transpose((0, 2, 1)).astype('float32')
     print(data.shape, data.dtype)
 
     # Extract the relevant images to separate signal from background:
@@ -155,7 +156,7 @@ def main():
             color=(1, 0, 1)))
         ax1.add_patch(Rectangle(
             (722, 376), 21, 21,
-            fill=False, linewidth=2, color=(0, 1, 0)))
+            fill=False, linewidth=2, color=(0, 0.9, 0)))
         box_1_photons = to_photoelectrons(
             cycle[:, 789:789+21, 279:279+21].mean(axis=(1, 2)))
         box_2_photons = to_photoelectrons(
@@ -167,7 +168,7 @@ def main():
         ax2.plot(cycle_timestamps, box_2_photons,
                  marker='.', markersize=7,
                  linewidth=2.5,
-                 color=(0, 1, 0))
+                 color=(0, 0.9, 0))
         ax2.plot([cycle_timestamps[-1]*1.08]*2,
                  [box_1_photons.min(), box_1_photons.max()],
                  marker=0, markersize=10, linewidth=2.5,
@@ -175,7 +176,7 @@ def main():
         ax2.plot([cycle_timestamps[-1]*1.12]*2,
                  [box_2_photons.min(), box_2_photons.max()],
                  marker=0, markersize=10, linewidth=2.5,
-                 color=(0, 1, 0))
+                 color=(0, 0.9, 0))
         ax2.text(
             3.79, 93,
             "%0.0f%%"%(100 * (box_1_photons.max() - box_1_photons.min()) /
@@ -190,24 +191,36 @@ def main():
             fontdict={'color': (0, 0.5, 0),
                       'weight': 'bold',
                       'size': 10,})
-        ax2.set_xlim(cycle_timestamps.min() - 0.1, 1.35*cycle_timestamps.max())
+        ax2.set_xlim(cycle_timestamps.min() - 0.2, 1.35*cycle_timestamps.max())
         ax2.set_ylim(0, 1.2*max(box_1_photons.max(), box_2_photons.max()))
-        ax2.grid('on')
+        ax2.grid('on', alpha=0.17)
         ax2.tick_params(labelcolor='white')
         ax2.set_xlabel("Time (s)", color='white', weight='bold')
         ax2.set_ylabel("Photons per pixel", color='white', weight='bold')
         ax2.axvline(cycle_timestamps[i])
-        ax2.add_patch(Rectangle(
-            (cycle_timestamps[0] - 0.1, 0),
-            (cycle_timestamps[1] - cycle_timestamps[0]) - 0.1, 130,
-            fill=True, linewidth=0, color=(0, 0, 1, 0.17)))
+        for pt in np.linspace(cycle_timestamps[0] - 0.15,
+                              cycle_timestamps[1] - 0.15, 10):
+            ax2.add_patch(Rectangle(
+                (pt, 40),
+                (cycle_timestamps[1] - cycle_timestamps[0]) / 30, 60,
+                fill=True, linewidth=0, color=(0.3, 0, 1, 0.22)))
         ax2.text(
             0.7 + cycle_timestamps[0], 22,
             "405 nm\nillumination",
-            fontdict={'color': (0, 0, 1),
+            fontdict={'color': (0.5, 0, 1),
                       'weight': 'bold',
                       'size': 8.5,
                       'horizontalalignment': 'center',})
+        for ct in cycle_timestamps:
+            ax2.add_patch(Rectangle(
+                (ct - 0.025, 30), 0.05, 80,
+                fill=True, linewidth=0, color=(0, 0.9, 0.9, 0.6)))
+        ax2.text(
+            0.6 + cycle_timestamps[1], 22,
+            "488 nm illumination",
+            fontdict={'color': (0, .7, .7),
+                      'weight': 'bold',
+                      'size': 8.5,})
         plt.savefig(temp_dir / ("data_frame_%03i.png"%i), dpi=100)
 
     # Animate the frames into a gif:
