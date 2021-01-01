@@ -142,6 +142,7 @@ def main():
             fontdict={'color': (1, 1, 1),
                       'weight': 'bold',
                       'size': 32})
+        # Show the current time textually
         ax1.text(
             1200, 650,
             "t=%5ss"%('%0.2f'%(cycle_timestamps[i])),
@@ -149,7 +150,11 @@ def main():
                       'weight': 'bold',
                       'size': 20,
                       'family': 'monospace',})
+        # Make an inset plot to show intensity vs. time for two regions:
+        # one with a lot of photoswitching (and not much background),
+        # and one with a lot of background (and not much photoswitching)
         ax2 = plt.axes([0.5, 0.095, 0.47, 0.35])
+        # Highlight the two "source" regions in the main plot
         ax1.add_patch(Rectangle(
             (279, 789), 21, 21,
             fill=False, linewidth=3, linestyle=(0, (0.5, 0.5)),
@@ -157,6 +162,7 @@ def main():
         ax1.add_patch(Rectangle(
             (722, 376), 21, 21,
             fill=False, linewidth=2, color=(0, 0.9, 0)))
+        # Extract and plot intensity vs. time for these two regions
         box_1_photons = to_photoelectrons(
             cycle[:, 789:789+21, 279:279+21].mean(axis=(1, 2)))
         box_2_photons = to_photoelectrons(
@@ -169,6 +175,8 @@ def main():
                  marker='.', markersize=7,
                  linewidth=2.5,
                  color=(0, 0.9, 0))
+        # Highlight how much (or how little) photoswitching occurs in
+        # each trace:
         ax2.plot([cycle_timestamps[-1]*1.08]*2,
                  [box_1_photons.min(), box_1_photons.max()],
                  marker=0, markersize=10, linewidth=2.5,
@@ -191,13 +199,16 @@ def main():
             fontdict={'color': (0, 0.5, 0),
                       'weight': 'bold',
                       'size': 10,})
+        # Misc plot tweaks:
         ax2.set_xlim(cycle_timestamps.min() - 0.2, 1.35*cycle_timestamps.max())
         ax2.set_ylim(0, 1.2*max(box_1_photons.max(), box_2_photons.max()))
         ax2.grid('on', alpha=0.17)
         ax2.tick_params(labelcolor='white')
         ax2.set_xlabel("Time (s)", color='white', weight='bold')
         ax2.set_ylabel("Photons per pixel", color='white', weight='bold')
+        # Emphasize the current time graphically:
         ax2.axvline(cycle_timestamps[i])
+        # Show when the 405 nm and 488 nm illumination is on:
         for pt in np.linspace(cycle_timestamps[0] - 0.15,
                               cycle_timestamps[1] - 0.15, 10):
             ax2.add_patch(Rectangle(
