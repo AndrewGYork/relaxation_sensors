@@ -22,7 +22,7 @@ def main():
     data = imread(input_dir / '0_data.tif') # Acquired by Maria on 2020_12_01
     print(data.shape, data.dtype)
     
-    timestamps = decode_timestamps(data)['microseconds'].astype('float64')
+    timestamps = 1e-6*decode_timestamps(data)['microseconds'].astype('float64')
     
     # Crop, flip, convert to float:
     data = data[:, 1776:162:-1, 1329:48:-1
@@ -46,7 +46,7 @@ def main():
 
     # ~3.4 seconds elapse between deactivated and activated images:
     intervals = timestamps[(14, 30, 46),] - timestamps[(5, 21, 37),]
-    print("Time intervals:", intervals / 1e6)
+    print("Time intervals:", intervals)
 
     # Smooth and color-merge photoswitching/background
     photoswitching = adjust_contrast(photoswitching, 0, 450)
@@ -126,7 +126,7 @@ def main():
     # Extract images for one photoswitching cycle. Smooth them a little,
     # since we'll be resampling the image anyway for the figure.
     cycle = gaussian_filter(data[4:15, :, :], sigma=(0, 1, 1))
-    cycle_timestamps = (timestamps[4:15] - timestamps[5]) * 1e-6
+    cycle_timestamps = timestamps[4:15] - timestamps[5]
     imwrite(temp_dir / '8_switching_cycle.tif',
             np.expand_dims(cycle, 1), imagej=True)
 
