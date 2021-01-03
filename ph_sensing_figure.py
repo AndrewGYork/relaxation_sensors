@@ -256,8 +256,22 @@ def main():
                           'horizontalalignment': 'center',})
             ax2.plot((cycle_timestamps[-2] + 0.1, cycle_timestamps[-1] - 0.1),
                      (1400, 1400), color='black', marker='|')
-            plt.savefig(temp_dir /
-                        ("data_frame_%i_%03i.png"%(which_cycle, which_frame)),
+            if which_frame < cycle.shape[0] - 2:
+                plt.savefig(
+                    temp_dir /
+                    ("data_frame_%i_%03i.png"%(which_cycle, which_frame)),
+                    dpi=100)
+            elif which_frame == cycle.shape[0] - 2: # Repeat the penultimate
+                for x in range(which_frame, which_frame+5):
+                    plt.savefig(
+                        temp_dir /
+                        ("data_frame_%i_%03i.png"%(which_cycle, x)),
+                        dpi=100)
+            elif which_frame == cycle.shape[0] - 1: # Repeat the final
+                for x in range(which_frame+4, which_frame+7):
+                    plt.savefig(
+                        temp_dir /
+                        ("data_frame_%i_%03i.png"%(which_cycle, x)),
                         dpi=100)
             plt.close(fig)
 
@@ -273,7 +287,7 @@ def main():
             '-y', palette]
         convert_command_2 = [
             'ffmpeg',
-            '-framerate', '12',
+            '-framerate', '8',
             '-f', 'image2',
             '-i', str(temp_dir / ('data_frame_%i_%%3d.png'%(which_cycle))),
             '-i', palette,
