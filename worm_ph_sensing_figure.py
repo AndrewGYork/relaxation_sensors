@@ -34,11 +34,19 @@ def main():
         activation = data[5 + which_cycle*16:16+which_cycle*16, :, :].copy()
         # Add artificial patches with carefully chosen dynamics to give an
         # effective "colorbar"
-        scale = (0.37, 0.55, 0.85)[which_cycle]
-        relaxation_colorbar = np.linspace(0, scale, 14) # Replace with calib.
-        nonlinearity_colorbar = np.linspace(0.04, 0.36, 14)
+        # These numbers are calculated by 'worm_ph_calibration.py'
+        relaxation_colorbar = ( # pH 8, 7.5, 7, 6.5, 6 with 2x interpolation
+            (0.82, 0.605, 0.39, 0.275, 0.16, 0.099, 0.038, 0.019, 0),
+            (1.08, 0.855, 0.63, 0.46, 0.29, 0.185, 0.08, 0.045, 0.01),
+            (1.28, 1.135, 0.99, 0.78, 0.57, 0.38, 0.19, 0.1185, 0.047),
+            )[which_cycle]
+        nonlinearity_colorbar = ( # pH 8, 7.5, 7, 6.5, 6 with 2x interpolation
+            (0.38, 0.355, 0.33, 0.315, 0.3, 0.27, 0.24, 0.225, 0.21),
+            (0.38, 0.355, 0.33, 0.315, 0.3, 0.27, 0.24, 0.225, 0.21),
+            (0.38, 0.355, 0.33, 0.315, 0.3, 0.27, 0.24, 0.225, 0.21),
+            )[which_cycle]
         a_max = activation.max()
-        for patch in range(14):
+        for patch in range(9):
             sl_y, sl_x = slice(-100, -20), slice(-(patch+2)*60, -(patch+1)*60)
             activation[ 0, sl_y, sl_x] = 0
             activation[-2, sl_y, sl_x] = a_max
@@ -292,7 +300,7 @@ def main():
             '-i', str(temp_dir / ('data_frame_%i_%%3d.png'%(which_cycle))),
             '-i', palette,
             '-lavfi', filters + " [x]; [x][1:v] paletteuse",
-            '-y', str(output_dir / ("2_data_animation_%i.gif"%(which_cycle)))]
+            '-y', str(output_dir / ("data_animation_%i.gif"%(which_cycle)))]
         for convert_command in convert_command_1, convert_command_2:
             try:
                 with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
