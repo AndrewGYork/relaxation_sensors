@@ -6,8 +6,8 @@ import numpy as np
 from scipy.ndimage import gaussian_filter
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
-input_dir = Path.cwd() / 'calibration_beads'
-temp_dir = Path.cwd() / 'intermediate_output'
+input_dir = Path.cwd() / '0_calibration_beads'
+temp_dir = Path.cwd() / 'intermediate_calibration_output'
 output_dir = Path.cwd()
 # Sanity checks:
 assert input_dir.is_dir()
@@ -24,14 +24,12 @@ def main():
         ('ph_7p5', slice(843, 1071), slice(1158, 1617)),
         ('ph_8p0', slice(840, 936), slice(1170, 1647)),
         ):
-        data = imread(input_dir / (basename + '.tif')) 
-        print(data.shape, data.dtype)
+        data = imread(input_dir / (basename + '.tif'))
         
         timestamps = (
             1e-6*decode_timestamps(data)['microseconds'].astype('float64'))
         # Crop, convert to float:
         data = data[:, 7:, :].astype('float32')
-        print(data.shape, data.dtype)
 
         relaxation_ratios = []
         nonlinearity_ratios = []
@@ -79,6 +77,7 @@ def main():
         for x in relaxation_ratios: print('', x)
         print("Nonlinearity ratio for", basename + ':')
         for x in nonlinearity_ratios: print('', x)
+        print()
 
 def decode_timestamps(image_stack):
     """Decode PCO image timestamps from binary-coded decimal.
