@@ -15,15 +15,20 @@ temp_dir.mkdir(exist_ok=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
-    amount_cycle = np.concatenate((2**(-np.sin(np.linspace(0, 3*np.pi, 30))),
-                                   np.ones(5)))
+    cycle_1 = np.concatenate((np.ones(15),
+                              2**(-np.sin(np.linspace(0, 5*np.pi, 50))),
+                              np.ones(10)))
+    cycle_2 = np.concatenate((2**(-np.sin(np.linspace(0, 3*np.pi, 30))),
+                              np.ones(5)))
     which_frame = -1
-    for norm in (True, False):
-        for key in ('analyte_amount',
-                    'background_amount',
-                    'sensor_amount',
-                    'illumination_amount'):
-            for amount in amount_cycle:
+    for norm in (True, ):
+        for key, cycle in (
+            ('analyte_amount',      cycle_1),
+            ('background_amount',   cycle_2),
+            ('sensor_amount',       cycle_2),
+            ('illumination_amount', cycle_2),
+            ):
+            for amount in cycle:
                 which_frame += 1
                 kwargs = {'which_frame': which_frame,
                           key: amount,
@@ -112,10 +117,14 @@ def make_frame(
              transform=ax1.transAxes)
     t = np.linspace(-5, 100, 10000)
     illumination = illumination_amount * (t > 0) * (t < 10)
+    background_signal = illumination * 0.2 * background_amount
     x = illumination * (
-        0.2 * background_amount +
+        background_signal +
         0.8 * sensor_amount * (0.5 + 0.5*analyte_amount))
-    ax1.fill_between(t, illumination, alpha=0.1)
+    ax1.fill_between(t, 1000*illumination-500, -500,
+                     alpha=0.1, linewidth=0, color=(0.12, 0.47, 0.71))
+    ax1.fill_between(t, background_signal,
+                     alpha=0.03, linewidth=0, color='magenta')
     ax1.plot(t, x, linewidth=2)
     ax1.plot(5, x.max(), marker='.', color='blue')
 
@@ -146,10 +155,15 @@ def make_frame(
     illumination = illumination_amount * (t < 0.2)
     background_lifetime = 1
     sensor_lifetime = 3 + 1.5*(1 - analyte_amount)
+    background_signal = illumination_amount * (
+        0.2 * background_amount * np.exp(-t / background_lifetime))
     x = illumination_amount * (
-        0.2 * background_amount * np.exp(-t / background_lifetime) +
+        background_signal +
         0.8 * sensor_amount     * np.exp(-t / sensor_lifetime))
-    ax2.fill_between(t-0.1, illumination, alpha=0.1)
+    ax2.fill_between(t-0.1, 1000*illumination-500, -500,
+                     alpha=0.1, linewidth=0, color=(0.12, 0.47, 0.71))
+    ax2.fill_between(t, background_signal,
+                     alpha=0.03, linewidth=0, color='magenta')
     ax2.plot(t, x, linewidth=2)
     ax2.plot(t[::500], x[::500], marker='.', color='blue')
 
@@ -164,9 +178,9 @@ def make_frame(
     ax2.set_yticks(np.linspace(0, 1.75, 8))
     ax2.set_yticklabels(['0', '', '', '', '1', '', ''])
     if normalize:
-        ax2.set_ylim(-0.05*x.max(), 1.75*x.max())
+        ax2.set_ylim(-0.05*x.max(), 1.1*x.max())
     else:
-        ax2.set_ylim(-0.05, 1.75)
+        ax2.set_ylim(-0.05, 1.1)
 
     ax2.grid('on', alpha=0.15)
 
@@ -196,7 +210,8 @@ def make_frame(
     sol = solve_ivp(
         activation_rate, [t[0], t[-1]], [0], t_eval=t, max_step=0.01)
     activated_sensor = sol.y[0]
-    x = illumination_amount * (0.2 * background_amount +
+    background_signal = illumination_amount * 0.2 * background_amount
+    x = illumination_amount * (background_signal +
                                0.8 * activated_sensor)
     t_samples, x_samples = [], []
     for pt in pulse_times:
@@ -206,7 +221,10 @@ def make_frame(
         x_samples.append(x[ti:tf].mean())
 
 
-    ax3.fill(t, illumination, alpha=0.1)
+    ax3.fill_between(t, 1000*illumination-500, -500,
+                     alpha=0.1, linewidth=0, color=(0.12, 0.47, 0.71))
+    ax3.fill_between(t, background_signal,
+                     alpha=0.03, linewidth=0, color='magenta')
     ax3.plot(t, x, linewidth=1, color='blue')
     ax3.plot(t_samples, x_samples, linewidth=0, marker='.', color='blue')
     ax3.set_xlabel("Time (seconds)", weight='bold')
@@ -222,13 +240,11 @@ def make_frame(
     ax3.set_yticks(np.linspace(0, 1.75, 8))
     ax3.set_yticklabels(['0', '', '', '', '1', '', ''])
     if normalize: # TODO: Actually get this right ugh
-        ax3.set_ylim(x.min() - 0.3636 * (x.max() - x.min()),
-                     x.max() + 1.255 * (x.max() - x.min()))
+        ax3.set_ylim(x.min() - 0.4412 * (x.max() - x.min()),
+                     x.max() + 0.588 * (x.max() - x.min()))
     else:
-        ax3.set_ylim(-0.05, 1.75)
-
+        ax3.set_ylim(-0.05, 1.1)
     ax3.grid('on', alpha=0.15)
-
 
     plt.savefig(temp_dir / ("frame_%03i.png"%which_frame), dpi=200)
     plt.close(fig)
