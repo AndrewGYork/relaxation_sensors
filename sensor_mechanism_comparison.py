@@ -15,20 +15,20 @@ temp_dir.mkdir(exist_ok=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
+    amount_cycle = np.concatenate((2**(-np.sin(np.linspace(0, 3*np.pi, 30))),
+                                   np.ones(5)))
     which_frame = -1
-    for amount in np.concatenate((np.linspace(1, 2, 5),
-                                  np.linspace(2, 0, 10),
-                                  np.linspace(0, 1, 5))
-                                 ):
-        which_frame += 1
-        make_frame(
-            which_frame=which_frame,
-            analyte_amount=1,
-            background_amount=1,
-            sensor_amount=amount,
-            illumination_amount=1,
-            normalize=True
-            )
+    for norm in (True, False):
+        for key in ('analyte_amount',
+                    'background_amount',
+                    'sensor_amount',
+                    'illumination_amount'):
+            for amount in amount_cycle:
+                which_frame += 1
+                kwargs = {'which_frame': which_frame,
+                          key: amount,
+                          'normalize': norm}
+                make_frame(**kwargs)
 
 def make_frame(
     which_frame,
@@ -42,6 +42,10 @@ def make_frame(
     fig = plt.figure(figsize=(8, 4.8))
     ax0 = plt.axes((0, 0, 1, 1))
 
+    ax0.text(0.65, 0.9, "Quantity of interest:",
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 12})
     # Amount of analyte
     ax0.add_patch(Rectangle(
         (0.62, 0.8), 0.35*(0.5*analyte_amount), 0.07,
@@ -55,15 +59,19 @@ def make_frame(
                        'weight': 'bold',
                        'size': 11})
 
+    ax0.text(0.65, 0.6, "Confounding factors:",
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 12})
     # Amount of background
     ax0.add_patch(Rectangle(
-        (0.62, 0.6), 0.35*(0.5*background_amount), 0.07,
+        (0.62, 0.5), 0.35*(0.5*background_amount), 0.07,
         fill=True, linewidth=0,
         color=(1, 0, 1, 0.5)))
     ax0.add_patch(Rectangle(
-        (0.62, 0.6), 0.35, 0.07,
+        (0.62, 0.5), 0.35, 0.07,
         fill=False, linewidth=1))
-    ax0.text(0.68, 0.625, "Amount of background",
+    ax0.text(0.68, 0.525, "Amount of background",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 11})
@@ -83,13 +91,13 @@ def make_frame(
 
     # Amount of illumination
     ax0.add_patch(Rectangle(
-        (0.62, 0.2), 0.35*(0.5*illumination_amount), 0.07,
+        (0.62, 0.3), 0.35*(0.5*illumination_amount), 0.07,
         fill=True, linewidth=0,
         color=(0.12, 0.47, 0.71, 0.15)))
     ax0.add_patch(Rectangle(
-        (0.62, 0.2), 0.35, 0.07,
+        (0.62, 0.3), 0.35, 0.07,
         fill=False, linewidth=1))
-    ax0.text(0.68, 0.225, "Amount of illumination",
+    ax0.text(0.68, 0.325, "Amount of illumination",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 11})
@@ -114,7 +122,11 @@ def make_frame(
     ax1.set_xlabel("Time (milliseconds)", weight='bold', labelpad=-1)
     ax1.set_xlim(-10, 100)
 
-    ax1.set_ylabel("Signal", weight='bold')
+    ax1.text(-0.1, 0.3, "Signal", rotation=90,
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 10},
+             transform=ax1.transAxes)
     ax1.set_yticks(np.linspace(0, 1.75, 8))
     ax1.set_yticklabels(['0', '', '', '', '1', '', ''])
     if normalize:
@@ -144,7 +156,11 @@ def make_frame(
     ax2.set_xlabel("Time (nanoseconds)", weight='bold', labelpad=-1)
     ax2.set_xlim(-0.5, 10)
 
-    ax2.set_ylabel("Signal", weight='bold')
+    ax2.text(-0.1, 0.3, "Signal", rotation=90,
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 10},
+             transform=ax2.transAxes)
     ax2.set_yticks(np.linspace(0, 1.75, 8))
     ax2.set_yticklabels(['0', '', '', '', '1', '', ''])
     if normalize:
@@ -156,7 +172,7 @@ def make_frame(
 
     # Relaxation sensors
     ax3 = plt.axes((0.07, 0.1, 0.5, 0.23))
-    ax3.text(0.24, 0.8, "Isomer lifetime",
+    ax3.text(0.24, 0.8, "Isomer relaxation",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 12},
@@ -172,14 +188,16 @@ def make_frame(
                      ] = illumination_amount
     def activation_rate(current_time, activated_sensor):
         current_illumination = illumination[np.searchsorted(t, current_time)]
-        k_off = activated_sensor * (1/5 + (analyte_amount - 1) * 1/5)
-        k_on = current_illumination * (sensor_amount - activated_sensor) * 1.5
-        return k_on - k_off
+        k_off = 0.2 + 0.35 * (analyte_amount - 1)
+        k_on = (5*current_illumination *
+                (0.2 + 0.35 * (analyte_amount - 1)))
+        return (k_on * (sensor_amount - activated_sensor) - 
+                k_off * activated_sensor)
     sol = solve_ivp(
         activation_rate, [t[0], t[-1]], [0], t_eval=t, max_step=0.01)
     activated_sensor = sol.y[0]
-    x = 1.2 * illumination_amount * (0.2 * background_amount +
-                                     0.8 * activated_sensor)
+    x = illumination_amount * (0.2 * background_amount +
+                               0.8 * activated_sensor)
     t_samples, x_samples = [], []
     for pt in pulse_times:
         ti = np.searchsorted(t, pt)
@@ -195,13 +213,17 @@ def make_frame(
     ax3.set_xlim(-3.5, 17)
     ax3.set_xticks(np.arange(-3, 16, 3))
 
-    ax3.set_ylabel("Signal", weight='bold')
+    ax3.text(-0.1, 0.3, "Signal", rotation=90,
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 10},
+             transform=ax3.transAxes)
     ax3.set_ylim(0, 1)
     ax3.set_yticks(np.linspace(0, 1.75, 8))
     ax3.set_yticklabels(['0', '', '', '', '1', '', ''])
     if normalize: # TODO: Actually get this right ugh
-        ax3.set_ylim(-0.05 * 0.96 * (x.max() - x.min()) + (x.min() - 0.24),
-                     1.75 * 0.96 * (x.max() - x.min()) + (x.min() - 0.24))
+        ax3.set_ylim(x.min() - 0.3636 * (x.max() - x.min()),
+                     x.max() + 1.255 * (x.max() - x.min()))
     else:
         ax3.set_ylim(-0.05, 1.75)
 
