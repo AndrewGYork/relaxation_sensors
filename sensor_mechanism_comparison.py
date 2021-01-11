@@ -121,7 +121,7 @@ def make_frame(
     x = illumination * (
         background_signal +
         0.8 * sensor_amount * (0.5 + 0.5*analyte_amount))
-    ax1.fill_between(t, 1000*illumination-500, -500,
+    ax1.fill_between(t, 1000*illumination-300, -500,
                      alpha=0.1, linewidth=0, color=(0.12, 0.47, 0.71))
     ax1.fill_between(t, background_signal,
                      alpha=0.03, linewidth=0, color='magenta')
@@ -157,15 +157,19 @@ def make_frame(
     sensor_lifetime = 3 + 1.5*(1 - analyte_amount)
     background_signal = illumination_amount * (
         0.2 * background_amount * np.exp(-t / background_lifetime))
-    x = illumination_amount * (
-        background_signal +
+    x = background_signal + illumination_amount * (
         0.8 * sensor_amount     * np.exp(-t / sensor_lifetime))
-    ax2.fill_between(t-0.1, 1000*illumination-500, -500,
+    t_samples, x_samples = t[::500], x[::500]
+    ax2.fill_between(t-0.1, 1000*illumination-300, -500,
                      alpha=0.1, linewidth=0, color=(0.12, 0.47, 0.71))
     ax2.fill_between(t, background_signal,
                      alpha=0.03, linewidth=0, color='magenta')
     ax2.plot(t, x, linewidth=2)
-    ax2.plot(t[::500], x[::500], marker='.', color='blue')
+    ax2.plot(t_samples, x_samples, marker='.', color='blue')
+    ref = np.linspace(x_samples[0], x_samples[-1], len(t_samples))
+    ax2.plot(t_samples, ref, ':', color='black', linewidth=1, alpha=0.5)
+    ax2.plot(t_samples, ref + (x_samples - ref).min(),
+             ':', color='black', linewidth=1, alpha=0.5)
 
     ax2.set_xlabel("Time (nanoseconds)", weight='bold', labelpad=-1)
     ax2.set_xlim(-0.5, 10)
@@ -221,12 +225,20 @@ def make_frame(
         x_samples.append(x[ti:tf].mean())
 
 
-    ax3.fill_between(t, 1000*illumination-500, -500,
+    ax3.fill_between(t, 1000*illumination-300, -500,
                      alpha=0.1, linewidth=0, color=(0.12, 0.47, 0.71))
     ax3.fill_between(t, background_signal,
                      alpha=0.03, linewidth=0, color='magenta')
     ax3.plot(t, x, linewidth=1, color='blue')
     ax3.plot(t_samples, x_samples, linewidth=0, marker='.', color='blue')
+    ax3.plot(t_samples[-2:], [x_samples[-2]]*2,
+             ':', color='black', linewidth=1, alpha=0.5)
+    ax3.plot(t_samples[-2:], [x_samples[-1]]*2,
+             ':', color='black', linewidth=1, alpha=0.5)
+    ref = np.linspace(x_samples[0], x_samples[-2], len(t_samples)-1)
+    ax3.plot(t_samples[0:-1], ref, ':', color='black', linewidth=1, alpha=0.5)
+    ax3.plot(t_samples[0:-1], ref + (x_samples[:-1] - ref).max(),
+             ':', color='black', linewidth=1, alpha=0.5)
     ax3.set_xlabel("Time (seconds)", weight='bold')
     ax3.set_xlim(-3.5, 17)
     ax3.set_xticks(np.arange(-3, 16, 3))
