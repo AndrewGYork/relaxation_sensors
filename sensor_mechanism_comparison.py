@@ -4,6 +4,7 @@ import subprocess
 from pathlib import Path
 # You can use 'pip' to install these dependencies:
 import numpy as np
+from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
@@ -13,181 +14,200 @@ output_dir = Path.cwd()
 temp_dir.mkdir(exist_ok=True)
 output_dir.mkdir(exist_ok=True)
 
-# Script
-# Start with intensity sensors
-# Then show lifetime sensors
-# Then show countdown sensors
-
 def main():
-    which_frame = 0
-    make_frame(which_frame=which_frame)
-    for _ in range(5):
-            which_frame += 1
-            make_frame(which_frame=which_frame)
-    for _ in range(2):
-        for i in range(15):
-            which_frame += 1
-            sensor_amount=0.46 + 0.54*(0.5 - 0.5*np.cos(i*2*np.pi/15))
-            make_frame(
-                which_frame=which_frame,
-                sensor_amount=sensor_amount,
-                amplitude=sensor_amount*0.46 + 0.46
-                )
-    for _ in range(5):
-            which_frame += 1
-            make_frame(which_frame=which_frame)
-    for _ in range(2):
-        for i in range(15):
-            which_frame += 1
-            analyte_amount=0.46 + 0.54*(0.5 - 0.5*np.cos(i*2*np.pi/15))
-            make_frame(
-                which_frame=which_frame,
-                analyte_amount=analyte_amount,
-                amplitude=0.46*analyte_amount + 0.46
-                )
-    for _ in range(5):
-            which_frame += 1
-            make_frame(which_frame=which_frame)
-    for _ in range(2):
-        for i in range(15):
-            which_frame += 1
-            background_amount=0.46 + 0.54*(0.5 - 0.5*np.cos(i*2*np.pi/15))
-            make_frame(
-                which_frame=which_frame,
-                background_amount=background_amount,
-                amplitude=0.46*0.46 + background_amount
-                )
-    for _ in range(5):
-            which_frame += 1
-            make_frame(which_frame=which_frame)
-    tf_frames = 10e-9 * (1.3)**(np.arange(15, -1, -1))
-    t0_frames = 10e-9 - tf_frames
-    title_alpha = np.linspace(1, 0, 15)
-    for t0_frame, tf_frame, alpha in zip(t0_frames, tf_frames, title_alpha):
+    which_frame = -1
+    for amount in np.concatenate((np.linspace(1, 2, 5),
+                                  np.linspace(2, 0, 10),
+                                  np.linspace(0, 1, 5))
+                                 ):
         which_frame += 1
-        make_frame(which_frame=which_frame,
-                   title_1_alpha=alpha,
-                   title_2_alpha=1-alpha,
-                   t0_frame=t0_frame,
-                   tf_frame=tf_frame,
-                   tick_delta=1e-9)
-    for _ in range(15):
-        which_frame += 1
-        make_frame(which_frame=which_frame,
-                   title_1='fluorescence lifetime',
-                   t0_frame=0,
-                   tf_frame=10e-9,
-                   tick_delta=1e-9)
-    for _ in range(2):
-        for i in range(15):
-            which_frame += 1
-            sensor_amount=0.46 + 0.54*(0.5 - 0.5*np.cos(i*2*np.pi/15))
-            make_frame(which_frame=which_frame,
-                       title_1='fluorescence lifetime',
-                       sensor_amount=sensor_amount,
-                       amplitude=sensor_amount*0.46 + 0.46,
-                       t0_frame=0,
-                       tf_frame=10e-9,
-                       tick_delta=1e-9)
-    for _ in range(5):
-        which_frame += 1
-        make_frame(which_frame=which_frame,
-                   title_1='fluorescence lifetime',
-                   t0_frame=0,
-                   tf_frame=10e-9,
-                   tick_delta=1e-9)
-    for _ in range(2):
-        for i in range(15):
-            which_frame += 1
-            analyte_amount=0.46 + 0.54*(0.5 - 0.5*np.cos(i*2*np.pi/15))
-            make_frame(which_frame=which_frame,
-                       title_1='fluorescence lifetime',
-                       analyte_amount=analyte_amount,
-                       T=3e-9 - 3e-9*(analyte_amount-0.46),
-                       t0_frame=0,
-                       tf_frame=10e-9,
-                       tick_delta=1e-9)
-
+        make_frame(
+            which_frame=which_frame,
+            analyte_amount=1,
+            background_amount=1,
+            sensor_amount=amount,
+            illumination_amount=1,
+            normalize=True
+            )
 
 def make_frame(
     which_frame,
-    title_1="fluorescence intensity",
-    title_2="fluorescence lifetime",
-    title_1_alpha=1,
-    title_2_alpha=0,
-    sensor_amount=0.46,
-    analyte_amount=0.46,
-    background_amount=0.46,
-    amplitude=0.6716,
-    T=3e-9,
-    t0=0,
-    tf=10e-9,
-    t0_frame=-1,
-    tf_frame=1,
-    tick_delta=10e-9,
+    analyte_amount=1,
+    background_amount=1,
+    sensor_amount=1,
+    illumination_amount=1,
+    normalize=False,
     ):
     print('.', sep='', end='')
-    fig = plt.figure(figsize=(6, 3.6))
-    ax1 = plt.axes((0, 0, 1, 1))
-    for title, title_alpha in ((title_1, title_1_alpha),
-                               (title_2, title_2_alpha)):
-        ax1.text(0.04, 0.94, "Biosensor readout: " + title,
-                 fontdict={'color': (0, 0, 0, title_alpha),
-                           'weight': 'bold',
-                           'size': 11})
+    fig = plt.figure(figsize=(8, 4.8))
+    ax0 = plt.axes((0, 0, 1, 1))
 
-    ax1.add_patch(Rectangle(
-        (0.6, 0.3), 0.07, 0.6*sensor_amount,
+    # Amount of analyte
+    ax0.add_patch(Rectangle(
+        (0.62, 0.8), 0.35*(0.5*analyte_amount), 0.07,
         fill=True, linewidth=0,
-        color=(0, 0.9, 0, 0.5)))
-    ax1.add_patch(Rectangle(
-        (0.6, 0.3), 0.07, 0.6,
+        color=(0.12, 0.47, 0.71, 0.8)))
+    ax0.add_patch(Rectangle(
+        (0.62, 0.8), 0.35, 0.07,
         fill=False, linewidth=1))
-    ax1.text(0.624, 0.33, "Amount of sensor", rotation=90,
+    ax0.text(0.68, 0.825, "Amount of analyte",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 11})
 
-    ax1.add_patch(Rectangle(
-        (0.72, 0.3), 0.07, 0.6*analyte_amount,
+    # Amount of background
+    ax0.add_patch(Rectangle(
+        (0.62, 0.6), 0.35*(0.5*background_amount), 0.07,
         fill=True, linewidth=0,
-        color=(0, 0, 0.9, 0.5)))
-    ax1.add_patch(Rectangle(
-        (0.72, 0.3), 0.07, 0.6,
+        color=(1, 0, 1, 0.5)))
+    ax0.add_patch(Rectangle(
+        (0.62, 0.6), 0.35, 0.07,
         fill=False, linewidth=1))
-    ax1.text(0.744, 0.33, "Amount of analyte", rotation=90,
+    ax0.text(0.68, 0.625, "Amount of background",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 11})
 
-    ax1.add_patch(Rectangle(
-        (0.84, 0.3), 0.07, 0.6*background_amount,
+    # Amount of sensor
+    ax0.add_patch(Rectangle(
+        (0.62, 0.4), 0.35*(0.5*sensor_amount), 0.07,
         fill=True, linewidth=0,
-        color=(0.9, 0, 0.9, 0.5)))
-    ax1.add_patch(Rectangle(
-        (0.84, 0.3), 0.07, 0.6,
+        color=(0, 1, 0, 0.5)))
+    ax0.add_patch(Rectangle(
+        (0.62, 0.4), 0.35, 0.07,
         fill=False, linewidth=1))
-    ax1.text(0.864, 0.33, "Amount of background", rotation=90,
+    ax0.text(0.68, 0.425, "Amount of sensor",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 11})
-    
-    ax2 = plt.axes((0.08, 0.15, 0.7, 0.7))
-    t = np.linspace(t0, tf, 1000)
-    x = amplitude * np.exp(-t/T)
-    ax2.plot(t, x, linewidth=4)
 
-    ax2.set_xlabel("Time (s)", weight='bold')
-    ax2.set_xlim(t0_frame, tf_frame)
-    ax2.set_xticks(np.arange(t[0], t[-1], tick_delta))
+    # Amount of illumination
+    ax0.add_patch(Rectangle(
+        (0.62, 0.2), 0.35*(0.5*illumination_amount), 0.07,
+        fill=True, linewidth=0,
+        color=(0.12, 0.47, 0.71, 0.15)))
+    ax0.add_patch(Rectangle(
+        (0.62, 0.2), 0.35, 0.07,
+        fill=False, linewidth=1))
+    ax0.text(0.68, 0.225, "Amount of illumination",
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 11})
 
-    ax2.set_ylabel("Emitted light intensity", weight='bold')
-    ax2.set_ylim(-0.05, 1.5)
-    ax2.set_yticks(np.linspace(0, 1.5, 5))
-    ax2.set_yticklabels(['' for t in ax2.get_yticks()])
 
-    ax2.set_frame_on(False)
+    # Intensity sensors
+    ax1 = plt.axes((0.07, 0.76, 0.5, 0.23))
+    ax1.text(0.24, 0.8, "Fluorescence intensity",
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 12},
+             transform=ax1.transAxes)
+    t = np.linspace(-5, 100, 10000)
+    illumination = illumination_amount * (t > 0) * (t < 10)
+    x = illumination * (
+        0.2 * background_amount +
+        0.8 * sensor_amount * (0.5 + 0.5*analyte_amount))
+    ax1.fill_between(t, illumination, alpha=0.1)
+    ax1.plot(t, x, linewidth=2)
+    ax1.plot(5, x.max(), marker='.', color='blue')
+
+    ax1.set_xlabel("Time (milliseconds)", weight='bold', labelpad=-1)
+    ax1.set_xlim(-10, 100)
+
+    ax1.set_ylabel("Signal", weight='bold')
+    ax1.set_yticks(np.linspace(0, 1.75, 8))
+    ax1.set_yticklabels(['0', '', '', '', '1', '', ''])
+    if normalize:
+        ax1.set_ylim(-0.05*x.max(), 1.75*x.max())
+    else:
+        ax1.set_ylim(-0.05, 1.75)
+    ax1.grid('on', alpha=0.15)
+
+    # Lifetime sensors
+    ax2 = plt.axes((0.07, 0.43, 0.5, 0.23))
+    ax2.text(0.24, 0.8, "Fluorescence lifetime",
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 12},
+             transform=ax2.transAxes)
+    t = np.linspace(0, 10, 10000) # Nanoseconds
+    illumination = illumination_amount * (t < 0.2)
+    background_lifetime = 1
+    sensor_lifetime = 3 + 1.5*(1 - analyte_amount)
+    x = illumination_amount * (
+        0.2 * background_amount * np.exp(-t / background_lifetime) +
+        0.8 * sensor_amount     * np.exp(-t / sensor_lifetime))
+    ax2.fill_between(t-0.1, illumination, alpha=0.1)
+    ax2.plot(t, x, linewidth=2)
+    ax2.plot(t[::500], x[::500], marker='.', color='blue')
+
+    ax2.set_xlabel("Time (nanoseconds)", weight='bold', labelpad=-1)
+    ax2.set_xlim(-0.5, 10)
+
+    ax2.set_ylabel("Signal", weight='bold')
+    ax2.set_yticks(np.linspace(0, 1.75, 8))
+    ax2.set_yticklabels(['0', '', '', '', '1', '', ''])
+    if normalize:
+        ax2.set_ylim(-0.05*x.max(), 1.75*x.max())
+    else:
+        ax2.set_ylim(-0.05, 1.75)
+
     ax2.grid('on', alpha=0.15)
+
+    # Relaxation sensors
+    ax3 = plt.axes((0.07, 0.1, 0.5, 0.23))
+    ax3.text(0.24, 0.8, "Isomer lifetime",
+             fontdict={'color': (0, 0, 0),
+                       'weight': 'bold',
+                       'size': 12},
+             transform=ax3.transAxes)
+
+    t = np.linspace(-3, 16, 10000) # Seconds
+    illumination = np.zeros_like(t)
+    pulse_duration = 0.2
+    pulse_times = np.concatenate((
+        np.linspace(t[0], 0, 10), np.array([10])))
+    for pt in pulse_times:
+        illumination[(t > pt) & (t < pt + pulse_duration)
+                     ] = illumination_amount
+    def activation_rate(current_time, activated_sensor):
+        current_illumination = illumination[np.searchsorted(t, current_time)]
+        k_off = activated_sensor * (1/5 + (analyte_amount - 1) * 1/5)
+        k_on = current_illumination * (sensor_amount - activated_sensor) * 1.5
+        return k_on - k_off
+    sol = solve_ivp(
+        activation_rate, [t[0], t[-1]], [0], t_eval=t, max_step=0.01)
+    activated_sensor = sol.y[0]
+    x = 1.2 * illumination_amount * (0.2 * background_amount +
+                                     0.8 * activated_sensor)
+    t_samples, x_samples = [], []
+    for pt in pulse_times:
+        ti = np.searchsorted(t, pt)
+        tf = np.searchsorted(t, pt+pulse_duration)
+        t_samples.append(t[ti:tf].mean())
+        x_samples.append(x[ti:tf].mean())
+
+
+    ax3.fill(t, illumination, alpha=0.1)
+    ax3.plot(t, x, linewidth=1, color='blue')
+    ax3.plot(t_samples, x_samples, linewidth=0, marker='.', color='blue')
+    ax3.set_xlabel("Time (seconds)", weight='bold')
+    ax3.set_xlim(-3.5, 17)
+    ax3.set_xticks(np.arange(-3, 16, 3))
+
+    ax3.set_ylabel("Signal", weight='bold')
+    ax3.set_ylim(0, 1)
+    ax3.set_yticks(np.linspace(0, 1.75, 8))
+    ax3.set_yticklabels(['0', '', '', '', '1', '', ''])
+    if normalize: # TODO: Actually get this right ugh
+        ax3.set_ylim(-0.05 * 0.96 * (x.max() - x.min()) + (x.min() - 0.24),
+                     1.75 * 0.96 * (x.max() - x.min()) + (x.min() - 0.24))
+    else:
+        ax3.set_ylim(-0.05, 1.75)
+
+    ax3.grid('on', alpha=0.15)
+
+
     plt.savefig(temp_dir / ("frame_%03i.png"%which_frame), dpi=200)
     plt.close(fig)
 
