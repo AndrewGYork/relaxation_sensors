@@ -215,8 +215,7 @@ def make_frame(
         activation_rate, [t[0], t[-1]], [0], t_eval=t, max_step=0.01)
     activated_sensor = sol.y[0]
     background_signal = illumination_amount * 0.2 * background_amount
-    x = illumination_amount * (background_signal +
-                               0.8 * activated_sensor)
+    x = background_signal + illumination_amount * 0.8 * activated_sensor
     t_samples, x_samples = [], []
     for pt in pulse_times:
         ti = np.searchsorted(t, pt)
