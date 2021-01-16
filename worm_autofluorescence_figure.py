@@ -37,7 +37,7 @@ def main():
     imwrite(temp_dir / '2_activated.tif', activated, imagej=True)
     photoswitching = activated - deactivated
     imwrite(temp_dir / '3_photoswitching.tif', photoswitching, imagej=True)
-
+    
     # Estimate the contribution of the photoswitching fluorophores to
     # the deactivated image by hand-tuning a subtraction. This is
     # basically low-effort spectral unmixing:
@@ -205,7 +205,7 @@ def main():
         ax2.grid('on', alpha=0.17)
         ax2.tick_params(labelcolor='white')
         ax2.set_xlabel("Time (s)", color='white', weight='bold')
-        ax2.set_ylabel("Photons per pixel", color='white', weight='bold')
+        ax2.set_ylabel("Photoelectrons per pixel", color='white', weight='bold')
         # Emphasize the current time graphically:
         ax2.axvline(cycle_timestamps[i])
         # Show when the 405 nm and 488 nm illumination is on:
