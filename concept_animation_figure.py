@@ -268,14 +268,14 @@ def save_animation_frame(
                    frameon=False)
     ax0.set_xticks([])
     ax0.set_yticks([])
-    ax0.text(0.11, 0.72, "Active,\nunbound")
-    ax0.text(0.11, 0.22, "Inactive,\nunbound")
-    ax0.text(0.75, 0.72, "Active,\nbound")
-    ax0.text(0.75, 0.22, "Inactive,\nbound")
-    for im, x, y in ((active_bound_icon,     0.65, 0.75),
-                     (active_unbound_icon,   0.35, 0.75),
-                     (inactive_bound_icon,   0.65, 0.25),
-                     (inactive_unbound_icon, 0.35, 0.25)):
+    ax0.text(0.11, 0.72, "Active,\nbound")
+    ax0.text(0.11, 0.22, "Inactive,\nbound")
+    ax0.text(0.75, 0.72, "Active,\nunbound")
+    ax0.text(0.75, 0.22, "Inactive,\nunbound")
+    for im, x, y in ((active_bound_icon,     0.35, 0.75),
+                     (active_unbound_icon,   0.65, 0.75),
+                     (inactive_bound_icon,   0.35, 0.25),
+                     (inactive_unbound_icon, 0.65, 0.25)):
         ax0.add_artist(AnnotationBbox(
             OffsetImage(im, zoom=1.5),
             (x, y), xycoords='data', frameon=False))
@@ -292,14 +292,14 @@ def save_animation_frame(
     ax0.arrow(0.45, 0.76,  0.10, 0, **arrow_params)
     ax0.arrow(0.55, 0.74, -0.10, 0, **arrow_params)
     # Arrows for (de)activation rates:
-    ax0.arrow(0.36, 0.5625,  0, -0.125, **arrow_params)
-    ax0.arrow(0.66, 0.5250,  0, -0.075, **arrow_params)
+    ax0.arrow(0.66, 0.5625,  0, -0.125, **arrow_params)
+    ax0.arrow(0.36, 0.5250,  0, -0.075, **arrow_params)
     if initial_pause_frames < which_frame <= light_off_frame:
         arrow_params['facecolor'] = (0, 0.9, 0.9, 0.6)
         arrow_params['edgecolor'] = (0, 0.9, 0.9, 0.6)
         arrow_params['linewidth'] = 2.5
-        ax0.arrow(0.34, 0.375,  0, 0.25, **arrow_params)
-        ax0.arrow(0.64, 0.425,  0, 0.15, **arrow_params)
+        ax0.arrow(0.64, 0.375,  0, 0.25, **arrow_params)
+        ax0.arrow(0.34, 0.425,  0, 0.15, **arrow_params)
         ax0.text(0.17, 0.485, "Photoswitching", weight='bold', ha='center',
                  color=(0, 0.9, 0.9, 1))
     if which_frame > light_off_frame:
@@ -308,15 +308,15 @@ def save_animation_frame(
     ax0.set_ylim(0, 1)
 
     # Panels for single-molecule photoswitching animations
-    ax1 = plt.axes([0.005, 0.01, 0.5/fig_aspect, 0.93],
-                   frameon=True)
-    ax2 = plt.axes([0.995 - 0.5/fig_aspect, 0.01, 0.5/fig_aspect, 0.93],
-                    frameon=True)
+    ax1 = plt.axes([0.995 - 0.5/fig_aspect, 0.01, 0.5/fig_aspect, 0.93],
+                   frameon=True, facecolor=(0.97, 0.97, 0.97))
+    ax2 = plt.axes([0.005, 0.01, 0.5/fig_aspect, 0.93],
+                    frameon=True, facecolor=(0.97, 0.97, 0.97))
     ax1.set_title("100% unbound")
     ax2.set_title("100% bound")
     for ax, sensors, color, linestyle in (
-        (ax1, sensors_1, 'C0', 'solid'),
-        (ax2, sensors_2, 'C1', (0, (0.02, 2)))):
+        (ax1, sensors_1, (1, 1, 0), 'solid'),
+        (ax2, sensors_2, 'C0', (0, (0.02, 2)))):
         ax.set_xticks([])
         ax.set_yticks([])
         for sp in ax.spines.values():
@@ -335,19 +335,19 @@ def save_animation_frame(
 
     # Panel for activation curves
     ax3 = plt.axes([0.045 +0.5/fig_aspect, 0.07, 0.93 -1/fig_aspect, 0.35],
-                   frameon=True)
+                   frameon=True, facecolor=(0.92, 0.92, 0.92))
     ax3.add_patch(Rectangle( # Show when the illumination is on:
         (1, 0), light_off_frame-initial_pause_frames-1, 1.2,
-        fill=True, linewidth=0, color=(0, 0.9, 0.9, 0.2)))
+        fill=True, linewidth=0, color=(0.05, 0.95, 0.95, 0.3)))
 
     norm_1 = 0.7283212 * sensors_1.num_molecules
     norm_2 = 0.1164006 * sensors_2.num_molecules
-    ax3.plot(np.array(emissions_1) / norm_1,
-             linewidth=2,
-             label="100% unbound")
     ax3.plot(np.array(emissions_2) / norm_2,
-             linewidth=3, linestyle=(0, (0.5, 0.6)),
+             linewidth=4, linestyle=(0, (0.5, 0.6)), color='C0',
              label="100% bound")
+    ax3.plot(np.array(emissions_1) / norm_1,
+             linewidth=3, color=(1, 1, 0),
+             label="100% unbound")
     ax3.set_xticks(np.arange(0, num_frames, 25))
     ax3.set_xticklabels(['' for x in ax3.get_xticklabels()])
     ax3.set_yticks(np.linspace(0, 1, 5))
@@ -356,11 +356,11 @@ def save_animation_frame(
     ax3.set_ylim(0, 1.2)
     ax3.set_xlabel("Time")
     ax3.set_ylabel("Normalized signal")
-    ax3.legend(loc=(0.585, 0.41))
+    ax3.legend(loc=(0.585, 0.41), facecolor=(0.85, 0.85, 0.85))
     ax3.grid('on', alpha=0.1)
    
     plt.savefig(temp_dir / ('animation_frame_%06i.png'%(which_frame)),
-                dpi=150)
+                dpi=150, facecolor=fig.get_facecolor(), edgecolor='none')
     plt.close()
     return None        
 
@@ -371,7 +371,7 @@ def make_mp4():
        'ffmpeg', '-y',            # auto overwrite files
        '-r', '20',                # frame rate
        '-f', 'image2',            # format is image sequence
-       '-i', temp_dir / 'animation_frame_%06d.png',  # image sequence name
+       '-i', temp_dir / 'animation_frame_%06d.png', # image sequence name
        '-movflags', 'faststart',  # internet optimisation(?)
        '-pix_fmt', 'yuv420p',     # cross browser compatibility
        '-vcodec', 'libx264',      # codec choice
