@@ -68,7 +68,8 @@ def main():
     print()
     print("norm_1:", np.array(emissions_1).max() / sensors_1.num_molecules)
     print("norm_2:", np.array(emissions_2).max() / sensors_2.num_molecules)
-    # Convert from png to mp4:
+    # Convert from png to gif and mp4:
+    make_gif()
     make_mp4()
 
 class SwitchingSensors:
@@ -363,6 +364,38 @@ def save_animation_frame(
                 dpi=150, facecolor=fig.get_facecolor(), edgecolor='none')
     plt.close()
     return None        
+
+def make_gif():
+    # Animate the frames into a gif:
+    palette = temp_dir / "palette.png"
+    filters = "scale=trunc(iw/3`)*2:trunc(ih/3)*2:flags=lanczos"
+    print("Converting pngs to gif...", end=' ')
+    convert_command_1 = [
+        'ffmpeg',
+        '-f', 'image2',
+        '-i', temp_dir / 'animation_frame_%06d.png',
+        '-vf', filters + ",palettegen",
+        '-y', palette]
+    convert_command_2 = [
+        'ffmpeg',
+        '-framerate', '25',
+        '-f', 'image2',
+        '-i', temp_dir / 'animation_frame_%06d.png',
+        '-i', palette,
+        '-lavfi', filters + " [x]; [x][1:v] paletteuse",
+        '-y', output_dir / 'figure.gif']
+    for convert_command in convert_command_1, convert_command_2:
+        try:
+            with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
+                f.write("So far, everthing's fine...\n")
+                f.flush()
+                subprocess.check_call(convert_command, stderr=f, stdout=f)
+                f.flush()
+            (temp_dir / 'conversion_messages.txt').unlink()
+        except: # This is unlikely to be platform independent :D
+            print("GIF conversion failed. Is ffmpeg installed?")
+            raise
+    print('done.')
 
 def make_mp4():
     ## Make video from images
