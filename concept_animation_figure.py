@@ -20,7 +20,7 @@ temp_dir.mkdir(exist_ok=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
-    sensor_params = dict(
+    sensor_parameters = dict(
         num_molecules=1000,
         initially_active=False,
         # Odds of activation/deactivation:
@@ -28,15 +28,17 @@ def main():
         p_activation_unbound=  0.125,
         p_deactivation_bound=  0.001,
         p_deactivation_unbound=0.045)
-    sensors_1 = SwitchingSensors(initially_bound=False, **sensor_params)
-    sensors_2 = SwitchingSensors(initially_bound=True,  **sensor_params)
+    bound_sensors   = SwitchingSensors(
+        initially_bound=True,  **sensor_parameters)
+    unbound_sensors = SwitchingSensors(
+        initially_bound=False, **sensor_parameters)
 
-    # Remember a little bit of the simulation history:
-    emissions_1 = [sensors_1.expected_emissions('average')]
-    emissions_2 = [sensors_2.expected_emissions('average')]
+    # Keep track of a little bit of the simulation history:
+    bound_emissions   = [  bound_sensors.expected_emissions('average')]
+    unbound_emissions = [unbound_sensors.expected_emissions('average')]
     # Time-evolve the simulation and save animation frames:
-    initial_pause_frames = 30
     num_frames = 150
+    initial_pause_frames = 30
     light_off_frame = 55
     for which_frame in range(initial_pause_frames, num_frames):
         # Animation
@@ -45,19 +47,19 @@ def main():
             initial_pause_frames=initial_pause_frames,
             light_off_frame=light_off_frame,
             num_frames=num_frames,
-            sensors_1=sensors_1,
-            sensors_2=sensors_2,
-            emissions_1=emissions_1,
-            emissions_2=emissions_2)
+            bound_sensors=bound_sensors,
+            unbound_sensors=unbound_sensors,
+            bound_emissions=bound_emissions,
+            unbound_emissions=unbound_emissions)
         # Simulation
         if which_frame == light_off_frame:
-            for s in sensors_1, sensors_2:
+            for s in bound_sensors, unbound_sensors:
                 s.p_activation_bound   = 0
                 s.p_activation_unbound = 0
-        sensors_1.step()
-        sensors_2.step()
-        emissions_1.append(sensors_1.expected_emissions('average'))
-        emissions_2.append(sensors_2.expected_emissions('average'))
+        bound_sensors.step()
+        unbound_sensors.step()
+        bound_emissions.append(bound_sensors.expected_emissions('average'))
+        unbound_emissions.append(unbound_sensors.expected_emissions('average'))
         print('.', end='')
     # A long pause at the beginning:
     for which_frame in range(initial_pause_frames):
@@ -66,11 +68,14 @@ def main():
             temp_dir / ('animation_frame_%06i.png'%which_frame))
     # Lazy way of normalizing the curves:
     print()
-    print("norm_1:", np.array(emissions_1).max() / sensors_1.num_molecules)
-    print("norm_2:", np.array(emissions_2).max() / sensors_2.num_molecules)
+    print("bound_norm:",
+          np.array(  bound_emissions).max() /   bound_sensors.num_molecules)
+    print("unbound_norm:",
+          np.array(unbound_emissions).max() / unbound_sensors.num_molecules)
     # Convert from png to gif and mp4:
     make_gif()
     make_mp4()
+    return None
 
 class SwitchingSensors:
     """
@@ -238,10 +243,10 @@ def save_animation_frame(
     initial_pause_frames,    
     light_off_frame,
     num_frames,
-    sensors_1,
-    sensors_2,
-    emissions_1,
-    emissions_2,
+    bound_sensors,
+    unbound_sensors,
+    bound_emissions,
+    unbound_emissions,
     ):
     # Load sprites
     active_unbound_icon   = imread(input_dir / 'au.tif')
@@ -309,15 +314,15 @@ def save_animation_frame(
     ax0.set_ylim(0, 1)
 
     # Panels for single-molecule photoswitching animations
-    ax1 = plt.axes([0.995 - 0.5/fig_aspect, 0.01, 0.5/fig_aspect, 0.93],
-                   frameon=True, facecolor=(0.97, 0.97, 0.97))
-    ax2 = plt.axes([0.005, 0.01, 0.5/fig_aspect, 0.93],
+    ax1 = plt.axes([0.005, 0.01, 0.5/fig_aspect, 0.93],
                     frameon=True, facecolor=(0.97, 0.97, 0.97))
-    ax1.set_title("100% unbound")
-    ax2.set_title("100% bound")
+    ax2 = plt.axes([0.995 - 0.5/fig_aspect, 0.01, 0.5/fig_aspect, 0.93],
+                   frameon=True, facecolor=(0.97, 0.97, 0.97))
+    ax1.set_title("100% bound")
+    ax2.set_title("100% unbound")
     for ax, sensors, color, linestyle in (
-        (ax1, sensors_1, (1, 1, 0), 'solid'),
-        (ax2, sensors_2, 'C0', (0, (0.02, 2)))):
+        (ax1, bound_sensors, 'C0', (0, (0.02, 2))),
+        (ax2, unbound_sensors, (1, 1, 0), 'solid')):
         ax.set_xticks([])
         ax.set_yticks([])
         for sp in ax.spines.values():
@@ -341,12 +346,12 @@ def save_animation_frame(
         (1, 0), light_off_frame-initial_pause_frames-1, 1.2,
         fill=True, linewidth=0, color=(0.05, 0.95, 0.95, 0.3)))
 
-    norm_1 = 0.7283212 * sensors_1.num_molecules
-    norm_2 = 0.1164006 * sensors_2.num_molecules
-    ax3.plot(np.array(emissions_2) / norm_2,
+    bound_norm   = 0.1164006 *   bound_sensors.num_molecules
+    unbound_norm = 0.7283212 * unbound_sensors.num_molecules
+    ax3.plot(np.array(  bound_emissions) /   bound_norm,
              linewidth=4, linestyle=(0, (0.5, 0.6)), color='C0',
              label="100% bound")
-    ax3.plot(np.array(emissions_1) / norm_1,
+    ax3.plot(np.array(unbound_emissions) / unbound_norm,
              linewidth=3, color=(1, 1, 0),
              label="100% unbound")
     ax3.set_xticks(np.arange(0, num_frames, 25))
@@ -368,7 +373,7 @@ def save_animation_frame(
 def make_gif():
     # Animate the frames into a gif:
     palette = temp_dir / "palette.png"
-    filters = "scale=trunc(iw/3`)*2:trunc(ih/3)*2:flags=lanczos"
+    filters = "scale=trunc(iw/3)*2:trunc(ih/3)*2:flags=lanczos"
     print("Converting pngs to gif...", end=' ')
     convert_command_1 = [
         'ffmpeg',
