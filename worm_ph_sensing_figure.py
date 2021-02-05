@@ -116,11 +116,13 @@ def main():
         luminance = adjust_contrast(
             np.log(np.clip(gaussian_filter(photoswitching, sigma=5), 1, None)),
             2, 7)[..., np.newaxis]
-        hue_1 = seminormalized_turbo(adjust_contrast(relaxation_ph, 5.75, 8.3))
+        hue_1 = seminormalized_turbo(
+            adjust_contrast(relaxation_ph, 5.75, 8.3))
         imwrite(temp_dir / ('7_relaxation_ratio_overlay_%i.tif'%which_cycle),
                 (hue_1 * luminance * 255).astype(np.uint8))
 
-        hue_2 = seminormalized_turbo(adjust_contrast(nonlinearity_ph, 5.75, 8.25))
+        hue_2 = seminormalized_turbo(
+            adjust_contrast(nonlinearity_ph, 5.75, 8.3))
         imwrite(temp_dir / ('8_nonlinearity_ratio_overlay_%i.tif'%which_cycle),
                 (hue_2 * luminance * 255).astype(np.uint8))
     
