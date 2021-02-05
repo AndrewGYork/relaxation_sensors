@@ -226,8 +226,8 @@ def main():
                      color=(1, 1, 0))
             # Misc plot tweaks:
             ax2.set_xlim(cycle_timestamps.min() - 0.1, 18)
-            ax2.set_ylim(-box_1_photons.max()*0.02, box_1_photons.max() * 1.2)
-            ax3.set_ylim(-box_2_photons.max()*0.02, box_2_photons.max() * 1.2)
+            ax2.set_ylim(-26.5, 1650)
+            ax3.set_ylim(-6.7, 415)
             ax2.grid('on', alpha=0.2)
             ax2.tick_params(labelcolor='white')
             ax2.tick_params('y', labelcolor='blue')
