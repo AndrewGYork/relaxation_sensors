@@ -127,29 +127,33 @@ def main():
                 (hue_2 * luminance * 255).astype(np.uint8))
     
         # Output annotated png
-        fig = plt.figure(figsize=(1, 1*(hue_1.shape[0]/hue_1.shape[1])))
-        ax = plt.axes([0, 0, 1, 1])
-        ax.imshow(hue_1 * luminance, interpolation='nearest')
-        ax.set_xticks([])
-        ax.set_yticks([])
-##        ax.text(900, 1000, "Sensor",
-##            fontdict={'color': (0, 1, 0),
-##                      'weight': 'bold',
-##                      'size': 4})
-        plt.savefig(output_dir / ("relaxation_overlay_%i.png"%which_cycle),
-                    dpi=800)
-        plt.close(fig)
-        fig = plt.figure(figsize=(1, 1*(hue_2.shape[0]/hue_2.shape[1])))
-        ax = plt.axes([0, 0, 1, 1])
-        ax.imshow(hue_2 * luminance, interpolation='nearest')
-        ax.set_xticks([])
-        ax.set_yticks([])
-##        ax.text(900, 1000, "Sensor",
-##            fontdict={'color': (0, 1, 0),
-##                      'weight': 'bold',
-##                      'size': 4})
-        plt.savefig(output_dir / ("nonlinearity_overlay_%i.png"%which_cycle),
-                    dpi=800)
+        for hue, name in (hue_1, 'relaxation'), (hue_2, 'activation'):
+            fig = plt.figure(figsize=(1, 1*(hue.shape[0]/hue.shape[1])))
+            ax = plt.axes([0, 0, 1, 1])
+            ax.imshow(hue * luminance, interpolation='nearest')
+            ax.set_xticks([])
+            ax.set_yticks([])
+            ax.add_patch(Rectangle(
+                (945, 1175), 615, 95,
+                fill=False, linewidth=0.9,
+                color=(0, 0, 0)))
+            ax.text(950, 1170, "pH measured via %s rate"%name,
+                fontdict={'color': (0.5, 0.5, 0.5),
+                          'weight': 'bold',
+                          'size': 1.5})
+            fontdict = {'color': (0, 0, 0),
+                        'weight': 'bold',
+                        'size': 1,
+                        'horizontalalignment': 'center'}
+            ax.text( 984, 1205, "<6",   fontdict=fontdict)
+            ax.text(1044, 1205, "6",   fontdict=fontdict)
+            ax.text(1164, 1205, "6.5", fontdict=fontdict)
+            ax.text(1284, 1205, "7",   fontdict=fontdict)
+            ax.text(1404, 1205, "7.5", fontdict=fontdict)
+            ax.text(1524, 1205, "8",   fontdict=fontdict)
+            plt.savefig(output_dir / ("%s_overlay_%i.png"%(name, which_cycle)),
+                        dpi=800)
+            plt.close(fig)
 
         # Extract the relevant images, smooth them a little so it won't
         # look weird when downsampled to png/gif:
