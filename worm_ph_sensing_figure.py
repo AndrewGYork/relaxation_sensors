@@ -151,8 +151,6 @@ def main():
         plt.savefig(output_dir / ("nonlinearity_overlay_%i.png"%which_cycle),
                     dpi=800)
 
-
-
         # Extract the relevant images, smooth them a little so it won't
         # look weird when downsampled to png/gif:
         time_slice = slice(4 + which_cycle*16, 16+which_cycle*16)
@@ -207,7 +205,8 @@ def main():
             ax2.plot(t, A * np.exp(-t/T),
                      marker=None,
                      linewidth=1, linestyle=(0, (1, 1)),
-                     color=(0, 0, 1))
+                     color=(0, 0, 1),
+                     label="Slow switching (low pH)")
             ax2.plot(cycle_timestamps[-1], box_1_photons[-1],
                      marker='.', markersize=7,
                      linewidth=1, linestyle=(0, (1, 1)),
@@ -221,7 +220,8 @@ def main():
             ax3.plot(t, A * np.exp(-t/T),
                      marker=None,
                      linewidth=1,
-                     color=(1, 1, 0))
+                     color=(1, 1, 0),
+                     label="Fast switching (high pH)")
             ax3.plot(cycle_timestamps[-1], box_2_photons[-1],
                      marker='.', markersize=7,
                      linewidth=1,
@@ -237,6 +237,10 @@ def main():
             ax2.set_xlabel("Time (s)", color='white', weight='bold')
             ax2.set_ylabel("Photons per pixel", color='blue', weight='bold')
             ax3.set_ylabel("Photons per pixel", color='yellow', weight='bold')
+            h2, l2 = ax2.get_legend_handles_labels()
+            h3, l3 = ax3.get_legend_handles_labels()
+            ax2.legend(h2+h3, l2+l3, facecolor=(0.8, 0.8, 0.8),
+                       fontsize=8, loc=(0.53, 0.45))
             # Emphasize the current time graphically:
             ax2.axvline(cycle_timestamps[which_frame])
             # Show when the 405 nm and 488 nm illumination is on:
