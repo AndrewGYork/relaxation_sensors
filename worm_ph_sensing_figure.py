@@ -20,30 +20,30 @@ output_dir.mkdir(exist_ok=True)
 def main():
     # Load our worm biosensor images and parse the timestamps:
     data = imread(input_dir / '0_data.tif') # Acquired by Maria on 2020_12_01
-    print(data.shape, data.dtype)
+    print("Input data:  ", data.shape, data.dtype)
     
     timestamps = 1e-6*decode_timestamps(data)['microseconds'].astype('float64')
     
     # Crop, flip, convert to float:
     data = data[:, 1776:162:-1, 1329:48:-1
                 ].transpose((0, 2, 1)).astype('float32')
-    print(data.shape, data.dtype)
+    print("Cropped data:", data.shape, data.dtype)
 
     for which_cycle in range(3):
         # Extract the relevant images
         activation = data[5 + which_cycle*16:16+which_cycle*16, :, :].copy()
         # Add artificial patches with carefully chosen dynamics to give an
         # effective "colorbar"
-        # These numbers are calculated by 'worm_ph_calibration.py'
+        # These numbers are calculated in 'worm_ph_calibration.py'
         relaxation_colorbar = (# pH 8, 7.5, 7, 6.5, 6, <6 w/2x interpolation
-            (0.82, 0.605, 0.39, 0.275, 0.16, 0.099, 0.038, 0.019, 0, -0.019),
-            (1.08, 0.855, 0.63, 0.46, 0.29, 0.185, 0.08, 0.045, 0.01, -0.035),
-            (1.28, 1.135, 0.99, 0.78, 0.57, 0.38, 0.19, 0.1185, 0.047, -0.025),
+            (0.774, 0.464, 0.351, 0.264, 0.191, 0.127, 0.068, 0.0147, -0.035, -0.082),
+            (1.08, 0.748, 0.569, 0.432, 0.318, 0.218, 0.127, 0.0436, -0.035, -0.1065),
+            (1.33, 1.11, 0.919, 0.740, 0.572, 0.415, 0.267, 0.125, -0.011, -0.14),
             )[which_cycle]
         nonlinearity_colorbar = (# pH 8, 7.5, 7, 6.5, 6, <6 w/2x interpolation
-            (0.38, 0.355, 0.33, 0.315, 0.3, 0.27, 0.24, 0.225, 0.21, 0.),
-            (0.38, 0.355, 0.33, 0.315, 0.3, 0.27, 0.24, 0.225, 0.21, 0.),
-            (0.38, 0.355, 0.33, 0.315, 0.3, 0.27, 0.24, 0.225, 0.21, 0.),
+            (0.3763, 0.355, 0.333, 0.312, 0.29, 0.2685, 0.247, 0.225, 0.204, 0.183),
+            (0.3763, 0.355, 0.333, 0.312, 0.29, 0.2685, 0.247, 0.225, 0.204, 0.183),
+            (0.3763, 0.355, 0.333, 0.312, 0.29, 0.2685, 0.247, 0.225, 0.204, 0.183),
             )[which_cycle]
         a_max = activation.max()
         for patch in range(10):
@@ -80,71 +80,74 @@ def main():
                 relaxation_ratio, imagej=True)
         imwrite(temp_dir / ('6_nonlinearity_ratio_%i.tif'%which_cycle),
                 nonlinearity_ratio, imagej=True)
+
+        # Convert from ratios to pH via calibration data:
+        def relaxation_ratio_to_ph(rr, which_cycle):
+            if which_cycle == 0:
+                fit = np.polynomial.Polynomial(
+                    [ 7.64391097,  0.89941276, -0.56161918],
+                    domain=[0.00094347, 0.8210087 ])
+            elif which_cycle == 1:
+                fit = np.polynomial.Polynomial(
+                    [ 7.46136788,  0.91604103, -0.40289993],
+                    domain=[0.0095717, 1.0815612])
+            elif which_cycle == 2:
+                fit = np.polynomial.Polynomial(
+                    [ 7.14145164,  0.9226259 , -0.11188533],
+                    domain=[0.04702987, 1.2842437 ])
+            return fit(rr).astype(rr.dtype)
+
+        def nonlinearity_ratio_to_ph(nr):
+            fit = np.polynomial.Polynomial(
+                [7.04, 0.98], domain=[0.209 , 0.378])
+            return fit(nr).astype(nr.dtype)
+
+        relaxation_ph   =   relaxation_ratio_to_ph(
+              relaxation_ratio, which_cycle)
+        nonlinearity_ph = nonlinearity_ratio_to_ph(
+            nonlinearity_ratio)
+        imwrite(temp_dir / ('7_relaxation_ph_%i.tif'%which_cycle),
+                relaxation_ph, imagej=True)
+        imwrite(temp_dir / ('8_nonlinearity_ph_%i.tif'%which_cycle),
+                nonlinearity_ph, imagej=True)
         
         # Smooth and color-merge photoswitching/relaxation or
         # photoswitching/nonlinearity
-        def seminormalized_turbo(x):
-            """Flat-luminance version of
-            ai.googleblog.com/2019/08/turbo-improved-rainbow-colormap-for.html
-            """
-            turbo = plt.get_cmap('turbo')(x)[..., :-1]
-            luminance = (0.2126 * turbo[..., 0] +
-                         0.7152 * turbo[..., 1] +
-                         0.0722 * turbo[..., 2])
-            norm_turbo = turbo / np.expand_dims(luminance, -1)
-            return np.clip(0.5 * norm_turbo, 0, 1) # Not-quite-flat luminance
-
         luminance = adjust_contrast(
             np.log(np.clip(gaussian_filter(photoswitching, sigma=5), 1, None)),
             2, 7)[..., np.newaxis]
-        hue = seminormalized_turbo(adjust_contrast(
-            relaxation_ratio,
-            (-0.002, 0.001, -0.025)[which_cycle],
-            ( 0.820, 1.080,  1.280)[which_cycle],
-            ( 0.479, 0.600,      1)[which_cycle]))
+        hue_1 = seminormalized_turbo(adjust_contrast(relaxation_ph, 5.75, 8.3))
         imwrite(temp_dir / ('7_relaxation_ratio_overlay_%i.tif'%which_cycle),
-                (hue * luminance * 255).astype(np.uint8))
+                (hue_1 * luminance * 255).astype(np.uint8))
 
-        hue = seminormalized_turbo(adjust_contrast(
-            nonlinearity_ratio, 0.178, 0.38, 1.55))
+        hue_2 = seminormalized_turbo(adjust_contrast(nonlinearity_ph, 5.75, 8.25))
         imwrite(temp_dir / ('8_nonlinearity_ratio_overlay_%i.tif'%which_cycle),
-                (hue * luminance * 255).astype(np.uint8))
-
-
-##        normed_nonlinearity_ratio = adjust_contrast(
-##            nonlinearity_ratio, 0.04, 0.36, 3)
-##        im2 = np.zeros((data.shape[1], data.shape[2], 3)) # RGB image, 0<=im<=1
-##        im2[:, :, 0] = normed_photoswitching * normed_nonlinearity_ratio
-##        im2[:, :, 1] = normed_photoswitching * normed_nonlinearity_ratio
-##        im2[:, :, 2] = normed_photoswitching * (1 - normed_nonlinearity_ratio)
-##        im2 /= im2.max()
-##        imwrite(temp_dir / ('8_nonlinearity_ratio_overlay_%i.tif'%which_cycle),
-##                (im2 * 255).astype(np.uint8))
+                (hue_2 * luminance * 255).astype(np.uint8))
     
-##        # Output annotated png
-##        fig = plt.figure(figsize=(1, 1*(im1.shape[0]/im1.shape[1])))
-##        ax = plt.axes([0, 0, 1, 1])
-##        ax.imshow(im1, interpolation='nearest')
-##        ax.set_xticks([])
-##        ax.set_yticks([])
-####        ax.text(900, 1000, "Sensor",
-####            fontdict={'color': (0, 1, 0),
-####                      'weight': 'bold',
-####                      'size': 4})
-##        plt.savefig(output_dir / ("relaxation_overlay_%i.png"%which_cycle),
-##                    dpi=800)
-##        plt.close(fig)
-##        fig = plt.figure(figsize=(1, 1*(im2.shape[0]/im2.shape[1])))
-##        ax = plt.axes([0, 0, 1, 1])
-##        ax.imshow(im2, interpolation='nearest')
-##        ax.set_xticks([])
-##        ax.set_yticks([])
-####        ax.text(900, 1000, "Sensor",
-####            fontdict={'color': (0, 1, 0),
-####                      'weight': 'bold',
-####                      'size': 4})
-##        plt.savefig(output_dir / ("nonlinearity_overlay_%i.png"%which_cycle),
-##                    dpi=800)
+        # Output annotated png
+        fig = plt.figure(figsize=(1, 1*(hue_1.shape[0]/hue_1.shape[1])))
+        ax = plt.axes([0, 0, 1, 1])
+        ax.imshow(hue_1 * luminance, interpolation='nearest')
+        ax.set_xticks([])
+        ax.set_yticks([])
+##        ax.text(900, 1000, "Sensor",
+##            fontdict={'color': (0, 1, 0),
+##                      'weight': 'bold',
+##                      'size': 4})
+        plt.savefig(output_dir / ("relaxation_overlay_%i.png"%which_cycle),
+                    dpi=800)
+        plt.close(fig)
+        fig = plt.figure(figsize=(1, 1*(hue_2.shape[0]/hue_2.shape[1])))
+        ax = plt.axes([0, 0, 1, 1])
+        ax.imshow(hue_2 * luminance, interpolation='nearest')
+        ax.set_xticks([])
+        ax.set_yticks([])
+##        ax.text(900, 1000, "Sensor",
+##            fontdict={'color': (0, 1, 0),
+##                      'weight': 'bold',
+##                      'size': 4})
+        plt.savefig(output_dir / ("nonlinearity_overlay_%i.png"%which_cycle),
+                    dpi=800)
 
 
 
@@ -215,7 +218,7 @@ def main():
             T = -t[-1]/np.log(box_2_photons[-1]/box_2_photons[-2])
             ax3.plot(t, A * np.exp(-t/T),
                      marker=None,
-                     linewidth=1, linestyle=(0, (1, 1)),
+                     linewidth=1,
                      color=(1, 1, 0))
             ax3.plot(cycle_timestamps[-1], box_2_photons[-1],
                      marker='.', markersize=7,
@@ -343,6 +346,17 @@ def decode_timestamps(image_stack):
         timestamps[:, 8:14] * np.array((3600e6, 60e6, 1e6, 1e4, 1e2, 1)),
         axis=1, dtype='uint64')
     return ts
+
+def seminormalized_turbo(x):
+    """Flat-luminance version of
+    ai.googleblog.com/2019/08/turbo-improved-rainbow-colormap-for.html
+    """
+    turbo = plt.get_cmap('turbo')(x)[..., :-1]
+    luminance = (0.2126 * turbo[..., 0] +
+                 0.7152 * turbo[..., 1] +
+                 0.0722 * turbo[..., 2])
+    norm_turbo = turbo / np.expand_dims(luminance, -1)
+    return np.clip(0.5 * norm_turbo, 0, 1) # Not-quite-flat luminance
 
 def adjust_contrast(img, min_, max_, gamma=1):
     """Like setting "minimum" and "maximum" image contrast in ImageJ
