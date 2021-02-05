@@ -170,11 +170,14 @@ def main():
         ax2.plot(cycle_timestamps, box_1_photons,
                  marker='.', markersize=7,
                  linewidth=2.5, linestyle=(0, (1, 1)),
-                 color=(1, 0, 1))
+                 color=(1, 0, 1),
+                 label='High background')
         ax2.plot(cycle_timestamps, box_2_photons,
                  marker='.', markersize=7,
                  linewidth=2.5,
-                 color=(0, 0.9, 0))
+                 color=(0, 0.9, 0),
+                 label='Low background')
+        ax2.legend(loc=(0.1, 0.02), fontsize=8, ncol=2)
         # Highlight how much (or how little) photoswitching occurs in
         # each trace:
         ax2.plot([cycle_timestamps[-1]*1.08]*2,
