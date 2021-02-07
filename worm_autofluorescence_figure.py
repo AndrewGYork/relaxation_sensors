@@ -15,7 +15,7 @@ input_dir = Path.cwd() / '1_input'
 temp_dir = Path.cwd() / '2_intermediate_output'
 output_dir = Path.cwd()
 # Sanity checks:
-assert input_dir.is_dir()
+input_dir.mkdir(exist_ok=True)
 temp_dir.mkdir(exist_ok=True)
 output_dir.mkdir(exist_ok=True)
 
@@ -28,7 +28,6 @@ def main():
     # Crop, flip, convert to float:
     data = data[:, 1776:162:-1, 1329:48:-1
                 ].transpose((0, 2, 1)).astype('float32')
-    print(data.shape, data.dtype)
 
     # Extract the relevant images to separate signal from background:
     # minimum and maximum photoactivation
@@ -110,7 +109,7 @@ def main():
         '-i', str(temp_dir / 'overlay_frame_%3d.png'),
         '-i', palette,
         '-lavfi', filters + " [x]; [x][1:v] paletteuse",
-        '-y', str(output_dir / "1_overlay_animation.gif")]
+        '-y', str(output_dir / "2_overlay_animation.gif")]
     for convert_command in convert_command_1, convert_command_2:
         try:
             with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
@@ -255,7 +254,7 @@ def main():
         '-i', str(temp_dir / 'data_frame_%3d.png'),
         '-i', palette,
         '-lavfi', filters + " [x]; [x][1:v] paletteuse",
-        '-y', str(output_dir / "2_data_animation.gif")]
+        '-y', str(output_dir / "1_data_animation.gif")]
     for convert_command in convert_command_1, convert_command_2:
         try:
             with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
