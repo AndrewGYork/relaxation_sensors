@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
-import subprocess
 from pathlib import Path
+import subprocess      # For calling ffmpeg to make animations
+import urllib.request  # For downloading raw data
+import zipfile         # For unzipping downloads
 # You can use 'pip' to install these dependencies:
 import numpy as np
 from scipy.ndimage import gaussian_filter
@@ -9,17 +11,17 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
-input_dir = Path.cwd()
+input_dir = Path.cwd() / '1_input'
 temp_dir = Path.cwd() / 'intermediate_output'
 output_dir = Path.cwd()
 # Sanity checks:
-assert input_dir.is_dir()
+input_dir.mkdir(exist_ok=True)
 temp_dir.mkdir(exist_ok=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
     # Load our worm biosensor images and parse the timestamps:
-    data = imread(input_dir / '0_data.tif') # Acquired by Maria on 2020_12_01
+    data = load_data()
     print("Input data:  ", data.shape, data.dtype)
     
     timestamps = 1e-6*decode_timestamps(data)['microseconds'].astype('float64')
@@ -127,7 +129,7 @@ def main():
                 (hue_2 * luminance * 255).astype(np.uint8))
     
         # Output annotated png
-        for hue, name in (hue_1, 'relaxation'), (hue_2, 'activation'):
+        for hue, name in (hue_1, '2_relaxation'), (hue_2, '3_activation'):
             fig = plt.figure(figsize=(1, 1*(hue.shape[0]/hue.shape[1])))
             ax = plt.axes([0, 0, 1, 1])
             ax.imshow(hue * luminance, interpolation='nearest')
@@ -137,7 +139,7 @@ def main():
                 (945, 1175), 615, 95,
                 fill=False, linewidth=0.9,
                 color=(0, 0, 0)))
-            ax.text(950, 1170, "pH measured via %s rate"%name,
+            ax.text(950, 1170, "pH measured via %s rate"%name[2:],
                 fontdict={'color': (0.5, 0.5, 0.5),
                           'weight': 'bold',
                           'size': 1.5})
@@ -244,7 +246,7 @@ def main():
             h2, l2 = ax2.get_legend_handles_labels()
             h3, l3 = ax3.get_legend_handles_labels()
             ax2.legend(h2+h3, l2+l3, facecolor=(0.8, 0.8, 0.8),
-                       fontsize=8, loc=(0.53, 0.45))
+                       fontsize=8, loc=(0.53, 0.4))
             # Emphasize the current time graphically:
             ax2.axvline(cycle_timestamps[which_frame])
             # Show when the 405 nm and 488 nm illumination is on:
@@ -329,7 +331,7 @@ def main():
             '-i', str(temp_dir / ('data_frame_%i_%%3d.png'%(which_cycle))),
             '-i', palette,
             '-lavfi', filters + " [x]; [x][1:v] paletteuse",
-            '-y', str(output_dir / ("data_animation_%i.gif"%(which_cycle)))]
+            '-y', str(output_dir / ("1_data_animation_%i.gif"%(which_cycle)))]
         for convert_command in convert_command_1, convert_command_2:
             try:
                 with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
@@ -343,6 +345,61 @@ def main():
                 raise
         print('done.')
 
+def load_data():
+    image_data_filename = input_dir / "worm_with_ph_sensor.tif"
+    if not image_data_filename.is_file():
+        print("The expected data file:")
+        print(image_data_filename)
+        print("...isn't where we expect it.\n")
+        print(" * Let's try to unzip it...")
+        zipped_data_filename = input_dir / "worm_with_ph_sensor.zip"
+        if not zipfile.is_zipfile(zipped_data_filename):
+            print("\n  The expected zipped data file:")
+            print(zipped_data_filename)
+            print("  ...isn't where we expect it.\n")
+            print(" * * Let's try to download it from Zenodo.")
+            download_data(zipped_data_filename)
+        assert zipped_data_filename.is_file()
+        assert zipfile.is_zipfile(zipped_data_filename)
+        print(" Unzipping...")
+        with zipfile.ZipFile(zipped_data_filename) as zf:
+            zf.extract(image_data_filename.name,
+                       image_data_filename.parent)
+        print(" Successfully unzipped data.\n")
+    assert image_data_filename.is_file()
+    print("Loading data...")
+    data = imread(image_data_filename)
+    print("Successfully loaded data.")
+    print("Data shape:", data.shape)
+    print("Data dtype:", data.dtype)
+    print()
+    return data
+
+def download_data(filename):
+    url="https://zenodo.org/record/4515109/files/worm_with_ph_sensor.zip"
+    u = urllib.request.urlopen(url)
+    file_size = int(u.getheader("Content-Length"))
+    block_size = 8192
+    while block_size * 80 < file_size:
+        block_size *= 2
+    bar_size = max(1, int(0.5 * (file_size / block_size - 12)))
+
+    print("    Downloading from:")
+    print(url)
+    print("    Downloading to:")
+    print(filename)
+    print("    File size: %0.2f MB"%(file_size/2**20))
+    print("\nDownloading might take a while, so here's a progress bar:")
+    print('0%', "-"*bar_size, '50%', "-"*bar_size, '100%')
+    with open(filename, 'wb') as f:
+        while True:
+            buffer = u.read(block_size)
+            if not buffer:
+                break
+            f.write(buffer)
+            print('|', sep='', end='')
+    print("\nDone downloading.\n")
+    return None
 
 def decode_timestamps(image_stack):
     """Decode PCO image timestamps from binary-coded decimal.
