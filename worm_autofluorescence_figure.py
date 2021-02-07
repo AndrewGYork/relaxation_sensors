@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
-import subprocess
 from pathlib import Path
+import subprocess      # For calling ffmpeg to make animations
+import urllib.request  # For downloading raw data
+import zipfile         # For unzipping downloads
 # You can use 'pip' to install these dependencies:
 import numpy as np
 from scipy.ndimage import gaussian_filter
@@ -9,8 +11,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
-input_dir = Path.cwd()
-temp_dir = Path.cwd() / 'intermediate_output'
+input_dir = Path.cwd() / '1_input'
+temp_dir = Path.cwd() / '2_intermediate_output'
 output_dir = Path.cwd()
 # Sanity checks:
 assert input_dir.is_dir()
@@ -19,8 +21,7 @@ output_dir.mkdir(exist_ok=True)
 
 def main():
     # Load our worm biosensor images and parse the timestamps:
-    data = imread(input_dir / '0_data.tif') # Acquired by Maria on 2020_12_01
-    print(data.shape, data.dtype)
+    data = load_data()
     
     timestamps = 1e-6*decode_timestamps(data)['microseconds'].astype('float64')
     
@@ -210,7 +211,7 @@ def main():
         ax2.set_xlabel("Time (s)", color='white', weight='bold')
         ax2.set_ylabel("Photoelectrons per pixel", color='white', weight='bold')
         # Emphasize the current time graphically:
-        ax2.axvline(cycle_timestamps[i])
+        ax2.axvline(cycle_timestamps[i], alpha=0.2)
         # Show when the 405 nm and 488 nm illumination is on:
         for pt in np.linspace(cycle_timestamps[0] - 0.15,
                               cycle_timestamps[1] - 0.15, 10):
@@ -268,6 +269,60 @@ def main():
             raise
     print('done.')
 
+def load_data():
+    image_data_filename = input_dir / "worm_with_ph_sensor.tif"
+    if not image_data_filename.is_file():
+        print("The expected data file:")
+        print(image_data_filename)
+        print("...isn't where we expect it.\n")
+        print(" * Let's try to unzip it...")
+        zipped_data_filename = input_dir / "worm_with_ph_sensor.zip"
+        if not zipfile.is_zipfile(zipped_data_filename):
+            print("\n  The expected zipped data file:")
+            print(zipped_data_filename)
+            print("  ...isn't where we expect it.\n")
+            print(" * * Let's try to download it from Zenodo.")
+            download_data(zipped_data_filename)
+        assert zipped_data_filename.is_file()
+        assert zipfile.is_zipfile(zipped_data_filename)
+        print(" Unzipping...")
+        with zipfile.ZipFile(zipped_data_filename) as zf:
+            zf.extract(image_data_filename.name,
+                       image_data_filename.parent)
+        print(" Successfully unzipped data.\n")
+    assert image_data_filename.is_file()
+    print("Loading data...")
+    data = imread(image_data_filename)
+    print("Successfully loaded data.")
+    print("Data shape:", data.shape)
+    print("Data dtype:", data.dtype)
+    print()
+    return data
+
+def download_data(filename):
+    url="https://zenodo.org/record/4515109/files/worm_with_ph_sensor.zip"
+    u = urllib.request.urlopen(url)
+    file_size = int(u.getheader("Content-Length"))
+    block_size = 8192
+    while block_size * 80 < file_size:
+        block_size *= 2
+    bar_size = max(1, int(0.5 * (file_size / block_size - 12)))
+
+    print("    Downloading from:")
+    print(url)
+    print("    Downloading to:")
+    print(filename)
+    print("    File size: %0.2f MB"%(file_size/2**20))
+    print("\nDownloading might take a while, so here's a progress bar:")
+    print('0%', "-"*bar_size, '50%', "-"*bar_size, '100%')
+    with open(filename, 'wb') as f:
+        while True:
+            buffer = u.read(block_size)
+            if not buffer:
+                break
+            f.write(buffer)
+            print('|', sep='', end='')
+    print("\nDone downloading.\n")
 
 def decode_timestamps(image_stack):
     """Decode PCO image timestamps from binary-coded decimal.
