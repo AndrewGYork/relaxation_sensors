@@ -11,6 +11,10 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
+# You'll need ffmpeg installed to make animations. If you can't type
+# "ffmpeg --version" at the command prompt without an error, my code
+# will probably fail too.
+
 input_dir = Path.cwd() / '1_input'
 temp_dir = Path.cwd() / 'intermediate_output'
 output_dir = Path.cwd()
