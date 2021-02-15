@@ -1,20 +1,25 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
-import subprocess
 from pathlib import Path
+import subprocess # For calling ffmpeg to make animations
 # You can use 'pip' to install these dependencies:
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
-temp_dir = Path.cwd() / 'intermediate_output'
-output_dir = Path.cwd()
+temp_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'mechanism_comparison_figure')
+output_dir = ( # The 'images' directory, two folders up:
+    Path(__file__).parents[2] / 'images' / 'sensor_mechanism_comparison_figure')
 # Sanity checks:
-temp_dir.mkdir(exist_ok=True)
+temp_dir.mkdir(exist_ok=True, parents=True)
 output_dir.mkdir(exist_ok=True)
 
+
 def main():
+    print("This might take a while. Be patient.")
     cycle_1 = np.concatenate((np.ones(15),
                               2**(-np.sin(np.linspace(0, 5*np.pi, 50))),
                               np.ones(10)))
@@ -34,6 +39,15 @@ def main():
                           key: amount,
                           'normalize': norm}
                 make_frame(**kwargs)
+    print()
+    for start_frame, end_frame, filename in (
+        (  0, 180,         "full_animation.gif"),
+        ( 35,  70,      "analyte_animation.gif"),
+        ( 75, 110,   "background_animation.gif"),
+        (110, 145,       "sensor_animation.gif"),
+        (145, 180, "illumination_animation.gif"),
+        ):
+        make_gif(start_frame, end_frame, filename)
 
 def make_frame(
     which_frame,
@@ -137,7 +151,7 @@ def make_frame(
                        'size': 10},
              transform=ax1.transAxes)
     ax1.set_yticks(np.linspace(0, 1.75, 8))
-    ax1.set_yticklabels(['0', '', '', '', '1', '', ''])
+    ax1.set_yticklabels(['0', '', '', '', '1', '', '', ''])
     if normalize:
         ax1.set_ylim(-0.05*x.max(), 1.75*x.max())
     else:
@@ -180,7 +194,7 @@ def make_frame(
                        'size': 10},
              transform=ax2.transAxes)
     ax2.set_yticks(np.linspace(0, 1.75, 8))
-    ax2.set_yticklabels(['0', '', '', '', '1', '', ''])
+    ax2.set_yticklabels(['0', '', '', '', '1', '', '', ''])
     if normalize:
         ax2.set_ylim(-0.05*x.max(), 1.1*x.max())
     else:
@@ -249,7 +263,7 @@ def make_frame(
              transform=ax3.transAxes)
     ax3.set_ylim(0, 1)
     ax3.set_yticks(np.linspace(0, 1.75, 8))
-    ax3.set_yticklabels(['0', '', '', '', '1', '', ''])
+    ax3.set_yticklabels(['0', '', '', '', '1', '', '', ''])
     if normalize: # TODO: Actually get this right ugh
         ax3.set_ylim(x.min() - 0.4412 * (x.max() - x.min()),
                      x.max() + 0.588 * (x.max() - x.min()))
@@ -259,5 +273,39 @@ def make_frame(
 
     plt.savefig(temp_dir / ("frame_%03i.png"%which_frame), dpi=200)
     plt.close(fig)
+
+def make_gif(start_frame, end_frame, filename):
+    # Animate the frames into a gif:
+    palette = temp_dir / "palette.png"
+    filters = "scale=trunc(iw/2)*2:trunc(ih/2)*2:flags=lanczos"
+    print("Converting pngs to %s..."%filename, end=' ')
+    convert_command_1 = [
+        'ffmpeg',
+        '-f', 'image2',
+        '-i', temp_dir / 'frame_%03d.png',
+        '-vf', filters + ",palettegen",
+        '-y', palette]
+    convert_command_2 = [
+        'ffmpeg',
+        '-start_number', str(start_frame),
+        '-framerate', '25',
+        '-f', 'image2',
+        '-i', temp_dir / 'frame_%03d.png',
+        '-i', palette,
+        '-vframes', str(end_frame-start_frame),
+        '-lavfi', filters + " [x]; [x][1:v] paletteuse",
+        '-y', output_dir / filename]
+    for convert_command in convert_command_1, convert_command_2:
+        try:
+            with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
+                f.write("So far, everthing's fine...\n")
+                f.flush()
+                subprocess.check_call(convert_command, stderr=f, stdout=f)
+                f.flush()
+            (temp_dir / 'conversion_messages.txt').unlink()
+        except: # This is unlikely to be platform independent :D
+            print("GIF conversion failed. Is ffmpeg installed?")
+            raise
+    print('done.')
 
 main()
