@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
-import subprocess
 from pathlib import Path
-import shutil
+import shutil     # For copying files
+import subprocess # For calling ffmpeg to make animations
 # You can use 'pip' to install these dependencies:
 import numpy as np
 from scipy.ndimage import rotate
@@ -11,15 +11,21 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.patches import Rectangle
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
-input_dir = Path.cwd() / 'icons'
-temp_dir = Path.cwd() / 'intermediate_output'
-output_dir = Path.cwd()
+input_dir = Path(__file__).parent / 'icons'
+temp_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'concept_animation_figure')
+output_dir = ( # The 'images' directory, two folders up:
+    Path(__file__).parents[2] / 'images' / 'concept_animation_figure')
 # Sanity checks:
-assert input_dir.is_dir()
-temp_dir.mkdir(exist_ok=True)
+input_dir.mkdir(exist_ok=True, parents=True)
+temp_dir.mkdir(exist_ok=True, parents=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
+    print("This might take a long time to execute. Be patient...")
+    # If you're just adjusting the figure, but not making the final version,
+    # consider dropping num_molecules to a very small number for speed.
     sensor_parameters = dict(
         num_molecules=1000,
         initially_active=False,
@@ -253,6 +259,7 @@ def save_animation_frame(
     active_bound_icon     = imread(input_dir / 'ab.tif')
     inactive_unbound_icon = imread(input_dir / 'iu.tif')
     inactive_bound_icon   = imread(input_dir / 'ib.tif')
+    analyte_icon = imread(input_dir / 'analyte.tif')
     def pick_sprite(active, bound):
         if active:
             if bound:
@@ -274,16 +281,27 @@ def save_animation_frame(
                    frameon=False)
     ax0.set_xticks([])
     ax0.set_yticks([])
-    ax0.text(0.11, 0.72, "Active,\nbound")
-    ax0.text(0.11, 0.22, "Inactive,\nbound")
-    ax0.text(0.75, 0.72, "Active,\nunbound")
-    ax0.text(0.75, 0.22, "Inactive,\nunbound")
-    for im, x, y in ((active_bound_icon,     0.35, 0.75),
-                     (active_unbound_icon,   0.65, 0.75),
-                     (inactive_bound_icon,   0.35, 0.25),
-                     (inactive_unbound_icon, 0.65, 0.25)):
+    ax0.text(-0.045, 0.76, "Active,\nbound", fontsize=12)
+    ax0.text(-0.045, 0.18, "Inactive,\nbound", fontsize=12)
+    ax0.text(0.85, 0.76, "Active,\nunbound", fontsize=12)
+    ax0.text(0.85, 0.18, "Inactive,\nunbound", fontsize=12)
+    for im, x, y in ((active_bound_icon,     0.25, 0.8),
+                     (active_unbound_icon,   0.69, 0.8),
+                     (inactive_bound_icon,   0.25, 0.2),
+                     (inactive_unbound_icon, 0.69, 0.2)):
         ax0.add_artist(AnnotationBbox(
-            OffsetImage(im, zoom=1.5),
+            OffsetImage(np.transpose(im, axes=(1, 0, 2)), zoom=0.3),
+            (x, y), xycoords='data', frameon=False))
+    ax0.text(0.455, 0.245, '\u2013')
+    ax0.text(0.445, 0.143,      '+')
+    ax0.text(0.455, 0.845, '\u2013')
+    ax0.text(0.445, 0.743,      '+')
+    for x, y in ((0.49, 0.26),
+                 (0.49, 0.16),
+                 (0.49, 0.86),
+                 (0.49, 0.76)):
+        ax0.add_artist(AnnotationBbox(
+            OffsetImage(analyte_icon, zoom=0.25),
             (x, y), xycoords='data', frameon=False))
     arrow_params = dict(linewidth=1,
                         head_width=0.02,
@@ -293,23 +311,25 @@ def save_animation_frame(
                         facecolor='black',
                         shape='right')
     # Arrows for (un)binding rates:
-    ax0.arrow(0.45, 0.26,  0.10, 0, **arrow_params)
-    ax0.arrow(0.55, 0.24, -0.10, 0, **arrow_params)
-    ax0.arrow(0.45, 0.76,  0.10, 0, **arrow_params)
-    ax0.arrow(0.55, 0.74, -0.10, 0, **arrow_params)
+    ax0.arrow(0.43, 0.22,  0.10, 0, **arrow_params)
+    ax0.arrow(0.53, 0.20, -0.10, 0, **arrow_params)
+    ax0.arrow(0.43, 0.82,  0.10, 0, **arrow_params)
+    ax0.arrow(0.53, 0.80, -0.10, 0, **arrow_params)
     # Arrows for (de)activation rates:
     ax0.arrow(0.66, 0.5625,  0, -0.125, **arrow_params)
-    ax0.arrow(0.36, 0.5250,  0, -0.075, **arrow_params)
+    ax0.arrow(0.21, 0.5250,  0, -0.075, **arrow_params)
     if initial_pause_frames < which_frame <= light_off_frame:
         arrow_params['facecolor'] = (0, 0.9, 0.9, 0.6)
         arrow_params['edgecolor'] = (0, 0.9, 0.9, 0.6)
         arrow_params['linewidth'] = 2.5
         ax0.arrow(0.64, 0.375,  0, 0.25, **arrow_params)
-        ax0.arrow(0.34, 0.425,  0, 0.15, **arrow_params)
-        ax0.text(0.17, 0.485, "Photoswitching", weight='bold', ha='center',
+        ax0.arrow(0.19, 0.425,  0, 0.15, **arrow_params)
+        ax0.text(0.43, 0.485, "Photoswitching",
+                 weight='bold', ha='center', fontsize=12,
                  color=(0, 0.9, 0.9, 1))
     if which_frame > light_off_frame:
-        ax0.text(0.17, 0.485, "Relaxation", weight='bold', ha='center')
+        ax0.text(0.43, 0.485, "Relaxation",
+                 weight='bold', ha='center', fontsize=12)
     ax0.set_xlim(0, 1)
     ax0.set_ylim(0, 1)
 
@@ -331,9 +351,10 @@ def save_animation_frame(
             sp.set_linestyle(linestyle)
         for m in range(sensors.num_molecules):
             im = pick_sprite(sensors.active[m], sensors.bound[m])
-            im = rotate(im, sensors.angles[m], reshape=False)
+            im = bucket(im, (4, 4, 1)) / 16
+            im = np.clip(rotate(im, sensors.angles[m], reshape=False), 0, 255)
             im = AnnotationBbox(
-                OffsetImage(im, zoom=0.3),
+                OffsetImage(im/255, zoom=0.2),
                 (sensors.x_positions[m], sensors.y_positions[m]),
                 xycoords='data',
                 frameon=False)
@@ -428,6 +449,21 @@ def make_mp4():
        print("MP4 conversion failed. Is ffmpeg installed?")
        raise
     print('done.')
+
+def bucket(x, bucket_size):
+    """'Pixel bucket' a numpy array.
+    By 'pixel bucket', I mean, replace groups of N consecutive pixels in
+    the array with a single pixel which is the sum of the N replaced
+    pixels. See: http://stackoverflow.com/q/36269508/513688
+    """
+    for b in bucket_size: assert float(b).is_integer()
+    bucket_size = [int(b) for b in bucket_size]
+    x = np.ascontiguousarray(x)
+    new_shape = np.concatenate((np.array(x.shape) // bucket_size, bucket_size))
+    old_strides = np.array(x.strides)
+    new_strides = np.concatenate((old_strides * bucket_size, old_strides))
+    axis = tuple(range(x.ndim, 2*x.ndim))
+    return np.lib.stride_tricks.as_strided(x, new_shape, new_strides).sum(axis)
 
 if __name__ == '__main__':
     main()
