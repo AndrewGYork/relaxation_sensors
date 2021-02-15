@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
 from pathlib import Path
+import shutil          # For copying files
 import subprocess      # For calling ffmpeg to make animations
 import urllib.request  # For downloading raw data
 import zipfile         # For unzipping downloads
@@ -11,12 +12,21 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
-input_dir = Path.cwd() / '1_input'
-temp_dir = Path.cwd() / '2_intermediate_output'
-output_dir = Path.cwd()
+# You'll need ffmpeg installed to make animations. If you can't type
+# "ffmpeg --version" at the command prompt without an error, my code
+# will probably fail too.
+
+input_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'worm_ph_data')
+temp_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'autofluorescence_figure')
+output_dir = ( # The 'images' directory, two folders up:
+    Path(__file__).parents[2] / 'images' / 'autofluorescence_figure')
 # Sanity checks:
-input_dir.mkdir(exist_ok=True)
-temp_dir.mkdir(exist_ok=True)
+input_dir.mkdir(exist_ok=True, parents=True)
+temp_dir.mkdir(exist_ok=True, parents=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
@@ -28,6 +38,7 @@ def main():
     # Crop, flip, convert to float:
     data = data[:, 1776:162:-1, 1329:48:-1
                 ].transpose((0, 2, 1)).astype('float32')
+    print("Cropped data:", data.shape, data.dtype)
 
     # Extract the relevant images to separate signal from background:
     # minimum and maximum photoactivation
@@ -122,6 +133,12 @@ def main():
             print("GIF conversion failed. Is ffmpeg installed?")
             raise
     print('done.')
+
+    # Copy some of the frames into the output directory:
+    for which_frame in (1, 2, 3):
+        src =   temp_dir / ('overlay_frame_%03i.png'%(which_frame))
+        dst = output_dir / ('overlay_frame_%03i.png'%(which_frame))
+        shutil.copyfile(src, dst)
 
     # Extract images for one photoswitching cycle. Smooth them a little,
     # since we'll be resampling the image anyway for the figure.
@@ -322,6 +339,7 @@ def download_data(filename):
             f.write(buffer)
             print('|', sep='', end='')
     print("\nDone downloading.\n")
+    return None
 
 def decode_timestamps(image_stack):
     """Decode PCO image timestamps from binary-coded decimal.
