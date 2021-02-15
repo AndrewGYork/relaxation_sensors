@@ -1,19 +1,23 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
 from pathlib import Path
+import urllib.request  # For downloading raw data
+import zipfile         # For unzipping downloads
 # You can use 'pip' to install these dependencies:
 import numpy as np
 from scipy.ndimage import gaussian_filter
 import matplotlib.pyplot as plt
 from tifffile import imread, imwrite # v2020.6.3 or newer
 
-input_dir = Path.cwd() / '0_calibration_data'
-temp_dir = Path.cwd() / 'intermediate_calibration_output'
-output_dir = Path.cwd()
+input_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'worm_ph_data')
+temp_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'ph_calibration')
 # Sanity checks:
-assert input_dir.is_dir()
-temp_dir.mkdir(exist_ok=True)
-output_dir.mkdir(exist_ok=True)
+input_dir.mkdir(exist_ok=True, parents=True)
+temp_dir.mkdir(exist_ok=True, parents=True)
 
 def main():
     # Load our bead biosensor calibration images and parse the timestamps:
@@ -28,7 +32,7 @@ def main():
         ('ph_7p5', slice(843, 1071), slice(1158, 1617)),
         ('ph_8p0', slice(840, 936), slice(1170, 1647)),
         ):
-        data = imread(input_dir / (basename + '.tif'))
+        data = load_data(basename)
         
         timestamps = (
             1e-6*decode_timestamps(data)['microseconds'].astype('float64'))
@@ -54,29 +58,29 @@ def main():
             nonlinearity = (activation[1:-2, :, :].mean(axis=0) -
                             activation[(0, -2), :, :].mean(axis=0))
             # Inspection of intermediate state is the soul of debugging:
-##            imwrite(temp_dir /
-##                    ('1_' + basename + '_activation_%i.tif'%which_cycle),
-##                    activation, imagej=True)
-##            imwrite(temp_dir /
-##                    ('2_' + basename + '_photoswitching_%i.tif'%which_cycle),
-##                    photoswitching, imagej=True)
-##            imwrite(temp_dir /
-##                    ('3_' + basename + '_relaxation_%i.tif'%which_cycle),
-##                    relaxation, imagej=True)
-##            imwrite(temp_dir /
-##                    ('4_' + basename + '_nonlinearity_%i.tif'%which_cycle),
-##                    nonlinearity, imagej=True)
+            imwrite(temp_dir /
+                    ('1_' + basename + '_activation_%i.tif'%which_cycle),
+                    activation, imagej=True)
+            imwrite(temp_dir /
+                    ('2_' + basename + '_photoswitching_%i.tif'%which_cycle),
+                    photoswitching, imagej=True)
+            imwrite(temp_dir /
+                    ('3_' + basename + '_relaxation_%i.tif'%which_cycle),
+                    relaxation, imagej=True)
+            imwrite(temp_dir /
+                    ('4_' + basename + '_nonlinearity_%i.tif'%which_cycle),
+                    nonlinearity, imagej=True)
 
             # Calculate quantities that should be useful for inferring pH
             norm = np.clip(gaussian_filter(photoswitching, sigma=2), 1, None)
             relaxation_ratio = gaussian_filter(relaxation, sigma=2) / norm
             nonlinearity_ratio = gaussian_filter(nonlinearity, sigma=2) / norm
-##            imwrite(temp_dir /
-##                    ('5_' + basename +'_relaxation_ratio_%i.tif'%which_cycle),
-##                    relaxation_ratio, imagej=True)
-##            imwrite(temp_dir /
-##                    ('6_' + basename +'_nonlinearity_ratio_%i.tif'%which_cycle),
-##                    nonlinearity_ratio, imagej=True)
+            imwrite(temp_dir /
+                    ('5_' + basename +'_relaxation_ratio_%i.tif'%which_cycle),
+                    relaxation_ratio, imagej=True)
+            imwrite(temp_dir /
+                    ('6_' + basename +'_nonlinearity_ratio_%i.tif'%which_cycle),
+                    nonlinearity_ratio, imagej=True)
             relaxation_ratios[-1].append(
                 relaxation_ratio[slice_y, slice_x].mean())
             relaxation_times[-1].append(relaxation_time)
@@ -169,6 +173,62 @@ def main():
     ax2.legend()
     print()
     plt.show()
+
+def load_data(basename):
+    image_data_filename = input_dir / (basename + '.tif')
+    if not image_data_filename.is_file():
+        print("The expected data file:")
+        print(image_data_filename)
+        print("...isn't where we expect it.\n")
+        print(" * Let's try to unzip it...")
+        zipped_data_filename = input_dir / (basename + '.zip')
+        if not zipfile.is_zipfile(zipped_data_filename):
+            print("\n  The expected zipped data file:")
+            print(zipped_data_filename)
+            print("  ...isn't where we expect it.\n")
+            print(" * * Let's try to download it from Zenodo.")
+            download_data(zipped_data_filename)
+        assert zipped_data_filename.is_file()
+        assert zipfile.is_zipfile(zipped_data_filename)
+        print(" Unzipping...")
+        with zipfile.ZipFile(zipped_data_filename) as zf:
+            zf.extract(image_data_filename.name,
+                       image_data_filename.parent)
+        print(" Successfully unzipped data.\n")
+    assert image_data_filename.is_file()
+    print("Loading data...")
+    data = imread(image_data_filename)
+    print("Successfully loaded data.")
+    print("Data shape:", data.shape)
+    print("Data dtype:", data.dtype)
+    print()
+    return data
+
+def download_data(filename):
+    url="https://zenodo.org/record/4542170/files/" + filename.stem + ".zip"
+    u = urllib.request.urlopen(url)
+    file_size = int(u.getheader("Content-Length"))
+    block_size = 8192
+    while block_size * 80 < file_size:
+        block_size *= 2
+    bar_size = max(1, int(0.5 * (file_size / block_size - 12)))
+
+    print("    Downloading from:")
+    print(url)
+    print("    Downloading to:")
+    print(filename)
+    print("    File size: %0.2f MB"%(file_size/2**20))
+    print("\nDownloading might take a while, so here's a progress bar:")
+    print('0%', "-"*bar_size, '50%', "-"*bar_size, '100%')
+    with open(filename, 'wb') as f:
+        while True:
+            buffer = u.read(block_size)
+            if not buffer:
+                break
+            f.write(buffer)
+            print('|', sep='', end='')
+    print("\nDone downloading.\n")
+    return None
 
 def decode_timestamps(image_stack):
     """Decode PCO image timestamps from binary-coded decimal.
