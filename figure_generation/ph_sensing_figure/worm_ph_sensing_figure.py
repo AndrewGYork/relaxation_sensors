@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Dependencies from the python standard library:
 from pathlib import Path
+import shutil          # For copying files
 import subprocess      # For calling ffmpeg to make animations
 import urllib.request  # For downloading raw data
 import zipfile         # For unzipping downloads
@@ -15,12 +16,17 @@ from tifffile import imread, imwrite # v2020.6.3 or newer
 # "ffmpeg --version" at the command prompt without an error, my code
 # will probably fail too.
 
-input_dir = Path.cwd() / '1_input'
-temp_dir = Path.cwd() / 'intermediate_output'
-output_dir = Path.cwd()
+input_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'worm_ph_data')
+temp_dir = ( # A temp directory, three folders up:
+    Path(__file__).parents[3] /
+    'relaxation_sensors_temp_files' / 'ph_sensing_figure')
+output_dir = ( # The 'images' directory, two folders up:
+    Path(__file__).parents[2] / 'images' / 'ph_sensing_figure')
 # Sanity checks:
-input_dir.mkdir(exist_ok=True)
-temp_dir.mkdir(exist_ok=True)
+input_dir.mkdir(exist_ok=True, parents=True)
+temp_dir.mkdir(exist_ok=True, parents=True)
 output_dir.mkdir(exist_ok=True)
 
 def main():
@@ -116,6 +122,44 @@ def main():
                 relaxation_ph, imagej=True)
         imwrite(temp_dir / ('8_nonlinearity_ph_%i.tif'%which_cycle),
                 nonlinearity_ph, imagej=True)
+
+        # Output annotated grayscale png
+        for luminance, name in (
+            (adjust_contrast(  relaxation_ph, 5.75, 8.3), '2_relaxation'),
+            (adjust_contrast(nonlinearity_ph, 5.75, 8.3), '3_activation')):
+            fig = plt.figure(
+                figsize=(1, 1*(relaxation_ph.shape[0]/relaxation_ph.shape[1])))
+            ax = plt.axes([0, 0, 1, 1])
+            ax.imshow(luminance, cmap='gray', interpolation='nearest',
+                      vmin=0, vmax=1)
+            ax.set_xticks([])
+            ax.set_yticks([])
+            ax.add_patch(Rectangle(
+                (945, 1175), 615, 95,
+                fill=False, linewidth=0.9,
+                color=(0, 0, 0)))
+            ax.add_patch(Rectangle(
+                (945, 1150), 615, 10,
+                fill=False, linewidth=0.9,
+                color=(0, 0, 0)))
+            ax.text(950, 1170, "pH measured via %s rate"%name[2:],
+                fontdict={'color': (0, 1, 0),
+                          'weight': 'bold',
+                          'size': 1.5})
+            fontdict = {'color': (0, 1, 0),
+                        'weight': 'bold',
+                        'size': 1,
+                        'horizontalalignment': 'center'}
+            ax.text( 984, 1205, "<6",   fontdict=fontdict)
+            ax.text(1044, 1205, "6",   fontdict=fontdict)
+            ax.text(1164, 1205, "6.5", fontdict=fontdict)
+            ax.text(1284, 1205, "7",   fontdict=fontdict)
+            ax.text(1404, 1205, "7.5", fontdict=fontdict)
+            ax.text(1524, 1205, "8",   fontdict=fontdict)
+            plt.savefig(
+                output_dir / ("%s_grayscale_%i.png"%(name, which_cycle)),
+                dpi=800)
+            plt.close(fig)
         
         # Smooth and color-merge photoswitching/relaxation or
         # photoswitching/nonlinearity
@@ -132,7 +176,7 @@ def main():
         imwrite(temp_dir / ('8_nonlinearity_ratio_overlay_%i.tif'%which_cycle),
                 (hue_2 * luminance * 255).astype(np.uint8))
     
-        # Output annotated png
+        # Output annotated colormapped png
         for hue, name in (hue_1, '2_relaxation'), (hue_2, '3_activation'):
             fig = plt.figure(figsize=(1, 1*(hue.shape[0]/hue.shape[1])))
             ax = plt.axes([0, 0, 1, 1])
@@ -349,6 +393,14 @@ def main():
                 raise
         print('done.')
 
+        # Copy some of the frames into the output directory:
+        for which_frame in list(range(11)) + [15,]:
+            src =   temp_dir / ('data_frame_%i_%03i.png'%(which_cycle,
+                                                          which_frame))
+            dst = output_dir / ('data_frame_%i_%03i.png'%(which_cycle,
+                                                          which_frame))
+            shutil.copyfile(src, dst)
+        
 def load_data():
     image_data_filename = input_dir / "worm_with_ph_sensor.tif"
     if not image_data_filename.is_file():
