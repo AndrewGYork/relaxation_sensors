@@ -2,17 +2,7 @@
 
 <a href="https://doi.org/10.5281/zenodo.XXXXXXX"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3665824.svg" alt="DOI"></a> TODO: fix DOI
 
-A scientific publication that describes a new approach for quantitative readout of fluorescent biosensors, based on spontaneous isomerization rates. This repository hosts everything you need to reproduce our results. Read the publication here:
-
-https://andrewgyork.github.io/relaxation_sensors (hosted via Andrew York's personal GitHub account)
-
-or here:
-
-https://marimar128.github.io/relaxation_sensors (hosted via Maria Ingaramo's personal GitHub account)
-
-or here:
-
-https://calico.github.io/relaxation_sensors (hosted via the Calico Labs institutional GitHub account)
+A scientific publication that describes a new approach for quantitative readout of fluorescent biosensors, based on spontaneous isomerization rates. This repository hosts everything you need to reproduce our results. Read the publication here: https://andrewgyork.github.io/relaxation_sensors (hosted via Andrew York's personal GitHub account) or here: https://marimar128.github.io/relaxation_sensors (hosted via Maria Ingaramo's personal GitHub account) or here: https://calico.github.io/relaxation_sensors (hosted via the Calico Labs institutional GitHub account)
 
 This repository is intended to hold a (mostly) self-contained scientific publication. It contains:
 
