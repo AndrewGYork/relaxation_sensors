@@ -325,11 +325,11 @@ def save_animation_frame(
         ax0.arrow(0.64, 0.375,  0, 0.25, **arrow_params)
         ax0.arrow(0.19, 0.425,  0, 0.15, **arrow_params)
         ax0.text(0.43, 0.485, "Photoswitching",
-                 weight='bold', ha='center', fontsize=12,
+                 weight='bold', ha='center', fontsize=14,
                  color=(0, 0.9, 0.9, 1))
     if which_frame > light_off_frame:
         ax0.text(0.43, 0.485, "Relaxation",
-                 weight='bold', ha='center', fontsize=12)
+                 weight='bold', ha='center', fontsize=14)
     ax0.set_xlim(0, 1)
     ax0.set_ylim(0, 1)
 
