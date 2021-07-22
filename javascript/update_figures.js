@@ -1,3 +1,9 @@
+function update_concept_animation_figure() {
+  var filename = "./images/concept_animation_figure/" + document.getElementById("concept_animation_binding_domain").value; 
+  var image = document.getElementById("concept_animation");
+  image.src = filename;
+}
+
 function update_sensor_mechanism_comparison_figure() {
   var filename = "./images/sensor_mechanism_comparison_figure/" + document.getElementById("sensor_mechanism_comparison_figure_choice").value; 
   var image = document.getElementById("sensor_mechanism_comparison");
@@ -32,4 +38,3 @@ function update_ph_sensing_colormap_figure() {
   var image = document.getElementById("ph_sensing_figure_colormap");
   image.src = filename;
 }
-
