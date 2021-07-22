@@ -48,15 +48,17 @@ def main():
     light_off_frame = 55
     for which_frame in range(initial_pause_frames, num_frames):
         # Animation
-        save_animation_frame(
-            which_frame=which_frame,
-            initial_pause_frames=initial_pause_frames,
-            light_off_frame=light_off_frame,
-            num_frames=num_frames,
-            bound_sensors=bound_sensors,
-            unbound_sensors=unbound_sensors,
-            bound_emissions=bound_emissions,
-            unbound_emissions=unbound_emissions)
+        for which_icons in range(2):
+            save_animation_frame(
+                which_frame=which_frame,
+                initial_pause_frames=initial_pause_frames,
+                light_off_frame=light_off_frame,
+                num_frames=num_frames,
+                bound_sensors=bound_sensors,
+                unbound_sensors=unbound_sensors,
+                bound_emissions=bound_emissions,
+                unbound_emissions=unbound_emissions,
+                which_icons=which_icons)
         # Simulation
         if which_frame == light_off_frame:
             for s in bound_sensors, unbound_sensors:
@@ -69,9 +71,12 @@ def main():
         print('.', end='')
     # A long pause at the beginning:
     for which_frame in range(initial_pause_frames):
-        shutil.copyfile(
-            temp_dir / ('animation_frame_%06i.png'%initial_pause_frames),
-            temp_dir / ('animation_frame_%06i.png'%which_frame))
+        for which_icons in range(2):
+            shutil.copyfile(
+                temp_dir / ('animation_frame_%i_%06i.png'%(
+                    which_icons, initial_pause_frames)),
+                temp_dir / ('animation_frame_%i_%06i.png'%(
+                    which_icons, which_frame)))
     # Lazy way of normalizing the curves:
     print()
     print("bound_norm:",
@@ -79,8 +84,9 @@ def main():
     print("unbound_norm:",
           np.array(unbound_emissions).max() / unbound_sensors.num_molecules)
     # Convert from png to gif and mp4:
-    make_gif()
-    make_mp4()
+    for which_icons in range(2):
+        make_gif(which_icons)
+        make_mp4(which_icons)
     return None
 
 class SwitchingSensors:
@@ -253,13 +259,14 @@ def save_animation_frame(
     unbound_sensors,
     bound_emissions,
     unbound_emissions,
+    which_icons=0,
     ):
     # Load sprites
-    active_unbound_icon   = imread(input_dir / 'au.tif')
-    active_bound_icon     = imread(input_dir / 'ab.tif')
-    inactive_unbound_icon = imread(input_dir / 'iu.tif')
-    inactive_bound_icon   = imread(input_dir / 'ib.tif')
-    analyte_icon = imread(input_dir / 'analyte.tif')
+    active_unbound_icon   = imread(input_dir / ('au_%i.tif'%which_icons))
+    active_bound_icon     = imread(input_dir / ('ab_%i.tif'%which_icons))
+    inactive_unbound_icon = imread(input_dir / ('iu_%i.tif'%which_icons))
+    inactive_bound_icon   = imread(input_dir / ('ib_%i.tif'%which_icons))
+    analyte_icon = imread(input_dir / ('analyte_%i.tif'%which_icons))
     def pick_sprite(active, bound):
         if active:
             if bound:
@@ -386,12 +393,13 @@ def save_animation_frame(
     ax3.legend(loc=(0.585, 0.41), facecolor=(0.85, 0.85, 0.85))
     ax3.grid('on', alpha=0.1)
    
-    plt.savefig(temp_dir / ('animation_frame_%06i.png'%(which_frame)),
-                dpi=150, facecolor=fig.get_facecolor(), edgecolor='none')
+    plt.savefig(
+        temp_dir / ('animation_frame_%0i_%06i.png'%(which_icons, which_frame)),
+        dpi=150, facecolor=fig.get_facecolor(), edgecolor='none')
     plt.close()
     return None        
 
-def make_gif():
+def make_gif(which_icons=0):
     # Animate the frames into a gif:
     palette = temp_dir / "palette.png"
     filters = "scale=trunc(iw/3)*2:trunc(ih/3)*2:flags=lanczos"
@@ -399,17 +407,17 @@ def make_gif():
     convert_command_1 = [
         'ffmpeg',
         '-f', 'image2',
-        '-i', temp_dir / 'animation_frame_%06d.png',
+        '-i', temp_dir / ('animation_frame_%i'%which_icons + '_%06d.png'),
         '-vf', filters + ",palettegen",
         '-y', palette]
     convert_command_2 = [
         'ffmpeg',
         '-framerate', '25',
         '-f', 'image2',
-        '-i', temp_dir / 'animation_frame_%06d.png',
+        '-i', temp_dir / ('animation_frame_%i'%which_icons + '_%06d.png'),
         '-i', palette,
         '-lavfi', filters + " [x]; [x][1:v] paletteuse",
-        '-y', output_dir / 'figure.gif']
+        '-y', output_dir / ('figure_%i.gif'%which_icons)]
     for convert_command in convert_command_1, convert_command_2:
         try:
             with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
@@ -423,21 +431,21 @@ def make_gif():
             raise
     print('done.')
 
-def make_mp4():
+def make_mp4(which_icons=0):
     ## Make video from images
     print("Converting images to mp4...", end='')
     convert_command = [
        'ffmpeg', '-y',            # auto overwrite files
        '-r', '20',                # frame rate
        '-f', 'image2',            # format is image sequence
-       '-i', temp_dir / 'animation_frame_%06d.png', # image sequence name
+        '-i', temp_dir / ('animation_frame_%i'%which_icons + '_%06d.png'),
        '-movflags', 'faststart',  # internet optimisation(?)
        '-pix_fmt', 'yuv420p',     # cross browser compatibility
        '-vcodec', 'libx264',      # codec choice
        '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2',#even pixel number (important)
        '-preset', 'veryslow',     # take time and compress to max
        '-crf', '25',              # image quality vs file size
-       output_dir / 'figure.mp4'] # output file name
+       output_dir / ('figure_%i.mp4'%which_icons)] # output file name
     try:
        with open(temp_dir / 'conversion_messages.txt', 'wt') as f:
            f.write("So far, everthing's fine...\n")
