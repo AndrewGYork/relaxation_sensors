@@ -61,7 +61,29 @@ The real text begins here.
 <p class="author_affiliations"><sup>2</sup>Calico Life Sciences LLC, South San Francisco, CA 94080, USA</p>
 <p class="contact_email"><sup>*</sup>Permanent email: <a href="mailto:andrew.g.york+relaxationsensors@gmail.com" target="_self">andrew.g.york+relaxationsensors@gmail.com</a></p>
 <p class="contact_email"><sup>&dagger;</sup>Institutional email: <a href="mailto:ingaramo@calicolabs.com" target="_self">ingaramo@calicolabs.com</a></p>
-<p class="abstract">Abstract text goes here.</p>
+
+<a id="Abstract" href="#Abstract" target="_self">
+<h4>Abstract</h4></a>
+<p class="abstract">
+Sensors based on fluorescent proteins or molecules are often used to reveal quantities of interest like pH
+
+[<a class="citation" href="http://doi.org/10.1038/28190" title="Visualizing secretion and synaptic transmission with pH-sensitive green fluorescent proteins; Gero Miesenböck, Dino A. De Angelis &amp; James E. Rothman; Nature 394, 192–195 (1998)">Miesenböck 1998</a>],
+ 
+calcium concentration
+
+[<a class="citation" href="http://doi.org/10.1038/84397" title="A high signal-to-noise Ca2+ probe composed of a single green fluorescent protein; Junichi Nakai, Masamichi Ohkura &amp; Keiji Imoto; Nature Biotechnology 19, 137–141 (2001)">Nakai 2001</a>],
+
+or temperature 
+
+[<a class="citation" href="http://doi.org/10.1038/nmeth.2690" title="Genetically encoded fluorescent thermosensors visualize subcellular thermoregulation in living cells; Shigeki Kiyonaka, Taketoshi Kajimoto, Reiko Sakaguchi, Daisuke Shinmi, Mariko Omatsu-Kanbe, Hiroshi Matsuura, Hiromi Imamura, Takenao Yoshizaki, Itaru Hamachi, Takashi Morii &amp; Yasuo Mori; Nature Methods 10, 1232–1238 (2013)">Kiyonaka 2013</a>].
+
+Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against background), or lifetime (which is not compatible with simple microscopes).
+</p>
+
+<p class="abstract">
+We've developed a new way to read out quantities of interest (cite our patent), which we call "relaxation sensing". Relaxation sensors are quantitative, robust against background and scattering, and compatible with simple timelapse microscopes. To enable genetically-expressed relaxation sensors, we engineered Countdown, a photoswitchable fluorescent protein  which rapidly spontaneously equilibrates ("relaxes") to a nonfluorescent state. To demonstrate relaxation sensing, we further engineered Countdown into pH-Countdown, a relaxation sensor with strongly pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, even in the presence of enormous autofluorescence and scattering. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can also be used for relaxation sensing.
+
+</p>
 
 <h4>Peer review status</h4>
 <p class="abstract">Pre-print published TODO: XXX XX, 2021</p>
@@ -74,10 +96,10 @@ Note that this is a limited PDF or print version; animated and interactive figur
 <h3>Your browser doesn't seem to support Javascript. This document uses Javascript for interactive figures, math typesetting, and to automatically generate the reference list. Either activate Javascript, or use the "Download PDF" link above if you want properly typeset math and a reference list.</h3></noscript>
 
 <h3>
-Figures</h3>
-<p>An example of how to include a citation:
+Introduction</h3>
 
-[<a class="citation" href="http://dx.doi.org/10.1371/journal.pgen.1004526" title="Asymmetric Division and Differential Gene Expression during a Bacterial Developmental Program Requires DivIVA; Prahathees Eswaramoorthy, Peter W. Winter, Peter Wawrzusin, Andrew G. York, Hari Shroff, Kumaran S. Ramamurthi; PLoS Genet 10 (8), e1004526">Eswaramoorthy 2014</a>].
+<p>
+An ideal relaxation sensor reveals a quantity of interest, by changing the rate at which it thermally "relaxes" towards equilibrium. The "active" state of a relaxation sensor is optically distinguishable from the "inactive" state. To make a measurement, we drive the relaxation sensor away from equilibrium, and observe the rate at which the sensor returns to equilibrium, which depends on our quantity of interest. Figure 1 shows an example relaxation sensor, based on a photoswitchable fluorescent protein, which senses the concentration of a small molecule.
 </p>
 
 <figure id="concept_animation_figure">
@@ -90,15 +112,50 @@ Figures</h3>
   </select></td>
     </tr>
 </table>
- <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
+ <figcaption><strong>Figure 1: An illustration of a photoswitchable relaxation sensor which reveals small molecule concentration.</strong>
+
+<strong>Top panel</strong>: State diagram showing a photoswitchable fluorescent domain (green/grey ribbon diagram) with either an external (blue/yellow triangles) or internal (blue/yellow "Y") domain which binds a target molecule (black circle/ellipse).
+
+<strong>Bottom panel</strong>: Population-average signal vs. time during photoswitching (blue region, left) and relaxation to equilibrium (grey region, right). Sensors which are bound to their target molecule (dotted blue curve) photoactivate and relax more slowly than sensors which are not (solid yellow curve).
+
+<strong>Side panels</strong>: Single-molecule animations of sensor photoswitching kinetics corresponding to the bottom panel's dotted blue curve (left panel) or solid yellow curve (right panel).
+ </figcaption>
 </figure><p></p>
 
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>
+ In Figure 1's example, the relaxation sensor is a photoswitchable fluorescent protein that rapidly thermally equilibrates to the inactive state. The active state (top panel, top row) is fluorescent, and the inactive state (top panel, bottom row) is not. The sensor is engineered to transiently bind a molecule of interest; the bound form (top panel, left column) equilibrates to the inactive state more slowly than the unbound form (top panel, right column). We drive the sensor to the active state with cyan light (bottom panel, left cyan portion), and observe the rate at which fluorescence fades (bottom panel, right gray portion). By measuring this rate, we reveal the concentration of the target molecule.
+</p>
+
+<p>
+How practical is this approach? All photoswitchable fluorescent proteins "relax", spontaneously equilibrating to some steady-state ratio of active and inactive states. Unfortunately, this process typically takes hours - much too slow for most sensing applications. Fortunately, we've spent several years engineering a photoswitchable fluorescent protein that rapidly thermally equilibrates to the inactive state, in seconds instead of hours. Starting from Padron
+
+[<a class="citation" href="http://doi.org/10.1038/nbt.1493" title="Photoswitchable fluorescent proteins enable monochromatic multilabel imaging and dual color fluorescence nanoscopy; Martin Andresen, Andre C Stiel, Jonas Fölling, Dirk Wenzel, Andreas Schönle, Alexander Egner, Christian Eggeling, Stefan W Hell &amp; Stefan Jakobs; Nature Biotechnology 26, 1035–1040 (2008)">Andresen 2008</a>], 
+
+a Dronpa derivative 
+
+[<a class="citation" href="http://doi.org/10.1126/science.1102506" title="Regulated Fast Nucleocytoplasmic Shuttling Observed by Reversible Protein Highlighting; Ryoko Ando, Hideaki Mizuno, Atsushi Miyawaki; Science 306, 5700, 1370-1373 (2004)">Ando 2004</a>],
+
+we iteratively introduced roughly 20 mutations to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and high contrast of Padron, to produce a protein we call 
+
+"<a href="/MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAKYPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYARDGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+title="MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAKYPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYARDGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+>Countdown</a>". 
+
+Like Padron, Countdown photoswitches between a bright green fluorescent active state and a nonfluorescent inactive state. Cyan light activates and excites Countdown, violet light inactivates Countdown, and thermal equilibrium favors the inactive state.
+</p>
+
+<p>
+We made pH-Countdown. Here's a calibration of decay rate vs. pH.
+</p>
 
 <figure id="robust_against_background_figure">
 <img src="./images/robust_against_background_figure/figure.gif" alt="Robust against background figure" id="robust_against_background">
  <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
 </figure><p></p>
+
+<p>
+Placeholder: Binding/unbinding rate constants are fast compared to activation/deactivation rate constants, and we measure population averages (bottom panel) rather than single-molecule kinetics (side panels).
+</p>
 
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
