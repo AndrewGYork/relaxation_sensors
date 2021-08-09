@@ -134,7 +134,7 @@ called "Padron"
 
 [<a class="citation" href="http://doi.org/10.1038/nbt.1493" title="Photoswitchable fluorescent proteins enable monochromatic multilabel imaging and dual color fluorescence nanoscopy; Martin Andresen, Andre C Stiel, Jonas Fölling, Dirk Wenzel, Andreas Schönle, Alexander Egner, Christian Eggeling, Stefan W Hell &amp; Stefan Jakobs; Nature Biotechnology 26, 1035–1040 (2008)">Andresen 2008</a>], 
 
-we iteratively introduced roughly 20 mutations to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and high contrast of the parent, to produce a protein we call 
+we iteratively introduced roughly 20 mutations to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
 
 "<a href="
 MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
@@ -182,7 +182,7 @@ Note that relaxation rates are several-fold faster at 37&deg;C than 25&deg;C, an
 </p>
 
 <p>
-The key point of Figure 2 is that burying our sample underneath a <em>millimeter</em> of partially opaque, highly autofluorescent chicken skin (upper right panel) does not affect the apparent pH reported by our relaxation sensor (bottom panel, open vs. filled circles). This is remarkable; no other fluorescent sensor has this property. What makes relaxation sensors so quantitatively robust despite background and opacity?
+The key point of Figure 2 is that burying our sample underneath a <em>millimeter</em> of partially opaque, highly autofluorescent chicken skin (upper right panel) does not affect the apparent pH reported by our relaxation sensor (bottom panel, open vs. filled circles). This is remarkable; no other fluorescent sensor has this property. What makes relaxation sensors so quantitatively robust despite opacity and background?
 </p>
 
 <figure id="sensor_mechanism_comparison_figure">
@@ -198,13 +198,13 @@ The key point of Figure 2 is that burying our sample underneath a <em>millimeter
   </select></td>
     </tr>
 </table>
- <figcaption><strong>Figure 3: Confounding factors like sensor quantity or autofluorescent background add systematic error to quantitative measurements via fluorescence intensity or lifetime, but only affect the signal-to-noise ratio of relaxation-based measurements.</strong>
+ <figcaption><strong>Figure 3: Confounding factors like sensor quantity or autofluorescent background add systematic error to quantitative measurements via fluorescence intensity or lifetime, but not to relaxation-based measurements.</strong>
 
-<em><strong>Upper left panel</strong></em>: Signal vs. time for an intensity sensor does not discriminate between analyte concentration, amount of background, amount of sensor, or amount of illumination.
+<em><strong>Upper left panel</strong></em>: Signal vs. time for an intensity sensor does not discriminate between amount of analyte, amount of background, amount of sensor, or amount of illumination.
 
-<em><strong>Center left panel</strong></em>: Signal vs. time for a lifetime sensor does not discriminate between analyte concentration and sensor-to-background ratio.
+<em><strong>Center left panel</strong></em>: Signal vs. time for a lifetime sensor does not discriminate between amount of analyte and sensor-to-background ratio.
 
-<em><strong>Lower left panel</strong></em>: Normalized signal vs. time for a photoswitchable relaxation sensor depends strongly on analyte concentration, but does not depend on amount of background or sensor, and depends only weakly on amount of illumination.
+<em><strong>Lower left panel</strong></em>: Normalized signal vs. time for a photoswitchable relaxation sensor depends strongly on amount of analyte, but does not depend on amount of background or sensor, and depends only weakly on amount of illumination.
 </figcaption>
 </figure><p></p>
 
@@ -213,7 +213,7 @@ As shown in Figure 3, the signal from a single-color intensity sensor (top left 
 
 [<a class="citation" href="http://doi.org/10.1038/28190" title="Visualizing secretion and synaptic transmission with pH-sensitive green fluorescent proteins; Gero Miesenböck, Dino A. De Angelis &amp; James E. Rothman; Nature 394, 192–195 (1998)">Miesenböck 1998</a>])
 
-is ambiguous. Brighter or dimmer signal might mean the concentration of analyte changed, but could also mean the amount of sensor changed, or the amount of background, or the amount of illumination, or even the opacity of the sample. In some cases (e.g. calcium dynamics
+is ambiguous. Brighter or dimmer signal might mean the amount of analyte changed, but could also mean the amount of sensor changed, or the amount of background, or the amount of illumination, or even the opacity of the sample. In some cases (e.g. calcium dynamics
 
 [<a class="citation" href="http://doi.org/10.25378/janelia.13148243" title="jGCaMP8 Fast Genetically Encoded Calcium Indicators; Y. Zhang, M. Rózsa, D. Bushey, J. Zheng, D. Reep, G. J. Broussard, A. Tsang, G. Tsegaye, R. Patel, S. Narayan, J. X. Lim, R. Zhang, M. B. Ahrens, G. C. Turner, S. S.-H. Wang, K. Svoboda, W. Korff, E. R. Schreiter, J. P. Hasseman, I. Kolb, L. L Looger; (2020)">Zhang 2020</a>])
 
@@ -229,9 +229,11 @@ Dual-color intensity measurements can help control for the amount of sensor. If 
 
 <a class="citation" href="http://doi.org/10.4236/abb.2011.23021" title="pHluorin2: an enhanced, ratiometric, pH-sensitive green florescent protein; Matthew John Mahon; Advances in Bioscience and Biotechnology, 2, 132-137 (2011)">Mahon 2011</a>]).
 
-Unfortunately, autofluorescence, scattering, or absorption from the sample distorts the ratio of the two channels. If the two channels come from separate fluorescent proteins, the two proteins also won't mature, degrade, or photobleach at the same rate
+Unfortunately, autofluorescence, scattering, or absorption from the sample distorts the ratio of the two channels. If the two channels come from two linked fluorescent proteins
 
-(e.g. [<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>]). These sources of sample-dependent systematic errors are quite common, and difficult to eliminate, predict, or calibrate.
+(e.g. [<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>]),
+
+the two proteins also won't mature, degrade, or photobleach at the same rate. These sources of sample-dependent systematic errors are quite common, and difficult to eliminate, predict, or calibrate.
 </p>
 
 <p>
@@ -249,11 +251,15 @@ In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel)
 </p>
 
 <p>
-Relaxation sensing shows incredible promise, but our current implementation has important caveats. pH-Countdown's apparent decay rate depends weakly on the amount of illumination during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated, since the activation rate reveals the amount of illumination, but this can also be predicted by using calibrated illumination (Figure 4-6), or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern (cite dreiklang). pH-Countdown's relaxation also takes at least a few seconds; signal interpretation is much simpler if the sample holds still during this time. Engineering faster relaxation sensors or developing more sophisticated analysis would allow faster-moving samples.
+Relaxation sensing shows incredible promise, but our current implementation leaves room for improvement. pH-Countdown's apparent decay rate depends weakly on the amount of illumination during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
+
+[<a class="citation" href="https://doi.org/10.1038/nbt.1952" title="A reversibly photoswitchable GFP-like protein with fluorescence excitation decoupled from switching; Brakemann T, Stiel Ac, Weber G, Andresen M, Testa I, Grotjohann T, Leutenegger M, Plessmann U, Urlaub H, Eggeling C, Wahl Mc, Hell Sw, Jakobs S; Nature Biotechnology, 29(10), 942-947 (2011)">Brakemann 2011</a>].
+
+pH-Countdown's relaxation also takes at least a few seconds; signal interpretation is much simpler if the sample holds still during this time. Engineering faster relaxation sensors or developing more sophisticated analysis would allow faster-moving samples. We emphasize that the first implementation of relaxation sensing is hopefully also the worst.
 </p>
 
 <p>
-The fundamental strength of relaxation sensing is that spontaneous decay signals do not resemble other signals that biological samples typicall produce. In the unfortunate case where the sample photoswitches and spontaneously rapidly relaxes, we would have to use a relaxation sensor with a distinguishable (much faster or much slower) spontaneous rate. Fortunately, such samples are quite rare, in our experience.
+The fundamental strength of relaxation sensing is that spontaneous decay signals do not resemble other signals that biological samples typically produce. In the unfortunate case where the sample photoswitches and spontaneously rapidly relaxes, we would have to use a relaxation sensor with a distinguishable (much faster or much slower) spontaneous rate. Fortunately, such samples are quite rare, in our experience.
 </p>
 
 
@@ -264,6 +270,18 @@ Results</h3>
 <img src="./images/autofluorescence_figure/1_data_animation.gif" alt="Autofluorescence data figure" id="autofluorescence_figure_data_animation">
  <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
 </figure><p></p>
+
+<p>
+C. elegans is transparent (not much scatter or absorption) but very autofluorescent.
+
+We tagged via BLAH. We don't know what we tagged, but we also don't care.
+
+Some areas photoswitch a lot (sensor), some only photoswitch a little (gut autofluorescence)
+
+Single color channel (green)
+
+We use 405 to hurry into a prepared state; we could also use thermal equilibrium (which is not the same measurement, and would therefore need different calibration)
+</p>
 
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
@@ -281,6 +299,19 @@ Results</h3>
 </table>
  <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
 </figure><p></p>
+
+<p>
+Sensor channel, simplest possible separation: subtraction.
+Only sensor signal in the "sensor" channel.
+
+Naive algorithm only knows brightness, doesn't know anything about shape, but still does a remarkably good job separating two obviously distinct structures.
+
+Mostly gut in the "background" channel, but some sensor signal too.
+Slightly less simple, still very simple estimation of background (scaled subraction)
+Quantitative calculation of background would take a more sophisticated algorithm (use decay to estimate pH, use pH to estimate subtraction scale factor).
+Quantitative background estimation would mean pH-Countdown consumes ZERO spectral channels.
+Note: we've got the whole mutational history of Countdown; want to try decay-multiplexed imaging?
+</p>
 
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
@@ -315,6 +346,12 @@ Results</h3>
 <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
 </figure><p></p>
 
+<p>
+Relaxation reveals pH (compare to calibration)
+
+We're in the perturbative regime (See Figure 3 bottom left panel) so we only take one measurement. We use the same illumination sequence for calibration and for measurement. Since both samples are transparent, this is ok.
+</p>
+
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 <figure id="ph_sensing_colormap_figure">
@@ -342,6 +379,14 @@ Results</h3>
 </table>
 <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
 </figure><p></p>
+
+<p>
+Bright punctate structures have both slow and fast decay rates, consistent with it's not just concentration dependence.
+
+Continuous structures share similar pH. That's a good sign!
+
+We can measure by "relaxation ratio" or by "activation concavity". Relaxation ratio depends on decay, so it's more quantitative (see Figure 3). It's also higher SNR. Activation concavity is faster though.
+</p>
 
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
