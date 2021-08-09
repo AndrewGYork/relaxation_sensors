@@ -76,11 +76,11 @@ or temperature
 
 [<a class="citation" href="http://doi.org/10.1038/nmeth.2690" title="Genetically encoded fluorescent thermosensors visualize subcellular thermoregulation in living cells; Shigeki Kiyonaka, Taketoshi Kajimoto, Reiko Sakaguchi, Daisuke Shinmi, Mariko Omatsu-Kanbe, Hiroshi Matsuura, Hiromi Imamura, Takenao Yoshizaki, Itaru Hamachi, Takashi Morii &amp; Yasuo Mori; Nature Methods 10, 1232–1238 (2013)">Kiyonaka 2013</a>].
 
-Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against background), or lifetime (which is not compatible with simple microscopes).
+Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against sample opacity or autofluorescence), or lifetime (which is not robust sample autofluoresence, or compatible with simple microscopes).
 </p>
 
 <p class="abstract">
-We've developed a new way to read out quantities of interest (cite our patent), which we call "relaxation sensing". Relaxation sensors are quantitative, robust against background and scattering, and compatible with simple timelapse microscopes. To enable genetically-expressed relaxation sensors, we engineered Countdown, a photoswitchable fluorescent protein  which rapidly spontaneously equilibrates ("relaxes") to a nonfluorescent state. To demonstrate relaxation sensing, we further engineered Countdown into pH-Countdown, a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, even in the presence of enormous autofluorescence and scattering. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
+We've developed a new way to read out quantities of interest (cite our patent), which we call "relaxation sensing". Relaxation sensors are quantitative, robust against sample opacity and autofluorescence, and compatible with simple timelapse microscopes. To enable genetically-expressed relaxation sensors, we engineered Countdown, a photoswitchable fluorescent protein  which rapidly spontaneously equilibrates ("relaxes") to a nonfluorescent state. To demonstrate relaxation sensing, we further engineered Countdown into pH-Countdown, a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, even in the presence of enormous autofluorescence and scattering. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
 
 </p>
 
@@ -113,11 +113,11 @@ An ideal relaxation sensor reveals a quantity of interest, by changing the rate 
 </table>
  <figcaption><strong>Figure 1: An illustration of a photoswitchable relaxation sensor which reveals small molecule concentration.</strong>
 
-<strong>Top panel</strong>: State diagram showing a photoswitchable fluorescent domain (green/grey ribbon diagram) with either an external (blue/yellow triangles) or internal (blue/yellow "Y") domain which binds a target molecule (black circle/ellipse).
+<em><strong>Top panel</strong></em>: State diagram showing a photoswitchable fluorescent domain (green/grey ribbon diagram) with either an external (blue/yellow triangles) or internal (blue/yellow "Y") domain which binds a target molecule (black circle/ellipse).
 
-<strong>Bottom panel</strong>: Population-average signal vs. time during photoswitching (cyan region, left) and relaxation to equilibrium (grey region, right). Sensors which are bound to their target molecule (dotted blue curve) photoswitch and relax more slowly than sensors which are not (solid yellow curve).
+<em><strong>Bottom panel</strong></em>: Population-average signal vs. time during photoswitching (cyan region, left) and relaxation to equilibrium (grey region, right). Sensors which are bound to their target molecule (dotted blue curve) photoswitch and relax more slowly than sensors which are not (solid yellow curve).
 
-<strong>Side panels</strong>: Single-molecule animations of sensor (photo)switching kinetics corresponding to the bottom panel's dotted blue curve (left panel) or solid yellow curve (right panel).
+<em><strong>Side panels</strong></em>: Single-molecule animations of sensor (photo)switching kinetics corresponding to the bottom panel's dotted blue curve (left panel) or solid yellow curve (right panel).
  </figcaption>
 </figure><p></p>
 
@@ -165,28 +165,24 @@ DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK
 <figure id="robust_against_background_figure">
 <img src="./images/robust_against_background_figure/figure.gif" alt="Robust against background figure" id="robust_against_background">
 
- <figcaption><strong>Figure 2: pH-Countdown, a photoswitchable fluorescent protein-based relaxation sensor which quantitatively measures pH despite background, attenuation, and scattering.</strong>
+ <figcaption><strong>Figure 2: pH-Countdown, a photoswitchable fluorescent protein-based relaxation sensor which quantitatively measures pH despite autofluorescent background and attenuation due to absorption and scattering.</strong>
 
-<strong>Upper left panel</strong>: Timelapse photography of fluorescence (green) and reflected light (grayscale) during photoactivation and relaxation of pH-Countdown, in five capillary tubes, each buffered at a different pH. For scale, the capillary inner diameter is 580 &mu;m.
+<em><strong>Upper left panel</strong></em>: Timelapse photography of fluorescence (green) and reflected light (grayscale) during photoactivation and relaxation of pH-Countdown, in five capillary tubes, each buffered at a different pH. For scale, the capillary inner diameter is 580 &mu;m.
 
-<strong>Lower panel</strong>: Normalized fluorescence signal vs. time for each of the capillary tubes shown in the upper panels. Filled circles are from the highlighted regions in the upper left panel, open circles are from the upper right panel. Cyan box shows photoactivation interval (488 nm, 10 mW/cm<sup>2</sup>).
+<em><strong>Lower panel</strong></em>: Normalized fluorescence signal vs. time for each of the capillary tubes shown in the upper panels. Filled circles are from the highlighted regions in the upper left panel, open circles are from the upper right panel. Cyan box shows photoactivation interval (488 nm, 10 mW/cm<sup>2</sup>).
 
-<strong>Upper right panel</strong>: Like the upper left panel, except the capillary tubes are <u>underneath ~1 mm of chicken skin</u>.
+<em><strong>Upper right panel</strong></em>: Like the upper left panel, except the capillary tubes are <u>underneath ~1 mm of chicken skin</u>.
  </figcaption>
 </figure><p></p>
 
 <p>
-As we hoped, pH-Countdown's relaxation curves vary dramatically with pH, over a large pH range (bottom panel). After only a few seconds, the amount of relaxation for each pH is clearly distinguishable, allowing reasonably fast measurement (0.1-1 Hz). The short duration, low intensity measurement illumination (500 &mu;s, 10 mW/cm<sup>2</sup>) does not cause measurable photoactivation, and the low resolution yields a population-averaged measurement (like the bottom panel of Figure 1) rather than stochastic single-molecule kinetics (like the side panels of Figure 1).
+As we hoped, pH-Countdown's relaxation curves vary dramatically with pH, over a large pH range (bottom panel). After only a few seconds, the amount of relaxation for each pH is clearly distinguishable, allowing reasonably fast measurement (0.1-1 Hz). The short measurement duration (500 &mu;s, 10 mW/cm<sup>2</sup>) does not cause measurable photoactivation, and the low resolution yields a population-averaged measurement (like the bottom panel of Figure 1) rather than stochastic single-molecule kinetics (like the side panels of Figure 1).
 
 Note that relaxation rates are several-fold faster at 37&deg;C than 25&deg;C, and this sensor generally requires temperature calibration to yield quantitative pH measurements. 
-
-
 </p>
 
 <p>
-The key point of Figure 2 is that burying our sample underneath a <em>millimeter</em> of partially opaque, highly autofluorescent chicken skin (upper right panel) does not affect the apparent pH reported by our relaxation sensor (bottom panel, open vs. filled circles). Even though the chicken skin substantially attenuates and scatters the illumination and emission light, and is extremely autofluorescent .
-
- This is remarkable; no other fluorescent sensor has this property. What makes relaxation sensors so robust against 
+The key point of Figure 2 is that burying our sample underneath a <em>millimeter</em> of partially opaque, highly autofluorescent chicken skin (upper right panel) does not affect the apparent pH reported by our relaxation sensor (bottom panel, open vs. filled circles). This is remarkable; no other fluorescent sensor has this property. What makes relaxation sensors so quantitatively robust despite background and opacity?
 </p>
 
 <figure id="sensor_mechanism_comparison_figure">
@@ -202,12 +198,67 @@ The key point of Figure 2 is that burying our sample underneath a <em>millimeter
   </select></td>
     </tr>
 </table>
- <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
+ <figcaption><strong>Figure 3: Confounding factors like sensor quantity or autofluorescent background add systematic error to quantitative measurements via fluorescence intensity or lifetime, but only affect the signal-to-noise ratio of relaxation-based measurements.</strong>
+
+<em><strong>Upper left panel</strong></em>: Signal vs. time for an intensity sensor does not discriminate between analyte concentration, amount of background, amount of sensor, or amount of illumination.
+
+<em><strong>Center left panel</strong></em>: Signal vs. time for a lifetime sensor does not discriminate between analyte concentration and sensor-to-background ratio.
+
+<em><strong>Lower left panel</strong></em>: Normalized signal vs. time for a photoswitchable relaxation sensor depends strongly on analyte concentration, but does not depend on amount of background or sensor, and depends only weakly on amount of illumination.
+</figcaption>
 </figure><p></p>
 
-<p>How do we calculate the curves from the signal? - self-normalizing!</p>
+<p>
+As shown in Figure 3, the signal from a single-color intensity sensor (top left panel, e.g. 
 
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+[<a class="citation" href="http://doi.org/10.1038/28190" title="Visualizing secretion and synaptic transmission with pH-sensitive green fluorescent proteins; Gero Miesenböck, Dino A. De Angelis &amp; James E. Rothman; Nature 394, 192–195 (1998)">Miesenböck 1998</a>])
+
+is ambiguous. Brighter or dimmer signal might mean the concentration of analyte changed, but could also mean the amount of sensor changed, or the amount of background, or the amount of illumination, or even the opacity of the sample. In some cases (e.g. calcium dynamics
+
+[<a class="citation" href="http://doi.org/10.25378/janelia.13148243" title="jGCaMP8 Fast Genetically Encoded Calcium Indicators; Y. Zhang, M. Rózsa, D. Bushey, J. Zheng, D. Reep, G. J. Broussard, A. Tsang, G. Tsegaye, R. Patel, S. Narayan, J. X. Lim, R. Zhang, M. B. Ahrens, G. C. Turner, S. S.-H. Wang, K. Svoboda, W. Korff, E. R. Schreiter, J. P. Hasseman, I. Kolb, L. L Looger; (2020)">Zhang 2020</a>])
+
+we can assume all confounding factors are constant over short timescales, and only analyte concentration varies. If so, we can infer analyte dynamics, but not analyte quantities.
+</p>
+
+<p>
+Dual-color intensity measurements can help control for the amount of sensor. If both color channels are generated from a single fluorescent domain, their intensity ratio is self-normalizing,  and reveals absolute analyte quantities in highly transparent, background-free samples
+
+(e.g. [<a class="citation" href="https://doi.org/10.1152/ajpheart.1998.275.6.H1937" title="pHi and pHo at different depths in perfused myocardium measured by confocal fluorescence microscopy; Barbara J. Muller-Borer, Hua Yang, Sayed A. M. Marzouk, John J. Lemasters, and Wayne E. Cascio; American Journal of Physiology-Heart and Circulatory Physiology 275:6, H1937-H1947 (1998)">Muller-Borer 1998</a>,
+
+<a class="citation" href="http://doi.org/10.4236/abb.2011.23021" title="Investigating Mitochondrial Redox Potential with Redox-sensitive Green Fluorescent Protein Indicators; George T. Hanson, Robert Aggeler, Devin Oglesbee, Mark Cannon, Roderick A. Capaldi, Roger Y. Tsien, and S. James Remington; The Journal of Biological Chemistry 279, 13, 13044–13053 (2004)">Hanson 2004</a>, 
+
+<a class="citation" href="http://doi.org/10.4236/abb.2011.23021" title="pHluorin2: an enhanced, ratiometric, pH-sensitive green florescent protein; Matthew John Mahon; Advances in Bioscience and Biotechnology, 2, 132-137 (2011)">Mahon 2011</a>]).
+
+Unfortunately, autofluorescence, scattering, or absorption from the sample distorts the ratio of the two channels. If the two channels come from separate fluorescent proteins, the two proteins also won't mature, degrade, or photobleach at the same rate
+
+(e.g. [<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>]). These sources of sample-dependent systematic errors are quite common, and difficult to eliminate, predict, or calibrate.
+</p>
+
+<p>
+The nanosecond-scale decay rate of a lifetime sensor (Figure 3, middle left panel) is self-normalizing and reveals absolute analyte quantity, in samples with no fluorescent background
+
+(e.g. [<a class="citation" href="https://doi.org/10.7554/eLife.44522" title="Optical estimation of absolute membrane potential using fluorescence lifetime imaging; Julia R Lazzari-Dean, Anneliese MM Gest, Evan W Miller; eLife 8:e44522 (2019)">Lazzari-Dean 2019</a>, 
+
+<a class="citation" href="https://doi.org/10.1101/2021.06.21.449214" title="A turquoise fluorescence lifetime-based biosensor for quantitative imaging of intracellular calcium; Franka H. van der Linden, Eike K. Mahlandt, Janine J.G. Arts, Joep Beumer, Jens Puschhof, Saskia M.A. de Man, Anna O. Chertkova, Bas Ponsioen, Hans Clevers, Jaap D. van Buul, Marten Postma, Theodorus W.J. Gadella Jr. &amp; Joachim Goedhart; bioRxiv 2021.06.21.449214 (2021)">van der Linden 2021</a>]).
+
+Lifetime measurement is expensive, slow, and rare compared to intensity measurement, but also valuable because nonfluorescent background, scattering, and absorption distorts intensities, but not decay rates. Unfortunately, fluorescent background distorts decay rates: the lifetime signal becomes the sum of at least two decaying exponentials, only one of which is due to the sensor (middle left panel of Figure 3 with <code>Animated quantity: Background</code> selected). The sum of two (or more) similar-rate exponentials is almost indistinguishable from a single-exponential with intermediate decay rate, and most (auto)fluorescence has similar fluorescent lifetime (1-5 ns). This causes sample-dependent systematic error which is quite common, and difficult to eliminate, predict, or calibrate. 
+</p>
+
+<p>
+In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption have no systematic effect on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
+</p>
+
+<p>
+Relaxation sensing shows incredible promise, but our current implementation has important caveats. pH-Countdown's apparent decay rate depends weakly on the amount of illumination during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated, since the activation rate reveals the amount of illumination, but this can also be predicted by using calibrated illumination (Figure 4-6), or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern (cite dreiklang). pH-Countdown's relaxation also takes at least a few seconds; signal interpretation is much simpler if the sample holds still during this time. Engineering faster relaxation sensors or developing more sophisticated analysis would allow faster-moving samples.
+</p>
+
+<p>
+The fundamental strength of relaxation sensing is that spontaneous decay signals do not resemble other signals that biological samples typicall produce. In the unfortunate case where the sample photoswitches and spontaneously rapidly relaxes, we would have to use a relaxation sensor with a distinguishable (much faster or much slower) spontaneous rate. Fortunately, such samples are quite rare, in our experience.
+</p>
+
+
+<h3>
+Results</h3>
 
 <figure id="autofluorescence_data_figure">
 <img src="./images/autofluorescence_figure/1_data_animation.gif" alt="Autofluorescence data figure" id="autofluorescence_figure_data_animation">
