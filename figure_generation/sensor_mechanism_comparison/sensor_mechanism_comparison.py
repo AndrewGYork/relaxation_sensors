@@ -124,7 +124,7 @@ def make_frame(
 
     # Intensity sensors
     ax1 = plt.axes((0.07, 0.76, 0.5, 0.23))
-    ax1.text(0.24, 0.8, "Fluorescence intensity sensors",
+    ax1.text(0.23, 0.8, "Fluorescence intensity sensors",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 12},
@@ -160,7 +160,7 @@ def make_frame(
 
     # Lifetime sensors
     ax2 = plt.axes((0.07, 0.43, 0.5, 0.23))
-    ax2.text(0.24, 0.8, "Fluorescence lifetime sensors",
+    ax2.text(0.23, 0.8, "Fluorescence lifetime sensors",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 12},
@@ -204,7 +204,7 @@ def make_frame(
 
     # Relaxation sensors
     ax3 = plt.axes((0.07, 0.1, 0.5, 0.23))
-    ax3.text(0.24, 0.8, "Isomer relaxation sensors",
+    ax3.text(0.23, 0.8, "Fluorescence relaxation sensors",
              fontdict={'color': (0, 0, 0),
                        'weight': 'bold',
                        'size': 12},
