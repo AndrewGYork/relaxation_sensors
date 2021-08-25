@@ -243,7 +243,7 @@ The nanosecond-scale decay rate of a lifetime sensor (Figure 3, middle left pane
 
 <a class="citation" href="https://doi.org/10.1101/2021.06.21.449214" title="A turquoise fluorescence lifetime-based biosensor for quantitative imaging of intracellular calcium; Franka H. van der Linden, Eike K. Mahlandt, Janine J.G. Arts, Joep Beumer, Jens Puschhof, Saskia M.A. de Man, Anna O. Chertkova, Bas Ponsioen, Hans Clevers, Jaap D. van Buul, Marten Postma, Theodorus W.J. Gadella Jr. &amp; Joachim Goedhart; bioRxiv 2021.06.21.449214 (2021)">van der Linden 2021</a>]).
 
-Lifetime measurement is expensive, slow, and rare compared to intensity measurement, but also valuable because nonfluorescent background, scattering, and absorption distorts intensities, but not decay rates. Unfortunately, fluorescent background distorts decay rates: the lifetime signal becomes the sum of at least two decaying exponentials, only one of which is due to the sensor (middle left panel of Figure 3 with <code>Animated quantity: Background</code> selected). The sum of two (or more) similar-rate exponentials is almost indistinguishable from a single-exponential with intermediate decay rate, and most (auto)fluorescence has similar fluorescent lifetime (1-5 ns). This causes sample-dependent systematic error which is quite common, and difficult to eliminate, predict, or calibrate. 
+Lifetime measurement is expensive, slow, and rare compared to intensity measurement, but also valuable because nonfluorescent background, scattering, or absorption distorts intensities, but not decay rates. Unfortunately, fluorescent background distorts decay rates: the lifetime signal becomes the sum of at least two decaying exponentials, only one of which is due to the sensor (middle left panel of Figure 3 with <code>Animated quantity: Background</code> selected). The sum of two (or more) similar-rate exponentials is almost indistinguishable from a single-exponential with intermediate decay rate, and most (auto)fluorescence has similar fluorescent lifetime (1-5 ns). This causes sample-dependent systematic error which is quite common, and difficult to eliminate, predict, or calibrate. 
 </p>
 
 <p>
@@ -266,9 +266,21 @@ The fundamental strength of relaxation sensing is that spontaneous decay signals
 <h3>
 Results</h3>
 
+<p>
+To demonstrate relaxation sensing in living creatures, we transfected yeast (<em>S. cerevisiae</em>), mammalian cells (COS-7), and worms (<em>C. elegans</em>) with pH-Countdown.  Due to high autofluorescence in the green channel from gut granules
+
+[<a class="citation" href="https://doi.org/10.21769/BioProtoc.2940" title="Overcoming Autofluorescence to Assess GFP Expression During Normal Physiology and Aging in Caenorhabditis elegans; AC Teuscher and CY Ewald; Bio-101: e2940 (2018)">Brakemann 2011</a>],
+
+ <em>C. elegans</em> is the most challenging, and therefore the most interesting sample. Figure 4 shows photoactivation curves in a live (but paralyzed) <em>C. elegans</em>.
+</p>
+
 <figure id="autofluorescence_data_figure">
 <img src="./images/autofluorescence_figure/1_data_animation.gif" alt="Autofluorescence data figure" id="autofluorescence_figure_data_animation">
- <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
+ <figcaption><strong>Figure 4: Our pH-Countdown relaxation sensor photoswitches in a live worm, but autofluorescence does not.</strong>
+ 
+<strong><em>Main panel</em></strong>: Raw timelapse animation (grayscale) of the middle portion of a <em>C. elegans</em>  transfected with a Peft-3::pH-Countdown::unc-54 plasmid, measured in the GFP-channel of a simple fluorescence microscope. The field of view is 260x210 &mu;m<sup>2</sup>. Green box marks a region containing mostly sensor, magenta box marks a region containing mostly autofluorescence.
+ 
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (green) and mostly-autofluorescence (magenta) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 405 nm light, cyan overlay shows photoactivation and fluorescence excitation vs. time via 488 nm light.</figcaption>
 </figure><p></p>
 
 <p>
