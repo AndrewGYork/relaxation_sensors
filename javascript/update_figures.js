@@ -38,3 +38,21 @@ function update_ph_sensing_colormap_figure() {
   var image = document.getElementById("ph_sensing_figure_colormap");
   image.src = filename;
 }
+
+function update_robustness_quantitation_figure() {
+  var filename = "./images/robustness_quantitation_figure/" + document.getElementById("robustness_animation_").value; 
+  var image = document.getElementById("robustness_animation");
+  image.src = filename;
+  }  
+
+function update_buffer_sensitivity_figure() {
+  var filename = "./images/buffer_sensitivity_figure/" + document.getElementById("buffer_sensitivity_").value; 
+  var image = document.getElementById("buffer_sensitivity");
+  image.src = filename;
+  }  
+
+  function update_temperature_sensitivity_figure() {
+  var filename = "./images/temperature_sensitivity_figure/" + document.getElementById("temperature_sensitivity_").value; 
+  var image = document.getElementById("temperature_sensitivity");
+  image.src = filename;
+  } 
