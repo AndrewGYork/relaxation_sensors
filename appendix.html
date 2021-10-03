@@ -67,10 +67,20 @@ Relaxation rate and protein concentration</h3>
 The relaxation rate and protein concentration
 </p>
 
+
+<h3 id="mito">Mammalian cell imaging</h3>
+We prepared COS7 cells transiently expessing pH-countdown targeted to the mitochondrial matrix using a Cox8A pre-sequence. We imaged the samples in live cell imaging solution (ThermoFisher, A14291DJ) at 35C on a DMI8 widefield microscope controlled with micromanager using a 63x1.4 NA objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters. Data was aquired in the 'disruptive' regime with a 2 second decay period after activation. We induced uncoupling by adding a final concentration of 3uM CCCP. pH values were calculated using cells permeabilized with 10 uM nigericin in 200 ul Spexyte buffers + 300 ul Carmody buffers supplemented with 100 mM KCl at pH 6, 6.5, 7, 7.5 and 8.
+<img src="./images/mitochondria/mitochondria_cccp.gif" alt="A photograph of mito" id="mito">
+ <figcaption><strong>Figure: Mitochondrial pH decrease upon addition of the uncoupler CCCP. <em>Left panel:</em></strong> timelapse images of mitochondria. Pseudocolor indicates pH, which decreases upon addition of CCCP. <strong><em>Right panel: </em></strong> calculated pH vs time. 
+ </figcaption>
+
+<h3 id="yeast">yeast</h3>
+<img src="./images/yeast/yeast.png" alt="A photograph of yeast" id="yeast">
+
 <h3>
 Relaxation rate temperature dependence</h3>
 <p>
-Beads on CB buffer DMI8 with vaheat
+We imaged Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-countdown in the 'non-disruptive mode' on a DMI8 wide-field microscope controlled with micromanager using a 10x0.23NA objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters. Samples were in carmody buffer and temperature was maintained using a VAHEAT control system. 
 </p>
 
 
@@ -97,14 +107,13 @@ Beads on CB buffer DMI8 with vaheat
     </tr>
 </table>
  <figcaption><strong>Figure: pH-countdown temperature dependence</strong>
-
  </figcaption>
 </figure>
 
 <h3>
-Relaxation rate buffer components dependence</h3>
+Relaxation rate dependence on buffer components</h3>
 <p>
-Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-countdown were imaged on a wide-field microscope in different solutions. We measured NaCl, KCl, MgCl<sub>2</sub>, MgSO<sub>4</sub>, glycerol, DTT, and peroxide dependencies in 45 mM sodium phosphate buffer, pHed to 8 at room temperature, by mixing solutions from concentrated stocks. CaCl<sub>2</sub> was titrated in HEPES buffer, pH 8. The above mentioned experimets were carried out at 30C. Screening of buffering agent was done at 25C to avoid pH changes due to temperature. 
+Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-countdown were imaged on a wide-field microscope in different solutions using the 'non-disruptive' aquisition mode. We measured NaCl, KCl, MgCl<sub>2</sub>, MgSO<sub>4</sub>, glycerol, DTT, and peroxide dependencies in 45 mM sodium phosphate buffer, pHed to 8 at room temperature, by mixing solutions from concentrated stocks. CaCl<sub>2</sub> was titrated in HEPES buffer, pH 8, to avoid calcium phosphate precipitation. The above mentioned experiments were carried out at 30C using an OKO temperature controlled stage-top chamber. Screening of buffering agent effects was done at 25C with a VAHEAT temperature control system, using buffers with pH adjusted at 25C.
 </p>
 
 <figure id="buffer_sensitivity_figure">
@@ -137,7 +146,7 @@ Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-countdown were imaged
 <h3>
 Robustness of pH-countdown relaxation rates against scattering, background and attenuation</h3>
 <p>
-To investigate robustness against stcattering, attenuation and background, we imaged 5 ul drops of 7 mg/ml pH countdown in carmody buffer sandwiched between a slide and a coverslip, contained using 0.5 mm thick silicone spacers with 6.6 mm holes. We covered the sample with ground glass (DG100X100-120, DG100X100-220, DG100X100-600 or DG100X100-1500, Thorlabs) to assess the effect of scattering, with neutral density filters (NE201B, NE202B, NE203B or NE204B, Thorlabs) to assess the effects of attenuation, or with hybridization chambers (70333-50 and 71862-01, EMS) filled with different concentrations of fluorescein in PBS to assess the effects of background. Temperature was set to 25C using an OKO chamber, and imaged on our custom macro imager. 
+To investigate robustness against stcattering, attenuation and background, we imaged 5 ul drops of 7 mg/ml pH countdown in carmody buffer sandwiched between a slide and a coverslip, contained using 0.5 mm thick silicone spacers with 6.6 mm holes. We covered the sample with ground glass (DG100X100-120, DG100X100-220, DG100X100-600 or DG100X100-1500, Thorlabs) to assess the effect of scattering, with neutral density filters (NE201B, NE202B, NE203B or NE204B, Thorlabs) to assess the effects of attenuation, or with hybridization chambers (70333-50 and 71862-01, EMS) filled with different concentrations of fluorescein in PBS to assess the effects of background. Temperature was set to 25C using an OKO chamber, and imaged in the 'non-disruptive' mode on our custom macro imager. 
 These properties make countdown sensors particularly well suited for imaging in tissues.
 </p>
 <figure id="robustness_quantitation_figure">
@@ -157,12 +166,6 @@ These properties make countdown sensors particularly well suited for imaging in 
 
  </figcaption>
 </figure>
-
-<h3>
-Mammalian cell imaging</h3>
-<p>
-The relaxation rate
-</p>
 
 <h3>
 Mutagenesis</h3>
@@ -264,7 +267,7 @@ We constructed libraries screening for linker length and residue type using Gibs
 <h3>
 C. elegans imaging</h3>
 <p>
-We used a standard microinjection procedure (Mello 1991) to introduce 25 ng/ul Peft-3::pH-countdown::unc-54 pUC57 mixed with 20 ng/ul pRF4 into the gonads of young N2E hemaphrodite C. elegans. Progeny displaying the roller phenotype were inspected for sensor expression after 48 hours at 25 degrees. For imaging, we placed the worms on 3% agarose pads containing a drop of 2 mM levamisole and covered them with a 1.5 coverslip. We imaged the samples on a DMI8 widefield microscope controlled with micromanager using a 40x0.85 NA objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters.
+We used a standard microinjection procedure (Mello 1991) to introduce 25 ng/ul Peft-3::pH-countdown::unc-54 pUC57 mixed with 20 ng/ul pRF4 into the gonads of young N2E hemaphrodite C. elegans. Progeny displaying the roller phenotype were inspected for sensor expression after 48 hours at 25 degrees. For imaging, we placed the worms on 3% agarose pads containing a drop of 2 mM levamisole and covered them with a 1.5 coverslip. We imaged the samples on a DMI8 widefield microscope controlled with micromanager using a 40x0.85 NA objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters. Data was aquired in the 'disruptive' regime.
 </p>
 
 <h3 id="chicken_blaster">
@@ -386,7 +389,25 @@ We acquired macroimages on a custom-built setup (detailed parts list below) cont
 </table>  
 </p>
 
-
+<h3>
+Disruptive vs non-disruptive imaging modes</h3>
+<p>
+pH-coundtown requires a relatively low dose of 488 nm light in order to activate. As a result, at high magnifications, where there are few proteins per pixel, it becomes challenging to take high SNR pictures that do not cause activation. For this reason, we image in a 'disuptive' mode, where we take 5-10 pictures that have good SNR and also cause activation, and image the decay at a single point after a waiting period on the order of 2 to 15 seconds. This type of measurement is instrument and intensity dependent, and determining the pH absolutely requires a calibration. At low magnifications, where there is a large concentration of fluorophores per voxel, it is straight forward to aquire a good SNR picture that does not cause significant activation. We call this the 'non-disruptive' imaging mode, and we set it up by activating through interleaving high doses of 488 nm light in between images, and recording the whole decay trace after activation. This should measure a relaxation rate that is a property of the fluorophore, and therefore instrument and aquisition parameter independent.
+ </p> 
+<h3>
+Plasmids and sequences</h3>
+<p>
+<a href="./data_generation/sequences/pQE31_countdown.dna">pQE31-countdown</a> (E. coli plasmid; <a href="./data_generation/sequences/pQE31_countdown.txt">plain text format</a>)
+</p>
+<p>
+<a href="./data_generation/sequences/pQE31_pHcountdown.dna">pQE31-pHcountdown</a> (E. coli plasmid; <a href="./data_generation/sequences/pQE31_pHcountdown.txt">plain text format;</a> <a href="./data_generation/sequences/pHcountdown_coding.png">coding sequence snapshot</a>)
+</p>
+<p>
+<a href="./data_generation/sequences/N1_Mito_pHcountdown.dna">N1-Mito-pHcountdown</a> (mammalian cell plasmid; <a href="./data_generation/sequences/N1_Mito_pHcountdown.txt">plain text format</a>)
+</p>
+<p>
+<a href="./data_generation/sequences/eft_pHcountdown_unc54.dna">eft-pHcountdown-unc54</a> (C. elegans plasmid; <a href="./data_generation/sequences/eft_pHcountdown_unc54.txt">plain text format</a>)
+</p>
 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 
