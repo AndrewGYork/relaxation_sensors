@@ -59,7 +59,7 @@ The real text begins here.
 <p class="author_list">Zümra Peksağlam Seidel, Andrew G. York<sup>*</sup>, Maria Ingaramo<sup>&dagger;</sup></p>
 <p class="author_affiliations">Calico Life Sciences LLC, South San Francisco, CA 94080, USA</p>
 <p class="contact_email"><sup>*</sup>Permanent email: <a href="mailto:andrew.g.york+relaxationsensors@gmail.com" target="_self">andrew.g.york+relaxationsensors@gmail.com</a></p>
-<p class="contact_email"><sup>&dagger;</sup>Institutional email: <a href="mailto:ingaramo@calicolabs.com" target="_self">ingaramo@calicolabs.com</a></p>
+<p class="contact_email"><sup>&dagger;</sup>Permanent email: <a href="mailto:maria.del.mar.ingaramo+relaxationsensors@gmail.com" target="_self">maria.del.mar.ingaramo+relaxationsensors@gmail.com</a></p>
 
 <a id="Abstract" href="#Abstract" target="_self">
 <h4>Abstract</h4></a>
@@ -84,7 +84,25 @@ We've developed a new way to read out quantities of interest
 
 [<a class="citation" href="https://patents.google.com/patent/WO2021163502A1" title="Engineered fluorescent spontaneous isomerization rate biosensors; Maria Ingaramo, Andrew York; International Patent Application No. WO2021163502A1 (2020)">Ingaramo 2020</a>],
 
-which we call "relaxation sensing". Relaxation sensors are quantitative, robust against sample opacity and autofluorescence, and compatible with simple timelapse microscopes. To enable genetically-expressed relaxation sensors, we engineered Countdown, a photoswitchable fluorescent protein  which rapidly spontaneously equilibrates ("relaxes") to a nonfluorescent state. To demonstrate relaxation sensing, we further engineered Countdown into pH-Countdown, a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, despite substantial autofluorescence and opacity. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
+which we call "relaxation sensing". Relaxation sensors are quantitative, robust against sample opacity and autofluorescence, and compatible with simple timelapse microscopes. To enable genetically-expressed relaxation sensors, we engineered 
+
+<a href="./appendix.html#sequences"
+title="
+MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
+YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
+DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+>Countdown</a>,
+
+a photoswitchable fluorescent protein  which rapidly spontaneously equilibrates ("relaxes") to a nonfluorescent state. To demonstrate relaxation sensing, we further engineered Countdown into 
+
+<a href="./appendix.html#sequences"
+title="
+MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPLEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
+YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
+DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+>pH-Countdown</a>,
+
+ a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, despite substantial autofluorescence and opacity. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
 
 </p>
 
@@ -130,40 +148,35 @@ An ideal relaxation sensor reveals a quantity of interest, by changing the rate 
 </p>
 
 <p>
-How practical is this approach? All photoswitchable fluorescent proteins "relax", spontaneously equilibrating to some steady-state ratio of active and inactive states. Unfortunately, this process typically takes hours - much too slow for most sensing applications. Fortunately, we've spent several years engineering a photoswitchable fluorescent protein that rapidly spontaneously equilibrates to the inactive state, in seconds instead of hours. Starting from a Dronpa derivative 
+How practical is this approach? All photoswitchable fluorescent proteins "relax", spontaneously equilibrating to some steady-state ratio of active and inactive states. Unfortunately, this process typically takes hours - much too slow for most sensing applications. Fortunately, we've spent several years engineering a photoswitchable fluorescent protein that rapidly spontaneously equilibrates to the inactive state, in seconds instead of hours. Starting from a <a href="https://www.fpbase.org/protein/dronpa/">Dronpa</a> derivative 
 
 [<a class="citation" href="http://doi.org/10.1126/science.1102506" title="Regulated Fast Nucleocytoplasmic Shuttling Observed by Reversible Protein Highlighting; Ryoko Ando, Hideaki Mizuno, Atsushi Miyawaki; Science 306, 5700, 1370-1373 (2004)">Ando 2004</a>]
 
-called "Padron"
+called "<a href="https://www.fpbase.org/protein/padron/">Padron</a>"
 
 [<a class="citation" href="http://doi.org/10.1038/nbt.1493" title="Photoswitchable fluorescent proteins enable monochromatic multilabel imaging and dual color fluorescence nanoscopy; Martin Andresen, Andre C Stiel, Jonas Fölling, Dirk Wenzel, Andreas Schönle, Alexander Egner, Christian Eggeling, Stefan W Hell &amp; Stefan Jakobs; Nature Biotechnology 26, 1035–1040 (2008)">Andresen 2008</a>], 
 
 we iteratively introduced roughly 20 mutations to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
-
-"<a href="
-MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
-YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
-DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+"<a href="./appendix.html#sequences"
 title="
 MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
 YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
 DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
->Countdown</a>". 
+>Countdown</a>".
 
 Like Padron, Countdown photoswitches between a bright green fluorescent active state and a nonfluorescent inactive state. Cyan light activates and excites Countdown, violet light inactivates Countdown, and thermal equilibrium favors the inactive state.
 </p>
 
 <p>
-As a proof-of-principle, we used Countdown to make a relaxation sensor for pH. We did three rounds of mutagenesis, screening for strong pH-dependence in the first several seconds of the relaxation curve, to produce
-"<a href="
-MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPLEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
-YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
-DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+As a proof-of-principle, we used Countdown to make a relaxation sensor for pH. We did three rounds of <a href="./appendix.html#countdown_mutagenesis">mutagenesis</a>, screening for strong pH-dependence in the first several seconds of the relaxation curve, to produce
+"<a href="./appendix.html#sequences"
 title="
 MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPLEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
 YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
 DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
->pH-Countdown</a>". Figure 2 shows photoactivation/relaxation curves for pH-Countdown at 25&deg;C, as a function of pH, acquired with a simple LED-based <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>.
+>pH-Countdown</a>".
+
+Figure 2 shows photoactivation/relaxation curves for pH-Countdown at 25&deg;C, as a function of pH, acquired with a simple LED-based <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>.
 </p>
 
 <figure id="robust_against_background_figure">
@@ -173,16 +186,16 @@ DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK
 
 <em><strong>Upper left panel</strong></em>: Timelapse <a href="./appendix.html#chicken_blaster">photography</a> of fluorescence (green) and reflected light (grayscale) during photoactivation and relaxation of pH-Countdown, in five capillary tubes, each buffered at a different pH. For scale, the capillary inner diameter is 580 &mu;m.
 
-<em><strong>Lower panel</strong></em>: Normalized fluorescence signal vs. time for each of the capillary tubes shown in the upper panels. Filled circles are from the highlighted regions in the upper left panel, open circles are from the upper right panel. Cyan box shows photoactivation interval (488 nm, 10 mW/cm<sup>2</sup>).
+<em><strong>Lower panel</strong></em>: Normalized fluorescence signal vs. time for each of the capillary tubes shown in the upper panels. Filled circles are from the highlighted regions in the upper left panel, open circles are from the upper right panel. Cyan box shows photoactivation interval (470&plusmn;20 nm, 10 mW/cm<sup>2</sup>).
 
 <em><strong>Upper right panel</strong></em>: Like the upper left panel, except the capillary tubes are <u>underneath ~1 mm of chicken skin</u>.
  </figcaption>
 </figure><p></p>
 
 <p>
-As we hoped, pH-Countdown's relaxation curves vary dramatically with pH, over a large pH range (bottom panel). After only a few seconds, the amount of relaxation for each pH is clearly distinguishable, allowing reasonably fast measurement (0.1-1 Hz). The short illumination duration during imaging (500 &mu;s, 10 mW/cm<sup>2</sup>) does not cause measurable photoactivation, and the low resolution yields a population-averaged measurement (like the bottom panel of Figure 1) rather than stochastic single-molecule kinetics (like the side panels of Figure 1).
+As we hoped, pH-Countdown's relaxation curves vary dramatically with pH, over a large pH range (bottom panel). After only a few seconds, the amount of relaxation for each pH is clearly distinguishable, allowing reasonably fast measurement (0.1-1 Hz). The short illumination duration during imaging (500 &mu;s, 10 mW/cm<sup>2</sup>) <a href="./appendix.html#activation_due_to_measurement">does not cause measurable photoactivation</a>, and the low resolution yields a population-averaged measurement (like the bottom panel of Figure 1) rather than stochastic single-molecule kinetics (like the side panels of Figure 1).
 
-Note that relaxation rates are several-fold faster at 37&deg;C than 25&deg;C, and this sensor generally requires temperature calibration to yield quantitative pH measurements. 
+Note that relaxation rates are several-fold faster at <a href="./appendix.html#temperature_dependence">37&deg;C than 25&deg;C</a>, and this sensor generally requires temperature calibration to yield quantitative pH measurements. 
 </p>
 
 <p>
@@ -251,11 +264,11 @@ Lifetime measurement is expensive, slow, and rare compared to intensity measurem
 </p>
 
 <p>
-In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption have no systematic effect on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
+In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption have <a href="./appendix.html#robust_against_perturbations">no systematic effect</a> on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
 </p>
 
 <p>
-Relaxation sensing shows incredible promise, but our current implementation leaves room for improvement. pH-Countdown's apparent decay rate depends weakly on the amount of illumination during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
+Relaxation sensing shows incredible promise, but our current implementation leaves room for improvement. pH-Countdown's apparent decay rate <a href="./appendix.html#activation_due_to_measurement">depends weakly on the amount of illumination</a> during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
 
 [<a class="citation" href="https://doi.org/10.1038/nbt.1952" title="A reversibly photoswitchable GFP-like protein with fluorescence excitation decoupled from switching; Brakemann T, Stiel Ac, Weber G, Andresen M, Testa I, Grotjohann T, Leutenegger M, Plessmann U, Urlaub H, Eggeling C, Wahl Mc, Hell Sw, Jakobs S; Nature Biotechnology, 29(10), 942-947 (2011)">Brakemann 2011</a>].
 
@@ -271,7 +284,7 @@ The fundamental strength of relaxation sensing is that spontaneous decay signals
 Results</h3>
 
 <p>
-To demonstrate relaxation sensing in living creatures, we transfected yeast (<em>S. cerevisiae</em>), mammalian cells (COS-7), and worms (<em>C. elegans</em>) with pH-Countdown.  Due to high autofluorescence in the green channel from gut granules
+To demonstrate relaxation sensing in living creatures, we transfected <a href="./appendix.html#ph_countdown_in_yeast">yeast</a> (<em>S. cerevisiae</em>), <a href="./appendix.html#mitochondria_in_mammalian_cells">mammalian cells</a> (COS-7), and worms (<em>C. elegans</em>) with pH-Countdown.  Due to high autofluorescence in the green channel from gut granules
 
 [<a class="citation" href="https://doi.org/10.21769/BioProtoc.2940" title="Overcoming Autofluorescence to Assess GFP Expression During Normal Physiology and Aging in Caenorhabditis elegans; AC Teuscher and CY Ewald; Bio-101: e2940 (2018)">Brakemann 2011</a>],
 
