@@ -260,7 +260,7 @@ The nanosecond-scale decay rate of a lifetime sensor (Figure 3, middle left pane
 
 <a class="citation" href="https://doi.org/10.1101/2021.06.21.449214" title="A turquoise fluorescence lifetime-based biosensor for quantitative imaging of intracellular calcium; Franka H. van der Linden, Eike K. Mahlandt, Janine J.G. Arts, Joep Beumer, Jens Puschhof, Saskia M.A. de Man, Anna O. Chertkova, Bas Ponsioen, Hans Clevers, Jaap D. van Buul, Marten Postma, Theodorus W.J. Gadella Jr. &amp; Joachim Goedhart; bioRxiv 2021.06.21.449214 (2021)">van der Linden 2021</a>]).
 
-Lifetime measurement is expensive, slow, and rare compared to intensity measurement, but also valuable because nonfluorescent background, scattering, or absorption distorts intensities, but not decay rates. Unfortunately, fluorescent background distorts decay rates: the lifetime signal becomes the sum of at least two decaying exponentials, only some of which are due to the sensor (middle left panel of Figure 3 with <code>Animated quantity: Background</code> selected). The sum of two (or more) similar-rate exponentials is almost indistinguishable from a single-exponential with intermediate decay rate, and most (auto)fluorescence has similar fluorescent lifetime (1-5 ns). This causes sample-dependent systematic error which is quite common, and difficult to eliminate, predict, or calibrate. 
+Lifetime measurement is expensive, slow, and rare compared to intensity measurement, but also valuable because nonfluorescent background, scattering, or absorption distorts intensities, but not decay rates. Unfortunately, <em>fluorescent</em> background distorts decay rates: the lifetime signal becomes the sum of at least two decaying exponentials, only some of which are due to the sensor (middle left panel of Figure 3 with <code>Animated quantity: Background</code> selected). The sum of two (or more) similar-rate exponentials is almost indistinguishable from a single-exponential with intermediate decay rate, and most (auto)fluorescence has similar fluorescent lifetime (1-5 ns). This causes sample-dependent systematic error which is quite common, and difficult to eliminate, predict, or calibrate. 
 </p>
 
 <p>
@@ -288,7 +288,7 @@ To demonstrate relaxation sensing in living creatures, we transfected <a href=".
 
 [<a class="citation" href="https://doi.org/10.21769/BioProtoc.2940" title="Overcoming Autofluorescence to Assess GFP Expression During Normal Physiology and Aging in Caenorhabditis elegans; AC Teuscher and CY Ewald; Bio-101: e2940 (2018)">Brakemann 2011</a>],
 
- <em>C. elegans</em> is the most challenging, and therefore the most interesting sample. Figure 4 shows photoactivation curves in a live (but <a href="./appendix.html#elegans_imaging">paralyzed</a>) <em>C. elegans</em>.
+ <em>C. elegans</em> is the most challenging, and therefore the most interesting sample. Figure 4 shows pH-Countdown photoactivation in a live (but <a href="./appendix.html#elegans_imaging">paralyzed</a>) <em>C. elegans</em>.
 </p>
 
 <figure id="autofluorescence_data_figure">
@@ -297,25 +297,29 @@ To demonstrate relaxation sensing in living creatures, we transfected <a href=".
  
 <strong><em>Main panel</em></strong>: Raw timelapse animation (grayscale) of the middle portion of a <em>C. elegans</em> carrying a Peft-3::pH-Countdown::unc-54 plasmid, measured in the GFP channel of a simple fluorescence microscope. The field of view is 260x210 &mu;m<sup>2</sup>. Green box marks a region containing mostly sensor, magenta box marks a region containing mostly autofluorescence.
  
- <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (green) and mostly-autofluorescence (magenta) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 405 nm light, cyan overlay shows photoactivation and fluorescence excitation vs. time via 488 nm light.</figcaption>
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (green) and mostly-autofluorescence (magenta) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan overlay shows photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination.</figcaption>
 </figure><p></p>
 
 <p>
-The GFP-channel timelapse in Figure 4 shows both autofluorescent background and pH-Countdown.
+The GFP-channel timelapse in Figure 4 shows both autofluorescent background and pH-Countdown signal. We drive pH-Countdown toward the inactive state with violet light (inset, vertical violet lines), and acquire a series of images with cyan light (inset, cyan lines) which drives pH-Countdown into the active state (and out of thermal equilibrium).</p>
 
-We tagged via BLAH. We don't know what we tagged, but we also don't care.
+<p>
+In some regions (green box), the signal is mostly due to the sensor, but many regions (magenta box) have sensor-to-background ratios substantially below 1: most of the photoelectrons are from autofluorescent background. This situation is typical in <em>C. elegans</em>, and quite frustrating in our experience. No intensity or lifetime sensor we've tried gives us any way to distinguish signal photoelectrons from background, so they all yield systematically distorted results in <em>C. elegans</em>
 
-Imaging causes substantial photoactivation, unlike Figure 2. Therefore we use instrument-specific pH calibration.
+[<a class="citation" href="http://doi.org/10.1073/pnas.0904764106" title="Visualization of ATP levels inside single living cells with fluorescence resonance energy transfer-based genetically encoded indicators; Hiromi Imamura, Kim P. Huynh Nhat, Hiroko Togawa, Kenta Saito, Ryota Iino, Yasuyuki Kato-Yamada, Takeharu Nagai, and Hiroyuki Noji; PNAS 106 (37) 15651-15656 (2009)">Imamura 2009</a>,
 
-We use 405 to hurry into a prepared state; we could also use thermal equilibrium (which is not the same measurement, and would therefore need different calibration)
+<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>,
+
+<a class="citation" href="http://doi.org/10.1038/ncomms3550" title="Imaging energy status in live cells with a fluorescent biosensor of the intracellular ATP-to-ADP ratio; Mathew Tantama, Juan Ramón Martínez-François, Rebecca Mongeon &amp; Gary Yellen; Nature Communications 4, 2550 (2013) ">Tantama 2013</a>, 
+
+<a class="citation" href="http://doi.org/10.1038/nature24620" title="A lysosomal switch triggers proteostasis renewal in the immortal C. elegans germ lineage; K. Adam Bohnert &amp; Cynthia Kenyon; Nature 551, 629–633 (2017) ">Bohnert 2017</a>,
+
+<a class="citation" href="http://doi.org/10.7554/eLife.62653" title="A genetic screen identifies new steps in oocyte maturation that enhance proteostasis in the immortal germ lineage; Madhuja Samaddar, Jérôme Goudeau, Melissa Sanchez, David H Hall, K Adam Bohnert, Maria Ingaramo, Cynthia Kenyon; eLife 10:e62653 (2021)">Samaddar 2021</a>].
 </p>
 
 <p>
-The key point of Figure 4 is that pH-Countdown is "blinking", and autofluorescence is not. Even though the ratio of signal-to-background
-
-Some areas photoswitch a lot (sensor), some only photoswitch a little (gut autofluorescence). In many regions, the SBR is &lt;1.
+The key point of Figure 4 is that pH-Countdown is distinguishable from autofluorescence, because pH-Countdown gets brighter with every image, and autofluorescence does not. As shown in Figure 5, relaxation sensing inherently rejects background, even in regions with terrible signal-to-background ratio.
 </p>
-
 
 <figure id="autofluorescence_overlay_figure">
 <img src="./images/autofluorescence_figure/2_overlay_animation.gif" alt="Autofluorescence overlay figure" id="autofluorescence_figure_overlay">
@@ -329,7 +333,12 @@ Some areas photoswitch a lot (sensor), some only photoswitch a little (gut autof
   </select></td><td>(View the full animation, or individual frames)</td>
     </tr>
 </table>
- <figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
+ <figcaption><strong>Figure 5: Relaxation sensing inherently rejects background, even when background is brighter than signal.</strong>
+ 
+ <strong><em>Green overlay</em></strong>: We define the 'sensor' channel as the difference between the brightest frame and the dimmest frame of the timelapse shown in Figure 4 (i.e. the last frame minus the second frame).
+ 
+ <strong><em>Magenta overlay</em></strong>: We define the 'background' channel as a linear combination of the brightest frame and the dimmest frame of the timelapse shown in Figure 4 (i.e. the second frame minus 0.35 times the last frame).
+ </figcaption>
 </figure><p></p>
 
 <p>
@@ -432,7 +441,8 @@ Discussion</h3>
 <p>
 External binding domain: Calcium sensing
 Other reporter domains: NAD sensing
-Disruptive/nondisruptive measurement
+mention shy-RFP is already a relaxation sensor kinda. Red would be nice, too!
+Mention Adam Cohen's work on things that are like relaxation sensors?Disruptive/nondisruptive measurement
 Motion blur is our most important limiting factor.
 Mutagenesis to go faster: we didn't stop because we failed, we stopped because it was time to share.
 Dead chicken and live mice are about the same difficulty, if the mouse holds still.
@@ -440,6 +450,9 @@ Meat photoswitches a little bit(!), but luckily it fades in milliseconds. The fa
 Oligomerization: the silent killer.
 Off-target sensing.
 How fast does protonation equilibrate? We're typically in the regime where it seems instantaneous, but as you try to activate faster, this becomes potentially rate-limiting.
+Relaxation sensing naturally integrates over a finite time window. Often this is undesirable, but we could imagine contexts where this was nice. We've got a whole panel of mutants with different spontaneous decay rates, if you want to try this.
+Multiplexing! We could also use this panel for highly-multiplexed single-spectral-channel imaging.
+The unmixing we do in Figure 5 is useful, but a little wrong. We use a single unmixing parameter, but a more sophisticated algorithm would account for the fact that the unmixing parameter is pH dependent. So we'd use rates to infer pH, pH to infer unmixing, etc. Full sensor-aware deconvolution would be even better!
 </p>
 
 <h3>
