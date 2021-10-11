@@ -301,10 +301,10 @@ To demonstrate relaxation sensing in living creatures, we transfected <a href=".
 </figure><p></p>
 
 <p>
-The GFP-channel timelapse in Figure 4 shows both autofluorescent background and pH-Countdown signal. We drive pH-Countdown toward the inactive state with violet light (inset, vertical violet lines), and acquire a series of images with cyan light (inset, cyan lines) which drives pH-Countdown into the active state (and out of thermal equilibrium).</p>
+The GFP-channel timelapse in Figure 4 shows both autofluorescent background and pH-Countdown signal. We first drive pH-Countdown toward the inactive state with violet light (inset, vertical violet lines), and then acquire a series of images with cyan light (inset, vertical cyan lines) which drives pH-Countdown into the active state (and out of thermal equilibrium).</p>
 
 <p>
-In some regions (green box), the signal is mostly due to the sensor, but many regions (magenta box) have sensor-to-background ratios substantially below 1: most of the photoelectrons are from autofluorescent background. This situation is typical in <em>C. elegans</em>, and quite frustrating in our experience. No intensity or lifetime sensor we've tried gives us any way to distinguish signal photoelectrons from background, so they all yield systematically distorted results in <em>C. elegans</em>
+In some regions (green box), the signal is mostly due to the sensor, but many regions (magenta box) have sensor-to-background ratios substantially below 1: most of the photoelectrons are from autofluorescent background. This situation is typical in <em>C. elegans</em>, and quite frustrating in our experience. No intensity- or lifetime-based sensor we've tried gives us any way to distinguish signal photoelectrons from background, so they all yield systematically distorted results in <em>C. elegans</em>
 
 [<a class="citation" href="http://doi.org/10.1073/pnas.0904764106" title="Visualization of ATP levels inside single living cells with fluorescence resonance energy transfer-based genetically encoded indicators; Hiromi Imamura, Kim P. Huynh Nhat, Hiroko Togawa, Kenta Saito, Ryota Iino, Yasuyuki Kato-Yamada, Takeharu Nagai, and Hiroyuki Noji; PNAS 106 (37) 15651-15656 (2009)">Imamura 2009</a>,
 
@@ -342,20 +342,12 @@ The key point of Figure 4 is that pH-Countdown is distinguishable from autofluor
 </figure><p></p>
 
 <p>
-Sensor channel, simplest possible separation: subtraction.
-Only sensor signal in the "sensor" channel.
-
-Naive algorithm only knows brightness, doesn't know anything about shape, but still does a remarkably good job separating two obviously distinct structures.
-
-Mostly gut in the "background" channel, but some sensor signal too.
-Slightly less simple, still very simple estimation of background (scaled subraction)
-Quantitative calculation of background would take a more sophisticated algorithm (use decay to estimate pH, use pH to estimate subtraction scale factor).
-
-Quantitative background estimation would mean pH-Countdown consumes ZERO spectral channels. We could use GFP!
-Note: we've got the whole mutational history of Countdown; want to try decay-multiplexed imaging?
+The green "sensor" overlay in Figure 5 is simply the difference between the most-photoactivated and least-photoactivated frames from the timelapse in Figure 4. The paralyzed worm doesn't move during this ~3.5 s interval, and neither pH-Countdown nor autofluorescence <a href="./appendix.html#mitochondria_phcountdown_figure">bleach measurably</a> due to the 10 cyan exposures we use for a single photoactivation cycle. Therefore, the green "sensor" image is due only to photoactivation of pH-Countdown, and Poisson fluctuations from both the sensor and the background. Poisson fluctuations have zero mean, so background causes noise in the sensor signal, but no systematic distortion. Poisson fluctuations scale like the square root of the total counts, so even though the signal-to-background ratio is &lt;1 at many pixels, the signal-to-noise ratio is &gt;1 for most pixels with measurable sensor.
 </p>
 
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>
+To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced an entire mutational series with intermediate spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
+</p>
 
 <figure id="ph_sensing_data_figure">
 <img src="./images/ph_sensing_figure/1_data_animation_2.gif" alt="pH sensing data figure" id="ph_sensing_figure_data_animation">
@@ -385,7 +377,7 @@ Note: we've got the whole mutational history of Countdown; want to try decay-mul
   </select></td><td>(seconds; the amount of time between activation and measurement)</td>
     </tr>
 </table>
-<figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
+<figcaption><strong>Figure 6: Distinct tagged structures in <em>C. elegans</em> photoactivate and spontaneously relax at very different rates.</strong> Caption goes here</figcaption>
 </figure><p></p>
 
 <p>
@@ -481,10 +473,10 @@ As always, our work here depends critcally on the open-source software community
 [<a class="citation" href="http://doi.org/10.1109/MCSE.2007.55" title="Matplotlib: A 2D graphics environment; J. D. Hunter; Computing in Science &amp; Engineering, 9 (3) 90-95, (2007)">Hunter 2007</a>]
  </li>
  <li>
-<a href="https://github.com/pyserial/pyserial">Pyserial</a>
+<a href="https://github.com/pyserial/pyserial">pySerial</a>
  </li>
  <li>
-<a href="https://github.com/cgohlke/tifffile/">Tifffile</a>
+<a href="https://github.com/cgohlke/tifffile/">tifffile</a>
  </li>
  <li>
 <a href="https://imagej.nih.gov/ij/index.html">ImageJ</a>
@@ -492,7 +484,7 @@ As always, our work here depends critcally on the open-source software community
 [<a class="citation" href="http://doi.org/10.1038/nmeth.2089" title="NIH Image to ImageJ: 25 years of image analysis; Caroline A Schneider, Wayne S Rasband & Kevin W Eliceiri; Nature Methods 9, 671-675, (2012)">Schneider 2012</a>]
  </li>
  <li>
-<a href="https://micro-manager.org/">Micromanager</a>
+<a href="https://micro-manager.org/">Micro-Manager</a>
 
 [<a class="citation" href="http://doi.org/10.1002/0471142727.mb1420s92" title="Computer Control of Microscopes Using &mu;Manager; Arthur Edelstein, Nenad Amodaj, Karl Hoover, Ron Vale, and Nico Stuurman; Current Protocols in Molecular Biology 14.20.1-14.20.17 (2010)">Edelstein 2010</a>]
 </li>
