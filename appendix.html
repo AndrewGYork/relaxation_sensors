@@ -89,10 +89,8 @@ Yeast</h3>
 <h3 id="temperature_dependence">
 Relaxation rate temperature dependence</h3>
 <p>
-We imaged Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown in the '<a href="#activation_due_to_measurement" target="_self">non-disruptive</a>' mode on a DMI8 wide-field microscope controlled with micromanager using a 10x 0.23NA objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters. Samples were in Carmody buffer and temperature was maintained using a VAHEAT control system. 
+We imaged Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown in the '<a href="#activation_due_to_measurement" target="_self">non-disruptive</a>' mode on a DMI8 wide-field microscope controlled with Micro-Manager using a 10x 0.23 NA air objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters. Samples were in Carmody buffer and temperature was maintained using a VAHEAT control system. 
 </p>
-
-
 
 <figure id="temperature_sensitivity_figure">
 <img src="./images/temperature_sensitivity_figure/25.png" alt="Temperature sensitivity figure" id="temperature_sensitivity">
@@ -118,7 +116,7 @@ We imaged Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown i
  </figcaption>
 </figure>
 
-<h3>
+<h3 id="off_target_sensing">
 Relaxation rate dependence on buffer components</h3>
 <p>
 Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown were imaged on a wide-field microscope in different solutions using the '<a href="#activation_due_to_measurement" target="_self">non-disruptive</a>' acquisition mode. We measured NaCl, KCl, MgCl<sub>2</sub>, MgSO<sub>4</sub>, glycerol, DTT, and peroxide dependencies in 45 mM sodium phosphate buffer, pHed to 8 at room temperature, by mixing solutions from concentrated stocks. CaCl<sub>2</sub> was titrated in HEPES buffer, pH 8, to avoid calcium phosphate precipitation. The above mentioned experiments were carried out at 30&deg;C using an Okolab temperature controlled enclosure. Screening of buffering agent effects was done at 25&deg;C with a VAHEAT temperature control system, using buffers with pH adjusted at 25&deg;C.
@@ -394,7 +392,10 @@ For large samples where microscopy was unneccesary, we acquired fluoresence phot
 <h3 id="activation_due_to_measurement">
 Disruptive vs non-disruptive imaging modes</h3>
 <p>
-pH-Countdown requires a relatively low dose of cyan light in order to activate. As a result, at high magnifications, where there are few proteins per pixel, it becomes challenging to take high SNR pictures that do not cause substantial activation. In this context, we image in a 'disruptive' mode, where we take 5-10 pictures that have good SNR and also cause activation, and image the decay at a single point after a waiting period on the order of 2 to 15 seconds, as illustrated by the blue dots in the lower left panel of <a href="./index.html#sensor_mechanism_comparison_figure">Figure 3</a>. This type of measurement is instrument and intensity dependent, and determining the pH absolutely requires a calibration. At low magnifications, where there is a large concentration of fluorophores per voxel, it is straightforward to acquire a good SNR picture that does not cause significant activation. We call this the 'non-disruptive' imaging mode, and we set it up by activating through interleaving high doses of cyan light in between images, and recording the whole decay trace after activation. This should measure a relaxation rate that is a property of the fluorophore, and therefore instrument and acquisition parameter independent.
+pH-Countdown requires a relatively low dose of cyan light in order to activate. As a result, at high magnifications, where there are few fluorophores per pixel, it becomes challenging to take high SNR pictures that do not cause substantial activation. In this context, we image in a 'disruptive' mode, where we take 5-10 pictures that have good SNR and also cause activation, and image the decay at a single point after a waiting period on the order of 2 to 15 seconds, as illustrated by the blue dots in the lower left panel of <a href="./index.html#sensor_mechanism_comparison_figure">Figure 3</a>. This type of measurement is (slightly) instrument- and intensity-dependent, and absolute pH measurement typically requires a calibration.
+</p>
+
+<p>At low magnifications, where there are many fluorophores per pixel, it is straightforward to acquire a good SNR picture that does not cause significant activation. We call this the 'non-disruptive' imaging mode. Since imaging alone does not cause substantial photoactivation, we activate by interleaving high doses of cyan light in between images, and recording the whole decay trace after activation. This measures a relaxation rate that is a property of the fluorophore, and therefore instrument- and intensity-independent.
  </p>
 
 <h3 id="sequences">

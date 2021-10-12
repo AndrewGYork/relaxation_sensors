@@ -284,7 +284,7 @@ The fundamental strength of relaxation sensing is that spontaneous decay signals
 Results</h3>
 
 <p>
-To demonstrate relaxation sensing in living creatures, we transfected <a href="./appendix.html#ph_countdown_in_yeast">yeast</a> (<em>S. cerevisiae</em>), <a href="./appendix.html#mitochondria_in_mammalian_cells">mammalian cells</a> (COS-7), and worms (<em>C. elegans</em>) with pH-Countdown.  Due to high autofluorescence in the green channel from gut granules
+To demonstrate relaxation sensing in living creatures, we transfected <a href="./appendix.html#ph_countdown_in_yeast">yeast</a> (<em>S. cerevisiae</em>), <a href="./appendix.html#mitochondria_in_mammalian_cells">mammalian cells</a> (COS-7), and worms (<em>C. elegans</em>) with pH-Countdown.  Due to high autofluorescence in the <a href="https://www.fpbase.org/protein/egfp/">GFP</a> channel from gut granules
 
 [<a class="citation" href="https://doi.org/10.21769/BioProtoc.2940" title="Overcoming Autofluorescence to Assess GFP Expression During Normal Physiology and Aging in Caenorhabditis elegans; AC Teuscher and CY Ewald; Bio-101: e2940 (2018)">Brakemann 2011</a>],
 
@@ -295,9 +295,9 @@ To demonstrate relaxation sensing in living creatures, we transfected <a href=".
 <img src="./images/autofluorescence_figure/1_data_animation.gif" alt="Autofluorescence data figure" id="autofluorescence_figure_data_animation">
  <figcaption><strong>Figure 4: Our pH-Countdown relaxation sensor photoswitches in a live worm, but autofluorescence does not.</strong>
  
-<strong><em>Main panel</em></strong>: Raw timelapse animation (grayscale) of the middle portion of a <em>C. elegans</em> carrying a Peft-3::pH-Countdown::unc-54 plasmid, measured in the GFP channel of a simple fluorescence microscope. The field of view is 260x210 &mu;m<sup>2</sup>. Green box marks a region containing mostly sensor, magenta box marks a region containing mostly autofluorescence.
+<strong><em>Main panel</em></strong>: Raw timelapse animation (grayscale) of the middle portion of a <em>C. elegans</em> carrying a Peft-3::pH-Countdown::unc-54 <a href="./appendix.html#sequences">plasmid</a>, measured in the GFP channel of <a href="./appendix.html#elegans_imaging">a simple fluorescence microscope</a>. The field of view is 260x210 &mu;m<sup>2</sup>. Solid green box marks a region containing mostly sensor, dotted magenta box marks a region containing mostly autofluorescence.
  
- <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (green) and mostly-autofluorescence (magenta) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan overlay shows photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination.</figcaption>
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (solid green) and mostly-autofluorescence (dotted magenta) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan overlay shows photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination.</figcaption>
 </figure><p></p>
 
 <p>
@@ -333,11 +333,11 @@ The key point of Figure 4 is that pH-Countdown is distinguishable from autofluor
   </select></td><td>(View the full animation, or individual frames)</td>
     </tr>
 </table>
- <figcaption><strong>Figure 5: Relaxation sensing inherently rejects background, even when background is brighter than signal.</strong>
+ <figcaption><strong>Figure 5: Relaxation sensing inherently splits a single spectral channel into dynamic "signal" and static "background".</strong>
  
  <strong><em>Green overlay</em></strong>: We define the 'sensor' channel as the difference between the brightest frame and the dimmest frame of the timelapse shown in Figure 4 (i.e. the last frame minus the second frame).
  
- <strong><em>Magenta overlay</em></strong>: We define the 'background' channel as a linear combination of the brightest frame and the dimmest frame of the timelapse shown in Figure 4 (i.e. the second frame minus 0.35 times the last frame).
+ <strong><em>Magenta overlay</em></strong>: We define the 'background' channel as a linear combination of the brightest frame and the dimmest frame of the timelapse shown in Figure 4 (i.e. 1.53 times the second frame minus 0.53 times the last frame).
  </figcaption>
 </figure><p></p>
 
@@ -346,8 +346,10 @@ The green "sensor" overlay in Figure 5 is simply the difference between the most
 </p>
 
 <p>
-To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced an entire mutational series with intermediate spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
+To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced <a href="./appendix.html#TODO">an entire mutational series</a> with intermediate spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
 </p>
+
+<p>Figures 4 and 5 show that the <em>amount</em> of photoswitching lets us separate signal from background. Figure 6 shows that the <em>rate</em> of (photo)switching reveals our quantity of interest: pH.</p>
 
 <figure id="ph_sensing_data_figure">
 <img src="./images/ph_sensing_figure/1_data_animation_2.gif" alt="pH sensing data figure" id="ph_sensing_figure_data_animation">
@@ -377,16 +379,21 @@ To estimate pH, we only need the green "sensor" channel. However, we can also es
   </select></td><td>(seconds; the amount of time between activation and measurement)</td>
     </tr>
 </table>
-<figcaption><strong>Figure 6: Distinct tagged structures in <em>C. elegans</em> photoactivate and spontaneously relax at very different rates.</strong> Caption goes here</figcaption>
+<figcaption><strong>Figure 6: Distinct tagged structures in <em>C. elegans</em> photoactivate and spontaneously relax at very different rates.</strong>
+
+<strong><em>Main panel</em></strong>: Background-subtracted animation (green colormap) of the timelapse from Figure 4, now including relaxation after photoactivation. Dotted blue box marks a low-pH region with slow photoactivation and relaxation rates, solid yellow box marks a high-pH region with rapid photoactivation and relaxation rates.
+ 
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan overlay shows photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination, black horizontal bar shows the illumination-free relaxation interval.
+</figcaption>
 </figure><p></p>
 
-<p>
-Relaxation reveals pH (compare to calibration)
+<p>The timelapse in Figure 6 shows the data from Figure 4, with background subtracted as in the green channel of Figure 5. In addition to photoactivation, we also now show the relaxation interval, as illustrated in Figures 1, 2, and 3. Unlike Figure 2, we must leave the illumination off during relaxation to avoid <a href="./appendix.html#activation_due_to_measurement">perturbing the apparent relaxation rate</a>.
+Distinct structures in this timelapse photoactivate and relax at clearly distinguishable rates.</p>
 
-We're in the perturbative regime (See Figure 3 bottom left panel) so we only take one measurement. We use the same illumination sequence for calibration and for measurement. Since both samples are transparent, this is ok.
+<p>As shown in Figure 2, the (photo)switching rates of pH-Countdown depend strongly on pH. We know pH-Countdown switching rates also depend (more weakly) <a href="./appendix.html#temperature_dependence">on temperature</a>, but as far as we know, there is no evidence for wild multi-&deg;C/&mu;m thermal gradients in live <em>C. elegans</em>. We are also unable to identify any other substantial <a href="./appendix.html#off_target_sensing">off-target sensing</a> for pH-Countdown, although we note that such testing is never exhaustive.
 </p>
 
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>Therefore, we choose to interpret the photoactivation and relaxation rates shown in Figure 6 as a map of pH vs. position, which we plot in false color in Figure 7.</p>
 
 <figure id="ph_sensing_colormap_figure">
 <img src="./images/ph_sensing_figure/2_relaxation_overlay_2.png" alt="pH sensing colormap figure" id="ph_sensing_figure_colormap">
@@ -411,22 +418,36 @@ We're in the perturbative regime (See Figure 3 bottom left panel) so we only tak
   </select></td><td>(seconds; the amount of time between activation and measurement)</td>
     </tr>
 </table>
-<figcaption><strong>Figure X: Title goes here</strong> Caption goes here</figcaption>
+<figcaption><strong>Figure 7: Relaxation sensing quantitatively reveals pH in a living worm despite substantial autofluorescent background.</strong>
+
+<strong><em>Main panel</em></strong>:
+With <code>Colormap type: Hue indicates pH</code> selected, the image luminance shows the density of sensor. Regions with no sensor appear black.
+
+<strong><em>Inset boxes on lower right</em></strong>:
+Colorbar; each box shows how a given pH will appear in the image's colormap.
+
+<strong><em>Controls</em></strong>:
+With <code>Measurement type: Sensor relaxation rate</code> selected, the "relaxation ratio" is used to infer pH. With <code>Measurement type: Sensor activation rate</code> selected, the "activation nonlinearity" is used to infer pH.
+
+</figcaption>
 </figure><p></p>
 
-<p>
-Bright punctate structures have both slow and fast decay rates, consistent with it's not just concentration dependence.
-
-Continuous structures share similar pH. That's a good sign!
-
-We can measure by "relaxation ratio" or by "activation concavity". Relaxation ratio depends on decay, so it's more quantitative (see Figure 3). It's also higher SNR. Activation concavity is faster though.
+<p>We define the "relaxation ratio" as a pixelwise ratio of differences:
+</p>
+<div>
+$$\begin{equation}
+\frac{(\text{Image after activation}) - (\text{Image after relaxation})}{
+(\text{Image after activation}) - (\text{Image after deactivation})}
+\end{equation}$$
+</div>
+<p>Where '\(\text{Image after deactivation}\)', '\(\text{Image after activation}\)', and '\(\text{Image after relaxation}\)' correspond to frames 1, 10, and 11 of Figure 6, respectively. The relaxation ratio is a simple, robust estimator. As illustrated in Figure 3, it depends strongly on the rate of relaxation, but not on the quantity of sensor or quantity of background, and it depends only weakly on the amount of illumination. By comparing the observed relaxation ratio to a <a href="./appendix.html#elegans_imaging">calibration dataset</a>, we can convert our map of relaxation ratios to the map of pH vs. position shown in Figure 7.
 </p>
 
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>It's inherently futile to validate a sensor via an <em>in vivo</em> measurement, but the pH map in Figure 7 has several reassuring features. The inferred pH values are broadly consistent with the range we expect in living creatures. Continuous structures have smoothly-varying pH values, suggesting our measured values are not dominated by noise. Distinct structures have distinct pH values, suggesting our measured values are not independent of the sample. Some of the bright punctate structures have especially low pH, but some also have fairly high pH, suggesting our results are not simply an aggregation artifact. While these observations prove nothing, we find them highly encouraging, and consistent with all our experience using pH-Countdown.
+</p>
 
-
-<noscript>
-<h3>Your browser doesn't seem to support Javascript. This document uses Javascript to generate a reference list, which would normally be displayed here. Either activate Javascript, or use the "Download PDF" link above if you want to see the reference list.</h3></noscript>
+<p>In our current impmlementation, there's a tradeoff between speed and signal-to-noise ratio (SNR). Figure 7 shows measured pH maps for three different values of <code>Relaxation Interval</code>, and the longest interval shows superior SNR compared to the shortest interval. In general, waiting longer improves SNR, but only if your sample holds still long enough.
+</p>
 
 <h3>
 Discussion</h3>
@@ -441,10 +462,13 @@ Dead chicken and live mice are about the same difficulty, if the mouse holds sti
 Meat photoswitches a little bit(!), but luckily it fades in milliseconds. The faster our sensor gets, the more this will matter.
 Oligomerization: the silent killer.
 Off-target sensing.
+Here we activated slow, and (mostly) sensed with relaxation. We could activate much faster, sense with activation, and only use relaxation to calibrate activation.
 How fast does protonation equilibrate? We're typically in the regime where it seems instantaneous, but as you try to activate faster, this becomes potentially rate-limiting.
 Relaxation sensing naturally integrates over a finite time window. Often this is undesirable, but we could imagine contexts where this was nice. We've got a whole panel of mutants with different spontaneous decay rates, if you want to try this.
 Multiplexing! We could also use this panel for highly-multiplexed single-spectral-channel imaging.
 The unmixing we do in Figure 5 is useful, but a little wrong. We use a single unmixing parameter, but a more sophisticated algorithm would account for the fact that the unmixing parameter is pH dependent. So we'd use rates to infer pH, pH to infer unmixing, etc. Full sensor-aware deconvolution would be even better!
+
+My gosh is sag-based rate estimation worse SNR than change-based rate estimation. This is obvious, from a certain perspective, but wasn't obvious to me a year ago.
 </p>
 
 <h3>
@@ -494,6 +518,9 @@ As always, our work here depends critcally on the open-source software community
 </ul>
 
 <p>We sincerely thank the authors of these projects for enabling our work.</p>
+
+<noscript>
+<h3>Your browser doesn't seem to support Javascript. This document uses Javascript to generate a reference list, which would normally be displayed here. Either activate Javascript, or use the "Download PDF" link above if you want to see the reference list.</h3></noscript>
 
 </section>
 <footer>

@@ -66,7 +66,7 @@ def main():
                        ] = a_max * (1 - relaxation_colorbar[patch])
             activation[1:-2, sl_y, sl_x
                        ] = a_max*(0.5+nonlinearity_colorbar[patch])
-        # How much brighter did the image get during 488 nm illumination?
+        # How much brighter did the image get during 470 nm illumination?
         photoswitching = activation[-2, :, :] - activation[0, :, :]
         # How much dimmer did the sample get after a light-free interval?
         relaxation = activation[-2, :, :] - activation[-1, :, :]
@@ -297,7 +297,7 @@ def main():
                        fontsize=8, loc=(0.53, 0.4))
             # Emphasize the current time graphically:
             ax2.axvline(cycle_timestamps[which_frame])
-            # Show when the 405 nm and 488 nm illumination is on:
+            # Show when the 395 nm and 470 nm illumination is on:
             for pt in np.linspace(cycle_timestamps[0] - 0.15,
                                   cycle_timestamps[1] - 0.15, 10):
                 ax2.add_patch(Rectangle(
@@ -306,7 +306,7 @@ def main():
                     fill=True, linewidth=0, color=(0.3, 0, 1, 0.22)))
             ax2.text(
                 0.1 + cycle_timestamps[0], 1350,
-                "405 nm\nillumination",
+                "395 nm\nillumination",
                 fontdict={'color': (0.5, 0, 1),
                           'weight': 'bold',
                           'size': 8.5,})
@@ -318,13 +318,13 @@ def main():
                     fill=True, linewidth=0, color=(0, 1, 1, 0.8)))
             ax2.text(
                 0.5 + cycle_timestamps[1], 20,
-                "488 nm illumination",
+                "470 nm illumination",
                 fontdict={'color': (0, .7, .7),
                           'weight': 'bold',
                           'size': 8.5,})
-            txt = "488 nm illumination"
+            txt = "470 nm illumination"
             if which_cycle == 2:
-                txt = "488 nm\nillumination"
+                txt = "470 nm\nillumination"
             ax2.text(
                 -2 + cycle_timestamps[-1], 200,
                 txt,

@@ -228,7 +228,7 @@ def main():
         ax2.set_ylabel("Photoelectrons per pixel", color='white', weight='bold')
         # Emphasize the current time graphically:
         ax2.axvline(cycle_timestamps[i], alpha=0.2)
-        # Show when the 405 nm and 488 nm illumination is on:
+        # Show when the 395 nm and 470 nm illumination is on:
         for pt in np.linspace(cycle_timestamps[0] - 0.15,
                               cycle_timestamps[1] - 0.15, 10):
             ax2.add_patch(Rectangle(
@@ -237,7 +237,7 @@ def main():
                 fill=True, linewidth=0, color=(0.3, 0, 1, 0.22)))
         ax2.text(
             0.7 + cycle_timestamps[0], 22,
-            "405 nm\nillumination",
+            "395 nm\nillumination",
             fontdict={'color': (0.5, 0, 1),
                       'weight': 'bold',
                       'size': 8.5,
@@ -248,7 +248,7 @@ def main():
                 fill=True, linewidth=0, color=(0, 0.9, 0.9, 0.6)))
         ax2.text(
             0.6 + cycle_timestamps[1], 22,
-            "488 nm illumination",
+            "470 nm illumination",
             fontdict={'color': (0, .7, .7),
                       'weight': 'bold',
                       'size': 8.5,})
