@@ -77,7 +77,7 @@ or temperature
 
 [<a class="citation" href="http://doi.org/10.1038/nmeth.2690" title="Genetically encoded fluorescent thermosensors visualize subcellular thermoregulation in living cells; Shigeki Kiyonaka, Taketoshi Kajimoto, Reiko Sakaguchi, Daisuke Shinmi, Mariko Omatsu-Kanbe, Hiroshi Matsuura, Hiromi Imamura, Takenao Yoshizaki, Itaru Hamachi, Takashi Morii &amp; Yasuo Mori; Nature Methods 10, 1232–1238 (2013)">Kiyonaka 2013</a>].
 
-Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against sample opacity or autofluorescence), or lifetime (which is not robust against sample autofluoresence, or compatible with simple microscopes).
+Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against sample opacity or autofluorescence), or lifetime (which is not robust against sample autofluoresence, or compatible with simple microscopes). This makes precise <em>in vivo</em> measurement almost impossible, except in extremely transparent creatures.
 </p>
 
 <p class="abstract">
@@ -121,7 +121,7 @@ Note that this is a limited PDF or print version; animated and interactive figur
 Introduction</h3>
 
 <p>
-An ideal relaxation sensor reveals a quantity of interest, by changing the rate at which it thermally "relaxes" towards equilibrium. The "active" state of a relaxation sensor is optically distinguishable from the "inactive" state. To make a measurement, we drive the relaxation sensor away from equilibrium, and observe the rate at which the sensor returns to equilibrium, which depends on our quantity of interest. Figure 1 illustrates an example relaxation sensor, based on a photoswitchable fluorescent protein, which senses the concentration of a small molecule.
+An ideal relaxation sensor reveals a quantity of interest, by changing the rate at which it thermally "relaxes" towards equilibrium. The out-of-equilibrium state of a relaxation sensor is optically distinguishable from the equilibrium state. To make a measurement, we drive the relaxation sensor away from equilibrium, and observe the rate at which the sensor returns to equilibrium, which depends on our quantity of interest. Figure 1 illustrates an example relaxation sensor, based on a photoswitchable fluorescent protein, which senses the concentration of a small molecule.
 </p>
 
 <figure id="concept_animation_figure">
@@ -194,7 +194,7 @@ Figure 2 shows photoactivation/relaxation curves for pH-Countdown at 25&deg;C, a
 </figure><p></p>
 
 <p>
-As we hoped, pH-Countdown's relaxation curves vary dramatically with pH, over a large pH range (bottom panel). After only a few seconds, the amount of relaxation for each pH is clearly distinguishable, allowing reasonably fast measurement (0.1-1 Hz). The short illumination duration during imaging (500 &mu;s, 10 mW/cm<sup>2</sup>) <a href="./appendix.html#activation_due_to_measurement">does not cause measurable photoactivation</a>, and the low resolution yields a population-averaged measurement (like the bottom panel of Figure 1) rather than stochastic single-molecule kinetics (like the side panels of Figure 1).
+As we hoped, pH-Countdown's relaxation curves vary dramatically with pH, over a large pH range (bottom panel). After only a few seconds, the amount of relaxation for each pH is clearly distinguishable, allowing reasonably fast measurement (0.1-1 Hz). The short illumination duration during each image (500 &mu;s, 10 mW/cm<sup>2</sup>) <a href="./appendix.html#activation_due_to_measurement">does not cause measurable photoactivation</a>, and the low resolution yields a population-averaged measurement (like the bottom panel of Figure 1) rather than stochastic single-molecule kinetics (like the side panels of Figure 1).
 
 Note that relaxation rates are several-fold faster at <a href="./appendix.html#temperature_dependence">37&deg;C than 25&deg;C</a>, and this sensor generally requires temperature calibration to yield quantitative pH measurements. 
 </p>
@@ -265,11 +265,11 @@ Lifetime measurement is expensive, slow, and rare compared to intensity measurem
 </p>
 
 <p>
-In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption have <a href="./appendix.html#robust_against_perturbations">no systematic effect</a> on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
+In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-spectral-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption have <a href="./appendix.html#robust_against_perturbations">no systematic effect</a> on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
 </p>
 
 <p>
-Relaxation sensing shows incredible promise, but our current implementation leaves room for improvement. pH-Countdown's apparent decay rate <a href="./appendix.html#activation_due_to_measurement">depends weakly on the amount of illumination</a> during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
+Relaxation sensing shows incredible promise, but our current implementation leaves <a href="./index.html#discussion" target="_self">room for improvement</a>. pH-Countdown's apparent decay rate <a href="./appendix.html#activation_due_to_measurement">depends weakly on the amount of illumination</a> during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
 
 [<a class="citation" href="https://doi.org/10.1038/nbt.1952" title="A reversibly photoswitchable GFP-like protein with fluorescence excitation decoupled from switching; Brakemann T, Stiel Ac, Weber G, Andresen M, Testa I, Grotjohann T, Leutenegger M, Plessmann U, Urlaub H, Eggeling C, Wahl Mc, Hell Sw, Jakobs S; Nature Biotechnology, 29(10), 942-947 (2011)">Brakemann 2011</a>].
 
@@ -319,7 +319,7 @@ In some regions (solid green box), the signal is mostly due to the sensor, but m
 </p>
 
 <p>
-The key point of Figure 4 is that pH-Countdown is distinguishable from autofluorescence, because pH-Countdown gets brighter with every image, and autofluorescence does not. As shown in Figure 5, relaxation sensing inherently rejects background, even in regions with terrible signal-to-background ratio.
+The key point of Figure 4 is that pH-Countdown's signal is distinguishable from autofluorescence, because pH-Countdown gets brighter with every image, and autofluorescence does not. As shown in Figure 5, relaxation sensing inherently rejects background, even in regions with terrible signal-to-background ratio.
 </p>
 
 <figure id="autofluorescence_overlay_figure">
@@ -384,12 +384,12 @@ To estimate pH, we only need the green "sensor" channel. However, we can also es
 
 <strong><em>Main panel</em></strong>: Background-subtracted animation (green colormap) of the timelapse from Figure 4, now including relaxation after photoactivation. Dotted blue box marks a low-pH region with slow photoactivation and relaxation rates, solid yellow box marks a high-pH region with rapid photoactivation and relaxation rates.
  
- <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet overlay shows photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan overlay shows photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination, black horizontal bar shows the illumination-free relaxation interval.
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan vertical lines show photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination, black horizontal bar shows the illumination-free relaxation interval.
 </figcaption>
 </figure><p></p>
 
 <p>The timelapse in Figure 6 shows the data from Figure 4, with background subtracted as in the green overlay of Figure 5. In addition to photoactivation, we also now show the relaxation interval, as illustrated in Figures 1, 2, and 3. Unlike Figure 2, we must leave the illumination off during relaxation to avoid <a href="./appendix.html#activation_due_to_measurement">perturbing the apparent relaxation rate</a>.
-Distinct structures in this timelapse photoactivate and relax at clearly distinguishable rates.</p>
+Distinct structures in this timelapse photoactivate and relax at clearly distinguishable rates (e.g. dotted blue box vs. solid yellow box).</p>
 
 <p>As shown in Figure 2, the (photo)switching rates of pH-Countdown depend strongly on pH. We know pH-Countdown switching rates also depend (more weakly) <a href="./appendix.html#temperature_dependence">on temperature</a>, but as far as we know, there is no evidence for wild multi-&deg;C/&mu;m thermal gradients in live <em>C. elegans</em>. We are also unable to identify any other substantial <a href="./appendix.html#off_target_sensing">off-target sensing</a> for pH-Countdown, although we note that such testing is never exhaustive.
 </p>
@@ -450,11 +450,11 @@ $$\begin{equation}
 <p>In our current impmlementation, there's a tradeoff between speed and signal-to-noise ratio (SNR). Figure 7 shows measured pH maps for three different values of <code>Relaxation Interval</code>, and the longest interval shows superior SNR compared to the shortest interval. In this case, waiting longer improves SNR, but this is only because our sample holds still.
 </p>
 
-<h3>
+<h3 id="discussion">
 Discussion</h3>
 <h4>Will this work in mice?</h4>
 <p>
-One of our ambitions is to enable scientists and researchers to quickly, accurately measure the concentration of a wide range of small molecules in freely-moving mice. We are optimistic, because a dead chicken is roughly optically equivalent to a live mouse. Of course, the chicken tends to hold still; to extend relaxation sensing to a wider range of creatures, we need strategies to deal with their motion.
+One of our ambitions is to enable scientists and researchers to quickly, accurately measure the (sub)cutaneous concentration of a wide range of small molecules in freely-moving mice. We are optimistic, because a dead chicken is roughly optically equivalent to a live mouse. Of course, the chicken tends to hold still; to extend relaxation sensing to a wider range of creatures, we need strategies to deal with their motion.
 </p>
 <p>
 The simple algorithms that produce Figures 5, 6, and 7 use pixelwise subtraction, which assumes the fluorophores at each pixel hold still during relaxation. More generally, we can compare any two regions across time if we're confident the two regions contain the same set of fluorophores. For example, <a href="./appendix.html#mitochondria_in_mammalian_cells">mitochondria move substantially during relaxation</a>, but we can still accurately calculate <a href="./appendix.html#mitochondria_phcountdown_figure">whole-cell relaxation ratios</a>. This approach trades spatial resolution for simplicity and accuracy, but this may be a useful trade in many contexts.
@@ -467,9 +467,9 @@ Another obvious strategy to enable relaxation sensing in rapidly moving samples 
 <p>
 Another strategy to deal with sample motion is to take our data more quickly. In this work, we intentionally used only simple <a href="./appendix.html#elegans_imaging">microscopy</a> and <a href="./appendix.html#chicken_blaster">photography</a> hardware, which we expect many other labs will also have access to. On such hardware, photoactivating pH-Countdown typically takes at least a few seconds, and relaxation several more. However, with brighter illumination on a faster microscope
 
-[<a class="citation" href="https://doi.org/10.5281/zenodo.3244420" title="High NA single-objective light-sheet; Alfred Millett-Sikking, Kevin M. Dean, Reto Fiolka, Amir Fardad, Lachlan Whitehead, and Andrew G. York; Zenodo (2019)">Millett-Sikking 2019</a>],
+[<a class="citation" href="https://doi.org/10.5281/zenodo.3244420" title="High NA single-objective light-sheet; Alfred Millett-Sikking, Kevin M. Dean, Reto Fiolka, Amir Fardad, Lachlan Whitehead, and Andrew G. York; doi:10.5281/zenodo.3244420 (2019)">Millett-Sikking 2019</a>],
 
-we can take whole-cell 3D pH-Countdown photoactivation curves in 10-100 ms. As shown in Figures 1, 2, 3 and 6, the activation rate of a relaxation sensor also depends on our quantity of interest, and as shown in Figure 7 with <code>Measurement type: Sensor activation rate</code>, we can use this rate to infer pH. Activation rates also depend on illumination intensity, but this suggests an approach that uses photoactivation rates for high-speed measurement, calibrated by slow but accurate relaxation rate measurements.
+we can take whole-cell 3D pH-Countdown photoactivation curves in 10-100 ms. As shown in Figures 1, 2, 3 and 6, the <em>activation</em> rate of a relaxation sensor also depends on our quantity of interest, and as shown in Figure 7 with <code>Measurement type: Sensor activation rate</code>, we can use this rate to infer pH. Activation rates also depend on illumination intensity, but this suggests an approach that uses photoactivation rates for high-speed measurement, calibrated by slow but accurate relaxation rate measurements.
 </p>
 
 <p>
@@ -481,6 +481,28 @@ Finally, we note that relaxation sensing naturally integrates over a finite time
 </p>
 
 <h4>Does this work for anything but pH?</h4>
+
+<figure id="pH-Ca-Countdown_figure">
+<img src="./images/modularity_figures/pH-Ca-Countdown.png" alt="A fluorophore with Calcium-sensitive relaxation rates" id="pH-Ca-Countdown-image">
+<figcaption><strong>Figure 8: <a href="./appendix.html#sequences">A GECO 1.1/pH-Countdown</a> fusion with a calcium-dependent relaxation rate.</strong>
+
+<strong><em>Main panel</em></strong>:
+Caption goes here
+
+</figcaption>
+</figure><p></p>
+
+<figure id="LigA_cpVenus_relaxes_figure">
+<img src="./images/modularity_figures/LigA_cpVenus_relaxes.png" alt="An existing NAD biosensor with NAD-dependent relaxation rates" id="LigA_cpVenus_relaxes_image">
+<figcaption><strong>Figure 9: The NAD<sup>+</sup> sensor <a href="https://doi.org/10.1126/science.aad5168">LigA-cpVenus</a> has an NAD<sup>+</sup>-dependent relaxation rate.</strong>
+
+<strong><em>Main panel</em></strong>:
+Caption goes here
+
+</figcaption>
+</figure><p></p>
+
+
 Obviously, temperature, right?
 External binding domain: Calcium sensing
 Other reporter domains: NAD sensing
@@ -509,6 +531,8 @@ The unmixing we do in Figure 5 is useful, but a little wrong. We use a single un
 For SNR: What's the right way to estimate a quantity-of-interest from our measurements? probably not relaxation ratio, or activation nonlinearity.
 My gosh is sag-based rate estimation worse SNR than change-based rate estimation. This is obvious, from a certain perspective, but wasn't obvious to me a year ago.
 </p>
+
+<p>Mention the two-step paper?</p>
 
 <h3>
 Open-source software</h3>
