@@ -39,6 +39,13 @@ function update_ph_sensing_colormap_figure() {
   image.src = filename;
 }
 
+function update_mouse_mito_bam_figure() {
+  var comparison = document.getElementById("mouse_mito_bam_comparison").value; 
+  var filename = "./images/mouse_mito_bam_figure/" + comparison + ".gif";
+  var image = document.getElementById("mouse_mito_bam_gif");
+  image.src = filename;
+}
+
 function update_robustness_quantitation_figure() {
   var filename = "./images/robustness_quantitation_figure/" + document.getElementById("robustness_animation_").value; 
   var image = document.getElementById("robustness_animation");
