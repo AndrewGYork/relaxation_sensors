@@ -89,18 +89,24 @@ which we call "relaxation sensing". Relaxation sensors are quantitative, robust 
 
 <a href="./appendix.html#sequences"
 title="
-MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
-YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
-DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+MVSKGEENNM AVIKPDMKIK LRMEGSVNGH RFRIEGVGLG
+KPYEGKQSMD LKVKEGGPLP FAYDILTMAF CYGNRVFAKY
+PENIVDYFKQ SFPEGYSWER QMIYEDGGIC VATNDITLDG
+DCMISEIRFK GVNFPANGPV FQKRTVKWEL SHEKLYARDG
+LLYSDGNYAL SLEGGGHYRC DNKTTYKAKK VVQLPDYHSV
+THHIVIKSHD KDYSNVNLHE HAEAHSELPR QAMDELYK"
 >Countdown</a>,
 
 a photoswitchable fluorescent protein  which rapidly spontaneously equilibrates ("relaxes") to a nonfluorescent state. To demonstrate relaxation sensing, we further engineered Countdown into 
 
 <a href="./appendix.html#sequences"
 title="
-MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPLEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
-YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
-DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+MVSKGEENNM AVIKPDMKIK LRMEGSVNGH RFRIEGVGLG 
+KPLEGKQSMD LKVKEGGPLP FAYDILTMAF CYGNRVFAKY
+PENIVDYFKQ SFPEGYSWER QMIYEDGGIC VATNDITLDG
+DCMISEIRFK GVNFPANGPV FQKRTVKWEL SHEKLYARDG
+LLYSDGNYAL SLEGGGHYRC DNKTTYKAKK VVQLPDYHWV
+THSIVIKSHD KDYSNVNLHE HAEAHSELPR QAMDELYK"
 >pH-Countdown</a>,
 
  a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, despite substantial autofluorescence and opacity. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
@@ -160,9 +166,12 @@ called "<a href="https://www.fpbase.org/protein/padron/">Padron</a>"
 we iteratively introduced roughly 20 mutations to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
 "<a href="./appendix.html#sequences"
 title="
-MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
-YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
-DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+MVSKGEENNM AVIKPDMKIK LRMEGSVNGH RFRIEGVGLG
+KPYEGKQSMD LKVKEGGPLP FAYDILTMAF CYGNRVFAKY
+PENIVDYFKQ SFPEGYSWER QMIYEDGGIC VATNDITLDG
+DCMISEIRFK GVNFPANGPV FQKRTVKWEL SHEKLYARDG
+LLYSDGNYAL SLEGGGHYRC DNKTTYKAKK VVQLPDYHSV
+THHIVIKSHD KDYSNVNLHE HAEAHSELPR QAMDELYK"
 >Countdown</a>".
 
 Like Padron, Countdown photoswitches between a bright green fluorescent active state and a nonfluorescent inactive state. Cyan light activates and excites Countdown, violet light inactivates Countdown, and thermal equilibrium favors the inactive state.
@@ -172,9 +181,12 @@ Like Padron, Countdown photoswitches between a bright green fluorescent active s
 As a proof-of-principle, we used Countdown to make a relaxation sensor for pH. We did three rounds of <a href="./appendix.html#countdown_mutagenesis">mutagenesis</a>, screening for strong pH-dependence in the first several seconds of the relaxation curve, to produce
 "<a href="./appendix.html#sequences"
 title="
-MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPLEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
-YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
-DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHWVTHSIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK"
+MVSKGEENNM AVIKPDMKIK LRMEGSVNGH RFRIEGVGLG 
+KPLEGKQSMD LKVKEGGPLP FAYDILTMAF CYGNRVFAKY
+PENIVDYFKQ SFPEGYSWER QMIYEDGGIC VATNDITLDG
+DCMISEIRFK GVNFPANGPV FQKRTVKWEL SHEKLYARDG
+LLYSDGNYAL SLEGGGHYRC DNKTTYKAKK VVQLPDYHWV
+THSIVIKSHD KDYSNVNLHE HAEAHSELPR QAMDELYK"
 >pH-Countdown</a>".
 
 Figure 2 shows photoactivation/relaxation curves for pH-Countdown at 25&deg;C, as a function of pH, acquired with a simple LED-based <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>.
@@ -384,7 +396,7 @@ To estimate pH, we only need the green "sensor" channel. However, we can also es
 
 <strong><em>Main panel</em></strong>: Background-subtracted animation (green colormap) of the timelapse from Figure 4, now including relaxation after photoactivation. Dotted blue box marks a low-pH region with slow photoactivation and relaxation rates, solid yellow box marks a high-pH region with rapid photoactivation and relaxation rates.
  
- <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan vertical lines show photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination, black horizontal bar shows the illumination-free relaxation interval.
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan vertical lines show <a href="./appendix.html#activation_due_to_measurement">photoactivation and fluorescence excitation</a> vs. time via 470&plusmn;12 nm illumination, black horizontal bar shows the illumination-free relaxation interval.
 </figcaption>
 </figure><p></p>
 
@@ -447,8 +459,27 @@ $$\begin{equation}
 <p>It's inherently futile to validate a sensor via an <em>in vivo</em> measurement, but the pH map in Figure 7 has several reassuring features. The inferred pH values are broadly consistent with the range we expect in living creatures. Continuous structures have smoothly-varying pH values, suggesting our measured values are not dominated by noise. Distinct structures have distinct pH values, suggesting our measured values are not independent of the sample. Some of the bright punctate structures have especially low pH, but some also have fairly high pH, suggesting our results are not simply an aggregation artifact. While these observations prove nothing, we find them highly encouraging, and consistent with all our experience using pH-Countdown.
 </p>
 
-<p>In our current impmlementation, there's a tradeoff between speed and signal-to-noise ratio (SNR). Figure 7 shows measured pH maps for three different values of <code>Relaxation Interval</code>, and the longest interval shows superior SNR compared to the shortest interval. In this case, waiting longer improves SNR, but this is only because our sample holds still.
+<p>In our current implementation, there's a tradeoff between speed and signal-to-noise ratio (SNR). Figure 7 shows measured pH maps for three different values of <code>Relaxation Interval</code>, and the longest interval shows superior SNR compared to the shortest interval. In this case, waiting longer improves SNR, but this is only because our sample holds still.
 </p>
+
+<figure id="mouse_mito_bam_figure">
+<img src="./images/mouse_mito_bam_figure/10_minutes.gif" alt="Alt text" id="mouse_mito_bam_gif">
+<table class="figure_controls">
+  <tr>
+  <td>Comparison: </td><td><select id="mouse_mito_bam_comparison" onchange="update_mouse_mito_bam_figure()">
+    <option value="10_minutes" selected="selected">10 minutes</option>
+    <option value="40_minutes">40 minutes</option>
+  </select></td><td></td>
+    </tr>
+</table>
+<figcaption><strong>Figure X: Title goes here.</strong>
+
+<strong><em>Panel goes here</em></strong>:
+Description goes here
+</figcaption>
+</figure><p></p>
+
+
 
 <h3 id="discussion">
 Discussion</h3>
@@ -469,7 +500,7 @@ Another strategy to deal with sample motion is to take our data more quickly. In
 
 [<a class="citation" href="https://doi.org/10.5281/zenodo.3244420" title="High NA single-objective light-sheet; Alfred Millett-Sikking, Kevin M. Dean, Reto Fiolka, Amir Fardad, Lachlan Whitehead, and Andrew G. York; doi:10.5281/zenodo.3244420 (2019)">Millett-Sikking 2019</a>],
 
-we can take whole-cell 3D pH-Countdown photoactivation curves in 10-100 ms. As shown in Figures 1, 2, 3 and 6, the <em>activation</em> rate of a relaxation sensor also depends on our quantity of interest, and as shown in Figure 7 with <code>Measurement type: Sensor activation rate</code>, we can use this rate to infer pH. Activation rates also depend on illumination intensity, but this suggests an approach that uses photoactivation rates for high-speed measurement, calibrated by slow but accurate relaxation rate measurements.
+we can take whole-cell 3D pH-Countdown photoactivation curves in 10-100 ms. As shown in Figures 1, 2, 3 and 6, the <em>activation</em> rate of a relaxation sensor also depends on our quantity of interest, and as shown in Figure 7 with <code>Measurement type: Sensor activation rate</code>, we can use this rate to infer pH. Unfortunately, activation rates also depend on illumination intensity (Figure 3, bottom left panel with <code>Animated quantity: Illumination</code>), but this suggests an approach that uses photoactivation rates for high-speed measurement, calibrated <em>in situ</em> by slow but accurate relaxation rate measurements.
 </p>
 
 <p>
@@ -477,11 +508,36 @@ We note two practical but important details that may ultimately limit the speed 
 </p>
 
 <p>
-Finally, we note that relaxation sensing naturally integrates over a finite time window. This is unsuitable for quick measurements in wiggly samples, but we could imagine contexts where measuring a time-averaged quantity is useful. As noted in our Results section, we have a series of mutants with spontaneous decay rates spanning the range from seconds to hours, which could be used to engineer time-integrating sensors.
+Finally, we note that relaxation sensing naturally integrates over a finite time window. This is unsuitable for quick measurements in wiggly samples, but we could imagine contexts where measuring a time-averaged quantity is useful. As noted in our Results section, we have <a href="./appendix.html#TODO">a series of mutants</a> with spontaneous decay rates spanning the range from seconds to hours, which could be used to engineer time-integrating sensors.
 </p>
+
 
 <h4>Does this work for anything but pH?</h4>
 
+<p>One of our ambitions is to extend relaxation sensing to a wide range of small molecules (and other quantities of interest). A typical approach to couple a quantity-of-interest to a fluorophore is to fuse a naturally-evolved binding domain to a fluorescent protein, as shown in Figure 1 with <code>Binding domain: External to fluorescent domain</code>. The diversity of evolved binding domains provides a straightforward (albeit laborious) path to modularity
+
+[<a class="citation" href="http://doi.org/10.1038/84397" title="A high signal-to-noise Ca2+ probe composed of a single green fluorescent protein; Junichi Nakai, Masamichi Ohkura &amp; Keiji Imoto; Nature Biotechnology 19, 137–141 (2001)">Nakai 2001</a>,
+
+<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>,
+
+<a class="citation" href="http://doi.org/10.1038/ncomms3550" title="Imaging energy status in live cells with a fluorescent biosensor of the intracellular ATP-to-ADP ratio; Mathew Tantama, Juan Ramón Martínez-François, Rebecca Mongeon &amp; Gary Yellen; Nature Communications 4, 2550 (2013) ">Tantama 2013</a>,
+
+<a class="citation" href="http://doi.org/10.1038/nmeth.2690" title="Genetically encoded fluorescent thermosensors visualize subcellular thermoregulation in living cells; Shigeki Kiyonaka, Taketoshi Kajimoto, Reiko Sakaguchi, Daisuke Shinmi, Mariko Omatsu-Kanbe, Hiroshi Matsuura, Hiromi Imamura, Takenao Yoshizaki, Itaru Hamachi, Takashi Morii &amp; Yasuo Mori; Nature Methods 10, 1232–1238 (2013)">Kiyonaka 2013</a>,
+
+<a class="citation" href="https://doi.org/10.1101/2021.06.21.449214" title="A turquoise fluorescence lifetime-based biosensor for quantitative imaging of intracellular calcium; Franka H. van der Linden, Eike K. Mahlandt, Janine J.G. Arts, Joep Beumer, Jens Puschhof, Saskia M.A. de Man, Anna O. Chertkova, Bas Ponsioen, Hans Clevers, Jaap D. van Buul, Marten Postma, Theodorus W.J. Gadella Jr. &amp; Joachim Goedhart; bioRxiv 2021.06.21.449214 (2021)">van der Linden 2021</a>].
+
+As shown in Figure 1 with <code>Binding domain: Internal to fluorescent domain</code>, pH-Countdown's 'binding domain' for protons is the fluorophore itself; can we demonstrate relaxation sensing with an <em>external</em> domain?
+</p>
+
+<p>We decided to start with calcium, to build on the substantial labor our peers have already invested in developing and optimizing calcium sensors.
+
+ We replaced the cpGFP fluorescent domain of the GECO 1.1 sensor 
+
+[<a class="citation" href="https://doi.org/10.1126/science.1208592" title="An Expanded Palette of Genetically Encoded Ca2+ Indicators; Yongxin Zhao, Satoko Araki, Jiahui Wu, Takayuki Teramoto, Yu-Fen Chang, Masahiro Nakano, Ahmed S Abdelfattah, Manabi Fujiwara, Takeshi Ishihara, Takeharu Nagai, Robert E Campbell; Science 333(6051):1888-91 (2011)">Zhao 2011</a>]
+
+with pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screened a variety of linkers</a> for Ca<sup>2+</sup>-dependent relaxation. As shown in Figure 8, this seems to work!
+
+</p>
 <figure id="pH-Ca-Countdown_figure">
 <img src="./images/modularity_figures/pH-Ca-Countdown.png" alt="A fluorophore with Calcium-sensitive relaxation rates" id="pH-Ca-Countdown-image">
 <figcaption><strong>Figure 8: <a href="./appendix.html#sequences">A GECO 1.1/pH-Countdown</a> fusion with a calcium-dependent relaxation rate.</strong>
@@ -492,6 +548,21 @@ Caption goes here
 </figcaption>
 </figure><p></p>
 
+<p>
+Just a proof of principle, not a sensor yet. Lots of work to do: characterize, optimize.
+
+We didn't permute. Weird! Good?
+
+We didn't do anything to eliminate pH sensitivity. Engineer this out? Sense both, and combine with a pH sensor? Maybe multiplex via rates?
+
+Not just for small molecules: force, temperature, right?
+</p>
+
+<p>The point and the pivot.
+</p>
+
+
+<h4>Does this only work for green fluorophores?</h4>
 <figure id="LigA_cpVenus_relaxes_figure">
 <img src="./images/modularity_figures/LigA_cpVenus_relaxes.png" alt="An existing NAD biosensor with NAD-dependent relaxation rates" id="LigA_cpVenus_relaxes_image">
 <figcaption><strong>Figure 9: The NAD<sup>+</sup> sensor <a href="https://doi.org/10.1126/science.aad5168">LigA-cpVenus</a> has an NAD<sup>+</sup>-dependent relaxation rate.</strong>
@@ -502,16 +573,15 @@ Caption goes here
 </figcaption>
 </figure><p></p>
 
+<p>
+Two demos in one! Yellow relaxation sensing, NAD sensing.
 
-Obviously, temperature, right?
-External binding domain: Calcium sensing
-Other reporter domains: NAD sensing
-mention shy-RFP is already a relaxation sensor kinda. Red would be nice, too!
+Mention shy-RFP is already a relaxation sensor kinda. Red would be nice, too!
+
 Mention Adam Cohen's work on things that are like relaxation sensors?
 
-Multiplexing really belongs here.
-
 Disruptive/nondisruptive measurement
+</p>
 
 <h4>Can we trust our measurement?</h4>
 Oligomerization: the silent killer. Contrast ratio of padron depends tremendously on concentration.
@@ -532,7 +602,11 @@ For SNR: What's the right way to estimate a quantity-of-interest from our measur
 My gosh is sag-based rate estimation worse SNR than change-based rate estimation. This is obvious, from a certain perspective, but wasn't obvious to me a year ago.
 </p>
 
-<p>Mention the two-step paper?</p>
+<p>Other uses of Countdown:
+Mention the two-step paper?
+It switches super fast, might be nice for resolft etc
+You could even get superres chemical information with resolft!
+</p>
 
 <h3>
 Open-source software</h3>
