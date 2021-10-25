@@ -202,6 +202,10 @@ def make_figure(semiorganized_data,
     ax2.grid('on')
     ax2.legend(loc=(0.41, 0.76), fontsize=6, framealpha=1,
                prop={'weight': 'bold'})
+    ax2.add_patch(Rectangle( # Show when illumination is on:
+        (time_1a_s[26], -0.08), time_1a_s[6], 1.23,
+        fill=True, linewidth=0, color=(0.05, 0.95, 0.95, 0.3)
+        ))
 ##    plt.show()
     plt.savefig(temp_dir / ("frame_%06i.png"%(which_output_frame)),
                 dpi=85)
