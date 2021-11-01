@@ -163,7 +163,7 @@ called "<a href="https://www.fpbase.org/protein/padron/">Padron</a>"
 
 [<a class="citation" href="http://doi.org/10.1038/nbt.1493" title="Photoswitchable fluorescent proteins enable monochromatic multilabel imaging and dual color fluorescence nanoscopy; Martin Andresen, Andre C Stiel, Jonas Fölling, Dirk Wenzel, Andreas Schönle, Alexander Egner, Christian Eggeling, Stefan W Hell &amp; Stefan Jakobs; Nature Biotechnology 26, 1035–1040 (2008)">Andresen 2008</a>], 
 
-we iteratively introduced roughly 20 mutations to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
+we iteratively introduced <a href="./appendix.html#mutation_history">roughly 20 mutations</a> to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
 "<a href="./appendix.html#sequences"
 title="
 MVSKGEENNM AVIKPDMKIK LRMEGSVNGH RFRIEGVGLG
@@ -296,10 +296,13 @@ The fundamental strength of relaxation sensing is that spontaneous decay signals
 <h3>
 Results</h3>
 
+<h4>
+Transparent creatures</h4>
+
 <p>
 To demonstrate relaxation sensing in living creatures, we transfected <a href="./appendix.html#ph_countdown_in_yeast">yeast</a> (<em>S. cerevisiae</em>), <a href="./appendix.html#mitochondria_in_mammalian_cells">mammalian cells</a> (COS-7), and worms (<em>C. elegans</em>) with pH-Countdown.  Due to high autofluorescence in the <a href="https://www.fpbase.org/protein/egfp/">GFP</a> channel from gut granules
 
-[<a class="citation" href="https://doi.org/10.21769/BioProtoc.2940" title="Overcoming Autofluorescence to Assess GFP Expression During Normal Physiology and Aging in Caenorhabditis elegans; AC Teuscher and CY Ewald; Bio-101: e2940 (2018)">Brakemann 2011</a>],
+[<a class="citation" href="https://doi.org/10.21769/BioProtoc.2940" title="Overcoming Autofluorescence to Assess GFP Expression During Normal Physiology and Aging in Caenorhabditis elegans; AC Teuscher and CY Ewald; Bio-101: e2940 (2018)">Teuscher 2018</a>],
 
  <em>C. elegans</em> is the most challenging, and therefore the most interesting sample. Figure 4 shows pH-Countdown photoactivation in a live (but <a href="./appendix.html#elegans_imaging">paralyzed</a>) <em>C. elegans</em>.
 </p>
@@ -359,7 +362,7 @@ The green "sensor" overlay in Figure 5 is simply the difference between the most
 </p>
 
 <p>
-To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced <a href="./appendix.html#TODO">an entire mutational series</a> with intermediate photoswitching and spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
+To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced <a href="./appendix.html#mutation_history">an entire mutational series</a> with intermediate photoswitching and spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
 </p>
 
 <p>Figures 4 and 5 show that the <em>amount</em> of photoswitching lets us separate signal from background. Figure 6 shows how the <em>rate</em> of (photo)switching reveals our quantity of interest: pH.</p>
@@ -462,20 +465,31 @@ $$\begin{equation}
 <p>In our current implementation, there's a tradeoff between speed and signal-to-noise ratio (SNR). Figure 7 shows measured pH maps for three different values of <code>Relaxation Interval</code>, and the longest interval shows superior SNR compared to the shortest interval. In this case, waiting longer improves SNR, but this is only because our sample holds still.
 </p>
 
+
+
+<h4>
+Opaque creatures</h4>
+
+<p>
+Encouraged by our results in <em>C. elegans</em>, we decided to attempt relaxation sensing in a much more challenging context: living mice. Figure 8 shows pH-Countdown measurements in a live (but anaesthatized) <em>Mus musculus</em>.
+</p>
+
 <figure id="mouse_mito_bam_figure">
 <img src="./images/mouse_mito_bam_figure/10_minutes.gif" alt="Alt text" id="mouse_mito_bam_gif">
 <table class="figure_controls">
   <tr>
   <td>Comparison: </td><td><select id="mouse_mito_bam_comparison" onchange="update_mouse_mito_bam_figure()">
-    <option value="10_minutes" selected="selected">10 minutes</option>
-    <option value="40_minutes">40 minutes</option>
+    <option value="10_minutes" selected="selected">Before and 10 minutes after BAM15</option>
+    <option value="40_minutes">Before and 40 minutes after BAM 15</option>
   </select></td><td></td>
     </tr>
 </table>
-<figcaption><strong>Figure X: Title goes here.</strong>
+<figcaption><strong>Figure 8: Relaxation sensing noninvasively reveals quantitative organelle-specific drug-induced pH dynamics in a highly opaque living mouse.</strong>
 
-<strong><em>Panel goes here</em></strong>:
-Description goes here
+<strong><em>Left panel:</em></strong>:
+Raw timelapse animation (grayscale) of the back of a <a href="./appendix.html#mouse_imaging">BALB/cJ mouse</a> carrying a subcutaneous tumor expressing <a href="./appendix.html#sequences">mito-pH-Countdown</a>, measured in the GFP channel of a simple <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>. The field of view is TODO: Maria. Orange/blue box marks a region expressing pH-Countdown.
+
+<strong><em>Right panel:</em></strong> Average fluorescent signal vs. time for two measurements before (orange, dots) and two measurements after (blue or green, triangles) administration of the mitochondrial uncoupler <a href="https://doi.org/10.1016/j.molmet.2013.11.005">BAM15</a>. Cyan region show photoactivation vs. time via 470±20 nm illumination. Gray lines show calibration measurements for pH 7.5 (solid) and pH 8 (dashed).
 </figcaption>
 </figure><p></p>
 
@@ -483,7 +497,7 @@ Description goes here
 
 <h3 id="discussion">
 Discussion</h3>
-<h4>Will this work in mice?</h4>
+<h4>Will this work in mice that aren't asleep?</h4>
 <p>
 One of our ambitions is to enable scientists and researchers to quickly, accurately measure the (sub)cutaneous concentration of a wide range of small molecules in freely-moving mice. We are optimistic, because a dead chicken is roughly optically equivalent to a live mouse. Of course, the chicken tends to hold still; to extend relaxation sensing to a wider range of creatures, we need strategies to deal with their motion.
 </p>
@@ -508,7 +522,7 @@ We note two practical but important details that may ultimately limit the speed 
 </p>
 
 <p>
-Finally, we note that relaxation sensing naturally integrates over a finite time window. This is unsuitable for quick measurements in wiggly samples, but we could imagine contexts where measuring a time-averaged quantity is useful. As noted in our Results section, we have <a href="./appendix.html#TODO">a series of mutants</a> with spontaneous decay rates spanning the range from seconds to hours, which could be used to engineer time-integrating sensors.
+Finally, we note that relaxation sensing naturally integrates over a finite time window. This is unsuitable for quick measurements in wiggly samples, but we could imagine contexts where measuring a time-averaged quantity is useful. As noted in our Results section, we have <a href="./appendix.html#mutation_history">a series of mutants</a> with spontaneous decay rates spanning the range from seconds to hours, which could be used to engineer time-integrating sensors.
 </p>
 
 
@@ -540,7 +554,7 @@ with pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screene
 </p>
 <figure id="pH-Ca-Countdown_figure">
 <img src="./images/modularity_figures/pH-Ca-Countdown.png" alt="A fluorophore with Calcium-sensitive relaxation rates" id="pH-Ca-Countdown-image">
-<figcaption><strong>Figure 8: <a href="./appendix.html#sequences">A GECO 1.1/pH-Countdown</a> fusion with a calcium-dependent relaxation rate.</strong>
+<figcaption><strong>Figure 9: <a href="./appendix.html#sequences">A GECO 1.1/pH-Countdown</a> fusion with a calcium-dependent relaxation rate.</strong>
 
 <strong><em>Main panel</em></strong>:
 Caption goes here
@@ -565,7 +579,7 @@ Not just for small molecules: force, temperature, right?
 <h4>Does this only work for green fluorophores?</h4>
 <figure id="LigA_cpVenus_relaxes_figure">
 <img src="./images/modularity_figures/LigA_cpVenus_relaxes.png" alt="An existing NAD biosensor with NAD-dependent relaxation rates" id="LigA_cpVenus_relaxes_image">
-<figcaption><strong>Figure 9: The NAD<sup>+</sup> sensor <a href="https://doi.org/10.1126/science.aad5168">LigA-cpVenus</a> has an NAD<sup>+</sup>-dependent relaxation rate.</strong>
+<figcaption><strong>Figure 10: The NAD<sup>+</sup> sensor <a href="https://doi.org/10.1126/science.aad5168">LigA-cpVenus</a> has an NAD<sup>+</sup>-dependent relaxation rate.</strong>
 
 <strong><em>Main panel</em></strong>:
 Caption goes here

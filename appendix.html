@@ -171,6 +171,81 @@ To investigate robustness against scattering, attenuation and background, we ima
  </figcaption>
 </figure>
 
+<h3 id="mutation_history">
+Notes on the directed evolution of Countdown</h3>
+
+<p>We originally started this journey through mutational space because we wanted a <a href="https://doi.org/10.1038/ncomms9184">"two-step" fluorophore</a>, that rapidly spontaneously deactivates. We started with Padron because that's what we'd been using. In hindsight, Padron had some important flaws. For example, its oligomerization state strongly affects its contrast ratio, and its maturation is extremely slow. Padron also takes more than two hours to spontaneosly deactivate. We were in for a long journey. Over the years, we learned many important things about mutagenesis, screening, and the protein itself, including:
+</p>
+
+<h4>
+How to make libraries:
+</h4>
+<ul>
+ <li>
+ Random mutagenesis (e.g. <a href="https://www.agilent.com/en/product/mutagenesis-cloning/mutagenesis-kits/random-mutagenesis-kits/genemorph-ii-233115">Agilent Genemorph II</a>) was suprisingly useless in our hands, possibly because the resulting library sizes were much bigger than our screening throughput. Perhaps if we'd had a flow-cytometry based screen with througputs of 10<sup>6</sup> mutants/day, this would have worked better, but our plate-based screening throughput was closer to 10<sup>4</sup> mutants/day. As a result, depending on the degree of mutagenesis, we ended up screening libraries that either had mostly unmutated protein, or mostly nonfluorescent over-mutated variants.
+ </li>
+ <li>
+ Semi-random/semi-rational mutagenesis worked great, at first. We would "rationally" pick a location on our protein, make a small library of all 20 mutants at that location, and screen a plate of those ~20 mutants. We'd repeat this process for several locations, before picking a new champion for further mutagenesis. We produced our first ~5 mutations this way.
+</li> 
+ <li>
+Semi-random mutagenesis at every residue worked even better. We ordered 448 primers (~$2000), and used them to make all single mutants at all locations (4480 mutants). We'd then pool the mutants into a single library, spread the library across ~10 plates and screen for a winner. After selecting a winner, it costs $60 to update the primers for the new champion.
+  <ul>
+    <li>We were initially reluctant to spend $2000 on primers, but this works much better than anything else we tried, and is very cheap compared to the cost of labor and the value of our time.</li>
+    <li>The size of this library (10<sup>4</sup> mutants) matches the rough daily throughput of our plate-based screen. In general, the size of one's libraries should relate to the throughput of one's screen.</li>
+    <li>We had great results when we simply reused the same primers for multiple consecutive rounds, rather than updating primers at each round. This probably selected against multiple consecutive nearby mutations, but maybe this is good?</li>
+    <li>We also had great results when we would pick multiple winners, rather than a single winner at each round; we often picked and pooled ~10 winners as the starting point for the next round of mutagenesis. If you're more concerned with progress than insight, you don't even have to sequence your winners, you can just keep mutating and screening for several iterations.</li>
+  </ul>
+  </li>
+</ul>
+
+<h4>
+How to screen our libraries:
+</h4>
+
+<ul>
+  <li>
+Screening <em>E. coli</em> colonies on plates worked well and wasn't too difficult. However, the fluorophore is probably at high concentration inside the <em>E. coli</em>, and we worried this might select for oligomerization-dependent photophysics rather than a high-performance monomer.
+  </li>
+  <li>
+We eventually switched to lysing <em>E. coli</em> onto nitrocellulose, which lets us <a href=#countdown_mutagenesis target="_self">control the chemical environment</a> of the fluorophore. We also suspect this lowers the effective concentration of the fluorophore, and perhaps selects against oligomerization-dependent photophysics.
+  </li>
+  <li>
+Our first screen had a much smaller field of view (&lt;1 cm<sup>2</sup>), and used an XY stage to tile a full plate. 1-2 years later, we switched to a much bigger XY stage that let us tile multiple (~10) plates. Since the fluorophore's spontaneous switching was still quite slow at the time, most of the screening time was spent waiting, and this increased our throughput by an order of magnitude.
+  </li>
+  <li>
+This past year, we switched to <a href="#chicken_blaster" target="_self">our current screen</a> with a full-plate (~10 cm) field-of-view, which is much nicer to use. Since the protein decays in seconds now instead of hours, it's human-tolerable to manually switch one plate at a time for ~10 plates in a row (~1 hour). Since we plan to further accelerate the off-switching of pH-Countdown, we should probably add a large XY stage to this screen so we can load ~10 plates at a time. In hindsight, we should have upgraded our screen much sooner.
+  </li>
+  <li>
+It's not obvious that pooling the full library into one pool is optimal. Arguably, if we're going to screen ~10 plates, pooling into ~10 sub-libraries, rather than a single large library, would potentially yield more immediate insight into which mutation locations have which photophysical effects.
+  </li>
+</ul>
+
+<h4>
+Some things we learned about the protein:
+</h4>
+
+<ul>
+  <li>
+Padron's maturation is extremely slow, which turned out to be a major unexpected bottleneck. Our first mutation (at position 173) was a huge improvement, which made maturation go from several days to &lt;1 day.
+  </li>
+  <li>
+Mutations that made spontaneous switching faster almost always made light-driven switching faster too. One notable exception: mutation (TODO: Maria) seemed to affect photoswitching rates differently from how it affected spontaneous switching.
+  </li>
+  <li>
+At one point (TODO: maria), we failed to find a mutant we considered "better" by screening all the single mutants. In desperation, we made a double-mutant library (with &gt;10<sup>6</sup> members), and screened unhappily until we found an improved double mutant. In hindsight, it's surprising how well a simple nearest-neighbor hill-climbing search strategy worked, and fortunate that we only had to do this once.
+  </li>
+  <li>
+We were fairly flexible in our definition of "better" when selecting candidates for the next round of mutagenesis. We mostly selected for switching speed, but we also wanted to preserve on-state brightness, off-state darkness, cyan-driven on-switching, violet-driven off-switching, and equilibrium to the off-state. Sometimes we'd spend a round or two to improve brightness or equilibrium without improving switching speed. We would often accept a small drawback in exchange for a large advantage, and it often took several iterations to produce a strict improvement.
+  </li>
+  <li>
+Most of our screening was done without temperature or pH control. In hindsight, it's miraculous that this worked as well as it did.
+  </li>
+</ul>
+
+<p>
+The figure below shows (photo)switching kinetics for 17 representative mutants from our ~30-iteration mutational series, beginning with Padron and ending with pH-Countdown, taken in a single batch. This works spanned many years and multiple transitions in our careers, but we're happy to share whatever information we have access to, if someone is interested in more detail.
+</p>
+<img src="./images/Appendix_mutant_history/shorter_time_box.png" alt="Mutants generated during evolution of pH-countdown" id="mutation_history_photo">
 
 <h3 id="countdown_mutagenesis">
 Screening for pH-sensitive relaxation</h3>
@@ -178,9 +253,6 @@ Screening for pH-sensitive relaxation</h3>
 We created libraries for saturated mutagenesis at every residue using rolling circle PCRs with NNK primers for every coding residue on a pQE31-Countdown plasmid. PCRs were pooled, DPN-I digested, and transformed into BL21(DE3) <em>E. coli</em>. After overnight growth and one day at room temperature, we blotted the plates onto nitrocellulose filters. The filters were dipped in liquid nitrogen three times, submerged in Carmody buffer at pH 7.5 with 10 &mu;M CCCP, imaged on our custom <a href="#chicken_blaster" target="_self">fluorescence photography</a> setup, and then imaged again after transfer  to Carmody buffer at pH 5.5 with 10 &mu;M CCCP. Colonies that displayed the largest rate difference during the first 20 seconds of decay were selected from the original agar plates after a second overnight growth. The winners were subjected to subsequent saturated mutagenesis rounds.
 </p>
 
-<h3 id="mutation_history">
-Mutants generated during evolution of pH-countdown</h3>
-<img src="./images/Appendix_mutant_history/shorter_time_box.png" alt="Mutants generated during evolution of pH-countdown" id="mutation_history_photo">
 
 <h3 id="calcium_sensing_library">
 Library construction for the calcium-sensitive relaxation sensor</h3>
@@ -276,6 +348,20 @@ C. elegans imaging</h3>
 We used a <a href="https://doi.org/10.1002/j.1460-2075.1991.tb04966.x">standard microinjection procedure</a> to introduce 25 ng/&mu;L <a href="#sequences" target="_self">Peft-3::pH-Countdown::unc-54 pUC57 plasmid</a> mixed with 20 ng/&mu;L <a href="https://www.addgene.org/vector-database/7880/">pRF4</a> into the gonads of young N2E hemaphrodite <em>C. elegans</em>. Progeny displaying the roller phenotype were inspected for sensor expression after 48 hours at 25&deg;C. For imaging, we placed the worms on 3% agarose pads containing a drop of 2 mM levamisole (to paralyze them) and covered them with a #1.5 coverslip. We imaged the samples on a DMI8 widefield microscope controlled with micromanager using a 40x 0.85 NA air objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters.
 </p>
 <p>Data was acquired in the '<a href="#activation_due_to_measurement" target="_self">disruptive</a>' regime. We used a series of violet light exposures to rapidly push pH-Countdown into the inactive state, before using a series of cyan light exposures to produce an activation curve, and a single delayed cyan light exposure to measure the amount of relaxation. We calibrated the relationship between relaxation and pH by imaging Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown in Carmody buffers at several different pHs, with the same temperature and microscope settings.
+</p>
+
+<h3 id="mouse_imaging">
+Mouse imaging</h3>
+<p>
+We generated <a href="https://www.atcc.org/products/crl-2638">CT26</a> cell lines expressing pH-Countdown using lentivirus infection with <a href="https://www.addgene.org/12260/">psPAX2</a>, <a href="https://www.addgene.org/12259/">pMD2.G</a> and either <a href="#sequences" target="_self">pCDH-pH-Countdown</a> or <a href="#sequences" target="_self">pCDH-mito-pH-Countdown</a>, and sorted via flow cytometry to select for the top 10% brightest cells.
+</p>
+
+<p>
+We produced tumors under the skin of <a href="https://www.jax.org/strain/000651">BALB/cJ</a> mice by injecting 250000 CT26 cells in 50 &mu;L PBS under the flank skin. We imaged the mice on our <a href="#chicken_blaster" target="_self">custom fluorescence photography system</a> 1.5 weeks post-inoculation, before and after intravenous injection of 200 &mu;l of 0.75 mg/mL <a href="https://doi.org/10.1038/s41467-020-16298-2">BAM15</a> in 10% NMP/10% Kolliphor in the lateral tail vein. Mice were anaesthetized during imaging via isoflurane, temperature was maintained at 37&deg;C using a heating pad, and hair was removed using Nair before imaging. We calibrated the relationship between relaxation and pH by imaging pH-Countdown in Carmody buffers at several different pHs, with the same temperature and imaging settings.
+</p>
+
+<p>
+TODO: MARIA AND JOHANNES add relevant text about ethics/regulations for mouse work.
 </p>
 
 <h3 id="chicken_blaster">
@@ -406,6 +492,10 @@ pH-Countdown requires a relatively low dose of cyan light in order to activate. 
 
 <h3 id="sequences">
 Plasmids and sequences</h3>
+
+TODO: MARIA ADD THE MOUSE PLASMIDS
+
+
 <p>Countdown AA sequence: MVSKGEENNMAVIKPDMKIKLRMEGSVNGHRFRIEGVGLGKPYEGKQSMDLKVKEGGPLPFAYDILTMAFCYGNRVFAK
 YPENIVDYFKQSFPEGYSWERQMIYEDGGICVATNDITLDGDCMISEIRFKGVNFPANGPVFQKRTVKWELSHEKLYAR
 DGLLYSDGNYALSLEGGGHYRCDNKTTYKAKKVVQLPDYHSVTHHIVIKSHDKDYSNVNLHEHAEAHSELPRQAMDELYK
