@@ -493,6 +493,29 @@ Raw timelapse animation (grayscale) of the back of a <a href="./appendix.html#mo
 </figcaption>
 </figure><p></p>
 
+<p>
+Important minutiae
+Thoughts and interpretations
+The point and the pivot
+</p>
+
+<p>
+Cite the BAM15 paper. We expect this to lower the pH (link to mammal cell imaging) but not as much as in the cells, since it's buffered by the creature. There are two measurements at each condition, and they strongly resemble each other, which is nice.
+</p>
+
+<p>
+- You really can't look at light-driven rates anymore, light intensity is totally out of control.
+- Since we can't use 405 to rapidly deliver a steady state, we have to use/trust thermal equilibration
+- Alternatively, we can ignore the starting point of photoactivation, and JUST look at relaxation rates (sag) rather than relaxation ratio. Here, we normalize to start of decay and end of decay - less sensitive, but more robust.
+- Since there's tons of scattering here, we can't take spatial resolution too seriously, so our specificity comes from genetic targetting, rather than imaging. This can be both organelle (e.g. mitochondria) and tissue (e.g. tumor) specific.
+- The mouse moves a lot, but in this case the image processing is easy, since we're just trying to hold the amount of sensor enclosed by the box constant. We did simple XY image registration centered on a bright spot near the orange/blue/green box.
+</p>
+<p>
+- We estimate our pH change is 0.2-0.3 units before and after drug. This is kinda small! It's hard to cause big changes that aren't lethal though. Good thing we're so sensitive.
+-If we wanted to draw biological conclusions, we'd need more mice and statistics, but since we're just trying to show an optical approach can work, in principle, n=1 is sufficient. This is literally the first (only) time we tried it, and it worked.
+- This is pretty damn cool. No other optical method can do this (correctly).
+</p>
+
 
 
 <h3 id="discussion">
