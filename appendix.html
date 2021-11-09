@@ -99,10 +99,10 @@ We imaged Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown i
   <tr>
   <td>Plot: </td><td>
     <select id="temperature_sensitivity_" onchange="update_temperature_sensitivity_figure()">
-    <option value="25.png" selected="selected">25C</option>  
-    <option value="30.png">30C</option>
-    <option value="35.png">35C</option>  
-    <option value="40.png">40C</option> 
+    <option value="25.png" selected="selected">25&deg;C</option>  
+    <option value="30.png">30&deg;C</option>
+    <option value="35.png">35&deg;C</option>  
+    <option value="40.png">40&deg;C</option> 
     <option value="ph6.png">pH 6</option>
     <option value="ph6p5.png">pH 6.5</option>   
     <option value="ph7.png">pH 7</option> 
@@ -174,7 +174,7 @@ To investigate robustness against scattering, attenuation and background, we ima
 <h3 id="mutation_history">
 Notes on the directed evolution of Countdown</h3>
 
-<p>We originally started this journey through mutational space because we wanted a <a href="https://doi.org/10.1038/ncomms9184">"two-step" fluorophore</a>, that rapidly spontaneously deactivates. We started with Padron because that's what we'd been using. In hindsight, Padron had some important flaws. For example, its oligomerization state strongly affects its contrast ratio, and its maturation is extremely slow. Padron also takes more than two hours to spontaneosly deactivate. We were in for a long journey. Over the years, we learned many important things about mutagenesis, screening, and the protein itself, including:
+<p>We originally started this journey through mutational space because we wanted a <a href="https://doi.org/10.1038/ncomms9184">"two-step" fluorophore</a> that rapidly spontaneously deactivates. We started with Padron because that's what we'd been using. In hindsight, Padron had some important flaws. For example, its oligomerization state strongly affects its contrast ratio, and its maturation is extremely slow. Padron also takes more than two hours to spontaneosly deactivate. We were in for a long journey. Over the years, we learned many important things about mutagenesis, screening, and the protein itself, including:
 </p>
 
 <h4>
@@ -182,13 +182,13 @@ How to make libraries:
 </h4>
 <ul>
  <li>
- Random mutagenesis (e.g. <a href="https://www.agilent.com/en/product/mutagenesis-cloning/mutagenesis-kits/random-mutagenesis-kits/genemorph-ii-233115">Agilent Genemorph II</a>) was suprisingly useless in our hands, possibly because the resulting library sizes were much bigger than our screening throughput. Perhaps if we'd had a flow-cytometry based screen with througputs of 10<sup>6</sup> mutants/day, this would have worked better, but our plate-based screening throughput was closer to 10<sup>4</sup> mutants/day. As a result, depending on the degree of mutagenesis, we ended up screening libraries that either had mostly unmutated protein, or mostly nonfluorescent over-mutated variants.
+ Random mutagenesis (e.g. <a href="https://www.agilent.com/en/product/mutagenesis-cloning/mutagenesis-kits/random-mutagenesis-kits/genemorph-ii-233115">Agilent Genemorph II</a>) was suprisingly useless in our hands, possibly because the resulting library sizes were much bigger than our screening throughput. Perhaps if we'd had a flow-cytometry-based screen with throughputs of 10<sup>6</sup> mutants/day, this would have worked better, but our plate-based screening throughput was closer to 10<sup>4</sup> mutants/day. As a result, depending on the degree of mutagenesis, we ended up screening libraries that either had mostly unmutated protein, or mostly nonfluorescent over-mutated variants.
  </li>
  <li>
  Semi-random/semi-rational mutagenesis worked great, at first. We would "rationally" pick a location on our protein, make a small library of all 20 mutants at that location, and screen a plate of those ~20 mutants. We'd repeat this process for several locations, before picking a new champion for further mutagenesis. We produced our first ~5 mutations this way.
 </li> 
  <li>
-Semi-random mutagenesis at every residue worked even better. We ordered 448 primers (~$2000), and used them to make all single mutants at all locations (4480 mutants). We'd then pool the mutants into a single library, spread the library across ~10 plates and screen for a winner. After selecting a winner, it costs $60 to update the primers for the new champion.
+Semi-random mutagenesis at every residue worked even better. We ordered 448 primers (~$2000), and used them to make all single mutants at all locations (4480 mutants). We'd then pool the mutants into a single library, spread the library across ~10 plates and screen for a winner. After selecting a winner, it costs ~$60 to update the primers for the new champion.
   <ul>
     <li>We were initially reluctant to spend $2000 on primers, but this works much better than anything else we tried, and is very cheap compared to the cost of labor and the value of our time.</li>
     <li>The size of this library (10<sup>4</sup> mutants) matches the rough daily throughput of our plate-based screen. In general, the size of one's libraries should relate to the throughput of one's screen.</li>
@@ -199,7 +199,7 @@ Semi-random mutagenesis at every residue worked even better. We ordered 448 prim
 </ul>
 
 <h4>
-How to screen our libraries:
+How to screen libraries:
 </h4>
 
 <ul>
@@ -347,7 +347,7 @@ C. elegans imaging</h3>
 <p>
 We used a <a href="https://doi.org/10.1002/j.1460-2075.1991.tb04966.x">standard microinjection procedure</a> to introduce 25 ng/&mu;L <a href="#sequences" target="_self">Peft-3::pH-Countdown::unc-54 pUC57 plasmid</a> mixed with 20 ng/&mu;L <a href="https://www.addgene.org/vector-database/7880/">pRF4</a> into the gonads of young N2E hemaphrodite <em>C. elegans</em>. Progeny displaying the roller phenotype were inspected for sensor expression after 48 hours at 25&deg;C. For imaging, we placed the worms on 3% agarose pads containing a drop of 2 mM levamisole (to paralyze them) and covered them with a #1.5 coverslip. We imaged the samples on a DMI8 widefield microscope controlled with micromanager using a 40x 0.85 NA air objective, a 515/30 nm emission filter, and a SpectraX LED illumination source with 395/25 or 470/24 nm excitation filters.
 </p>
-<p>Data was acquired in the '<a href="#activation_due_to_measurement" target="_self">disruptive</a>' regime. We used a series of violet light exposures to rapidly push pH-Countdown into the inactive state, before using a series of cyan light exposures to produce an activation curve, and a single delayed cyan light exposure to measure the amount of relaxation. We calibrated the relationship between relaxation and pH by imaging Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown in Carmody buffers at several different pHs, with the same temperature and microscope settings.
+<p>Data were acquired in the '<a href="#activation_due_to_measurement" target="_self">disruptive</a>' regime. We used a series of violet light exposures to rapidly push pH-Countdown into the inactive state, before using a series of 50 ms, 1.7 W/cm<sup>2</sup> cyan light exposures to produce an activation curve, and a single delayed cyan light exposure to measure the amount of relaxation. We calibrated the relationship between relaxation and pH by imaging Ni-NTA (cOmplete resin, Roche) agarose beads with bound pH-Countdown in Carmody buffers at several different pHs, with the same temperature and microscope settings.
 </p>
 
 <h3 id="mouse_imaging">
@@ -484,10 +484,10 @@ For large samples where microscopy was unneccesary, we acquired fluoresence phot
 <h3 id="activation_due_to_measurement">
 Disruptive vs non-disruptive imaging modes</h3>
 <p>
-pH-Countdown requires a relatively low dose of cyan light in order to activate. As a result, at high magnifications, where there are few fluorophores per pixel, it becomes challenging to take high SNR pictures that do not cause substantial activation. In this context, we image in a 'disruptive' mode, where we take 5-10 pictures that have good SNR and also cause activation, and image the decay at a single point after a waiting period on the order of 2 to 15 seconds, as illustrated by the blue dots and vertical blue lines in the lower left panel of <a href="./index.html#sensor_mechanism_comparison_figure">Figure 3</a>. This type of measurement is (slightly) instrument- and intensity-dependent, and absolute pH measurement typically requires a calibration.
+pH-Countdown requires a relatively low dose of cyan light in order to activate. As a result, at high magnifications, where there are few fluorophores per pixel, it becomes challenging to take high SNR pictures that do not cause substantial activation. In this context, we image in a 'disruptive' mode, where we take 5-10 pictures that have good SNR and also cause activation, and image the decay at a single point after a waiting period on the order of 2 to 15 seconds, as illustrated by the blue dots and vertical blue lines in the lower left panel of <a href="./index.html#sensor_mechanism_comparison_figure">Figure 3</a>. This type of measurement is (slightly) instrument- and intensity-dependent, and absolute pH measurement typically requires a calibration. <a href="./index.html#autofluorescence_data_figure">Figure 4</a> shows an example of the 'disruptive' mode, using 50 ms exposures of 470&plusmn;12 nm, 1.7 W/cm<sup>2</sup> illumination.
 </p>
 
-<p>At low magnifications, where there are many fluorophores per pixel, it is straightforward to acquire a good SNR picture that does not cause significant activation. We call this the 'non-disruptive' imaging mode. Since imaging alone does not cause substantial photoactivation, we activate by interleaving high doses of cyan light in between images, and we typically record the whole decay trace after activation. This measures a relaxation rate that is a property of the fluorophore, and therefore instrument- and intensity-independent.
+<p>At low magnifications, where there are many fluorophores per pixel, it is straightforward to acquire a good SNR picture that does not cause significant activation. We call this the 'non-disruptive' imaging mode. Since imaging alone does not cause substantial photoactivation, we activate by interleaving high doses of cyan light in between images, and we typically record the whole decay trace after activation. This measures a relaxation rate that is a property of the fluorophore, and therefore instrument- and intensity-independent. <a href="./index.html#robust_against_background_figure">Figure 2</a> shows an example of the 'non-disruptive' mode, using 500 &mu;s exposures of 470&plusmn;20 nm, 10 mW/cm<sup>2</sup> illumination for imaging, and ~2 s exposures for activation.
  </p>
 
 <h3 id="sequences">
