@@ -65,7 +65,7 @@ The real text begins here.
 <a id="Abstract" href="#Abstract" target="_self">
 <h4>Abstract</h4></a>
 <p class="abstract">
-Sensors based on fluorescent proteins or molecules are often used in microscopy to reveal quantities of interest like pH
+Sensors based on fluorescent proteins or molecules are often used in optical imaging to reveal quantities of interest like pH
 
 [<a class="citation" href="http://doi.org/10.1038/28190" title="Visualizing secretion and synaptic transmission with pH-sensitive green fluorescent proteins; Gero Miesenböck, Dino A. De Angelis &amp; James E. Rothman; Nature 394, 192–195 (1998)">Miesenböck 1998</a>],
  
@@ -77,7 +77,7 @@ or temperature
 
 [<a class="citation" href="http://doi.org/10.1038/nmeth.2690" title="Genetically encoded fluorescent thermosensors visualize subcellular thermoregulation in living cells; Shigeki Kiyonaka, Taketoshi Kajimoto, Reiko Sakaguchi, Daisuke Shinmi, Mariko Omatsu-Kanbe, Hiroshi Matsuura, Hiromi Imamura, Takenao Yoshizaki, Itaru Hamachi, Takashi Morii &amp; Yasuo Mori; Nature Methods 10, 1232–1238 (2013)">Kiyonaka 2013</a>].
 
-Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against sample opacity or autofluorescence), or lifetime (which is not robust against sample autofluoresence, or compatible with simple microscopes). This makes precise <em>in vivo</em> measurement almost impossible, except in extremely transparent creatures.
+Sensor readout is typically based on fluorescence intensity (which is not quantitative), color (which is not robust against sample opacity or autofluorescence), or lifetime (which is not robust against sample autofluoresence, or compatible with simple imaging systems). This makes precise <em>in vivo</em> measurement almost impossible, except in extremely transparent creatures.
 </p>
 
 <p class="abstract">
@@ -85,7 +85,7 @@ We've developed a new way to read out quantities of interest
 
 [<a class="citation" href="https://patents.google.com/patent/WO2021163502A1" title="Engineered fluorescent spontaneous isomerization rate biosensors; Maria Ingaramo, Andrew York; International Patent Application No. WO2021163502A1 (2020)">Ingaramo 2020</a>],
 
-which we call "relaxation sensing". Relaxation sensors are quantitative, robust against sample opacity and autofluorescence, and compatible with simple timelapse microscopes. To enable genetically-expressed relaxation sensors, we engineered 
+which we call "relaxation sensing". Relaxation sensors are quantitative, robust against sample opacity and autofluorescence, and compatible with simple timelapse imaging systems. To enable genetically-expressed relaxation sensors, we engineered 
 
 <a href="./appendix.html#sequences"
 title="
@@ -109,7 +109,7 @@ LLYSDGNYAL SLEGGGHYRC DNKTTYKAKK VVQLPDYHWV
 THSIVIKSHD KDYSNVNLHE HAEAHSELPR QAMDELYK"
 >pH-Countdown</a>,
 
- a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures, despite substantial autofluorescence and opacity. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
+ a relaxation sensor with rapid pH-dependent relaxation rates. pH-Countdown quantitatively reports pH in living creatures like yeast, worms, and mice, despite substantial autofluorescence and opacity. We discuss how Countdown can be adapted to report other quantities of interest, and how other fluorescent domains can be used for relaxation sensing.
 
 </p>
 
@@ -313,14 +313,14 @@ To demonstrate relaxation sensing in living creatures, we transfected <a href=".
  
 <strong><em>Main panel</em></strong>: Raw timelapse animation (grayscale) of the middle portion of a <em>C. elegans</em> carrying a Peft-3::pH-Countdown::unc-54 <a href="./appendix.html#sequences">plasmid</a>, measured in the GFP channel of <a href="./appendix.html#elegans_imaging">a simple fluorescence microscope</a>. The field of view is 260x210 &mu;m<sup>2</sup>. Solid green box marks a region containing mostly sensor, dotted magenta box marks a region containing mostly autofluorescence.
  
- <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (solid green) and mostly-autofluorescence (dotted magenta) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan vertical lines show photoactivation and fluorescence excitation vs. time via 470&plusmn;12 nm illumination.</figcaption>
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the mostly-sensor (solid green) and mostly-autofluorescence (dotted magenta) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via violet illumination (395&plusmn;12.5 nm), cyan vertical lines show photoactivation and fluorescence excitation vs. time via cyan illumination (470&plusmn;12 nm, 1.7 W/cm<sup>2</sup>).</figcaption>
 </figure><p></p>
 
 <p>
 The GFP-channel timelapse in Figure 4 shows both autofluorescent background and pH-Countdown signal. We first drive pH-Countdown toward the inactive state with violet light (inset, vertical violet lines), and then acquire a series of images with cyan light (inset, vertical cyan lines) which <a href="./appendix.html#activation_due_to_measurement">drives pH-Countdown into the active state</a> (and out of thermal equilibrium).</p>
 
 <p>
-In some regions (solid green box), the signal is mostly due to the sensor, but many regions (dotted magenta box) have sensor-to-background ratios substantially below 1: most of the photoelectrons are from autofluorescent background. This situation is typical in <em>C. elegans</em>, and quite frustrating in our experience. No intensity- or lifetime-based sensor we've tried gives us any way to distinguish signal photoelectrons from background, so they all yield systematically distorted results in <em>C. elegans</em>
+In some regions (solid green box), the signal is mostly due to the sensor, but many regions (dotted magenta box) have sensor-to-background ratios substantially below 1: most of the photoelectrons are from autofluorescent background. This situation is typical in <em>C. elegans</em>, and quite frustrating in our experience. No intensity- or lifetime<a id="footnote_1" title="Easter egg: a photoactivatible lifetime sensor would solve this, but they don't seem to currently exist. Let's make some! The tradeoffs with respect to relaxation sensors are fun; you'd need a microscope that can measure lifetime, but you could maybe take data faster, since there's no reason in principle why lifetime measurements and photoswitching can't be really fast. Alternatively, we could try to mutate-and-screen Countdown to be much faster. Not sure which path is easier." href="#footnote_1"><sup>*</sup></a>-based sensor we've tried gives us any way to distinguish signal photoelectrons from background, so they all yield systematically distorted results in <em>C. elegans</em>
 
 [<a class="citation" href="http://doi.org/10.1073/pnas.0904764106" title="Visualization of ATP levels inside single living cells with fluorescence resonance energy transfer-based genetically encoded indicators; Hiromi Imamura, Kim P. Huynh Nhat, Hiroko Togawa, Kenta Saito, Ryota Iino, Yasuyuki Kato-Yamada, Takeharu Nagai, and Hiroyuki Noji; PNAS 106 (37) 15651-15656 (2009)">Imamura 2009</a>,
 
@@ -358,7 +358,7 @@ The key point of Figure 4 is that pH-Countdown's signal is distinguishable from 
 </figure><p></p>
 
 <p>
-The green "sensor" overlay in Figure 5 is simply the difference between the most-photoactivated and least-photoactivated frames from the timelapse in Figure 4. The paralyzed worm doesn't move during this ~3.5 s interval, and neither pH-Countdown nor autofluorescence <a href="./appendix.html#mitochondria_phcountdown_figure">bleach measurably</a> due to the 10 cyan exposures we use for a single photoactivation cycle. Therefore, the green "sensor" image is due only to photoactivation of pH-Countdown, and Poisson fluctuations from both the sensor and the background. Poisson fluctuations have zero mean, so background causes noise in the sensor signal, but no systematic distortion. Poisson fluctuations scale like the square root of the total counts, so even though the signal-to-background ratio is &lt;1 at many pixels, the signal-to-noise ratio is &gt;1 for most pixels with measurable sensor.
+The green "sensor" overlay in Figure 5 is simply the difference between the most-photoactivated and least-photoactivated frames from the timelapse in Figure 4. The paralyzed worm doesn't move during this ~3.5 s interval, and neither pH-Countdown nor autofluorescence <a href="./appendix.html#mitochondria_phcountdown_figure">bleach measurably</a> due to the 10 cyan exposures we use for a single photoactivation. Therefore, the green "sensor" image is due only to photoactivation of pH-Countdown, and Poisson fluctuations from both the sensor and the background. Poisson fluctuations have zero mean, so background causes noise in the sensor signal, but no systematic distortion. Poisson fluctuations scale like the square root of the total counts, so even though the signal-to-background ratio is &lt;1 at many pixels, the signal-to-noise ratio is &gt;1 for most pixels with measurable sensor.
 </p>
 
 <p>
@@ -399,7 +399,7 @@ To estimate pH, we only need the green "sensor" channel. However, we can also es
 
 <strong><em>Main panel</em></strong>: Background-subtracted animation (green colormap) of the timelapse from Figure 4, now including relaxation after photoactivation. Dotted blue box marks a low-pH region with slow photoactivation and relaxation rates, solid yellow box marks a high-pH region with rapid photoactivation and relaxation rates.
  
- <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via 395&plusmn;12.5 nm illumination, cyan vertical lines show <a href="./appendix.html#activation_due_to_measurement">photoactivation and fluorescence excitation</a> vs. time via 470&plusmn;12 nm illumination, black horizontal bar shows the illumination-free relaxation interval.
+ <strong><em>Inset</em></strong>: Average fluorescent signal vs. time for the low-pH (dotted blue) and high-pH (solid yellow) regions marked in the main panel. Violet vertical lines show photodeactivation vs. time via violet illumination (395&plusmn;12.5 nm), cyan vertical lines show <a href="./appendix.html#activation_due_to_measurement">photoactivation and fluorescence excitation</a> vs. time via cyan illumination (470&plusmn;12 nm, 1.7 W/cm<sup>2</sup>), black horizontal bar shows the illumination-free relaxation interval.
 </figcaption>
 </figure><p></p>
 
@@ -487,29 +487,34 @@ Encouraged by our results in <em>C. elegans</em>, we decided to attempt relaxati
 <figcaption><strong>Figure 8: Relaxation sensing noninvasively reveals quantitative organelle-specific drug-induced pH dynamics in a highly opaque living mouse.</strong>
 
 <strong><em>Left panel:</em></strong>:
-Raw timelapse animation (grayscale) of the back of a <a href="./appendix.html#mouse_imaging">BALB/cJ mouse</a> carrying a subcutaneous tumor expressing <a href="./appendix.html#sequences">mito-pH-Countdown</a>, measured in the GFP channel of a simple <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>. The field of view is TODO: Maria. Orange/blue box marks a region expressing pH-Countdown.
+Raw timelapse animation (grayscale) of the back of a <a href="./appendix.html#mouse_imaging">BALB/cJ mouse</a> carrying a subcutaneous tumor expressing <a href="./appendix.html#sequences">mito-pH-Countdown</a>, measured in the GFP channel of a simple <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>. The field of view is TODO: Maria. Orange/blue/green box marks a region expressing pH-Countdown.
 
-<strong><em>Right panel:</em></strong> Average fluorescent signal vs. time for two measurements before (orange, dots) and two measurements after (blue or green, triangles) administration of the mitochondrial uncoupler <a href="https://doi.org/10.1016/j.molmet.2013.11.005">BAM15</a>. Cyan region show photoactivation vs. time via 470±20 nm illumination. Gray lines show calibration measurements for pH 7.5 (solid) and pH 8 (dashed).
+<strong><em>Right panel:</em></strong> Average fluorescent signal vs. time for two measurements before (orange, dots) and two measurements after (blue or green, triangles) administration of the mitochondrial uncoupler <a href="https://doi.org/10.1016/j.molmet.2013.11.005">BAM15</a>. Cyan box shows photoactivation interval (470&plusmn;20 nm, 60 mW/cm<sup>2</sup>). Light gray lines show calibration measurements for pH 7.5 (solid) and pH 8 (dashed).
+
 </figcaption>
 </figure><p></p>
 
+
 <p>
-Important minutiae
-Thoughts and interpretations
-The point and the pivot
+BAM15 is a "mitochondrial uncoupler" 
+
+[<a class="citation" href="https://doi.org/10.1016/j.molmet.2013.11.005" title="Identification of a novel mitochondrial uncoupler that does not depolarize the plasma membrane; Brandon M.Kenwood, Janelle L.Weaver, Amandeep Bajwa, Ivan K.Poon, Frances L.Byrne, Beverley A.Murrow, Joseph A.Calderone, Liping Huang, Ajit S. Divakaruni, Jose L. Tomsig, Kohki Okabe, Ryan H. Lo, G. Cameron Coleman, Linda Columbus, Zhen Yan, Jeffrey J. Saucerman, Jeffrey S.Smith, Jeffrey W.Holmes, Kevin R. Lynch, Kodi S.Ravichandran, Seiichi Uchiyama, Webster L.Santos, George W. Rogers, Mark D. Okusa, Douglas A.Bayliss, Kyle L.Hoehn; Molecular Metabolism 3, 2, 114-123 (2014)">Kenwood 2014</a>],
+
+which has been explored as a potential anti-obesity drug 
+
+[<a class="citation" href="https://dx.doi.org/10.1038%2Fs41467-020-16298-2" title="Mitochondrial uncoupler BAM15 reverses diet-induced obesity and insulin resistance in mice; Stephanie J. Alexopoulos, Sing-Young Chen, Amanda E. Brandon, Joseph M. Salamoun, Frances L. Byrne, Christopher J. Garcia, Martina Beretta, Ellen M. Olzomer, Divya P. Shah, Ashleigh M. Philp, Stefan R. Hargett, Robert T. Lawrence, Brendan Lee, James Sligar, Pascal Carrive, Simon P. Tucker, Andrew Philp, Carolin Lackner, Nigel Turner, Gregory J. Cooney, Webster L. Santos, and Kyle L. Hoehn; Nat Commun. 11, 2397 (2020)">Alexopoulos 2020</a>].
+
+Mitochondrial uncouplers transport protons into the mitochondrial matrix, which we would expect to lower the mitochondrial pH. By <a href="./appendix.html#mouse_imaging">expressing pH-Countdown</a> in the mitochondria of a tumor in a living mouse, we can directly quantitatively interrogate the proposed mechanism of action of this drug.
 </p>
 
 <p>
-Cite the BAM15 paper. We expect this to lower the pH (link to mammal cell imaging) but not as much as in the cells, since it's buffered by the creature. There are two measurements at each condition, and they strongly resemble each other, which is nice.
+As shown in Figure 8, the signal from fully subcutaneous pH-Countdown clearly reveals a drug-induced shift in mitochondrial pH, of roughly 0.2 pH units. This agrees qualitatively with <a href="./appendix.html#mitochondria_in_mammalian_cells">similar measurements in cultured cells</a>, where mitochondrial uncouplers rapidly lower mitochondrial pH. However, it disagrees <em>quantitatively</em> with our results when the same cell type is given the same drug in a dish, which yields a shift closer to 1 pH unit. It's not surprising that an animal buffers the effects of a drug on its cells, but it's exciting that we can now measure the difference quantitatively. Note that we can also explore pharmacokinetics; for example, the mitochondrial pH begins to return to baseline in an interval consistent with BAM15's reported half-life (Figure 8 with <code>Comparison: Before and 40 minutes after BAM15</code>).
 </p>
 
 <p>
-- You really can't look at light-driven rates anymore, light intensity is totally out of control.
-- Since we can't use 405 to rapidly deliver a steady state, we have to use/trust thermal equilibration
-- Alternatively, we can ignore the starting point of photoactivation, and JUST look at relaxation rates (sag) rather than relaxation ratio. Here, we normalize to start of decay and end of decay - less sensitive, but more robust.
-- Since there's tons of scattering here, we can't take spatial resolution too seriously, so our specificity comes from genetic targetting, rather than imaging. This can be both organelle (e.g. mitochondria) and tissue (e.g. tumor) specific.
-- The mouse moves a lot, but in this case the image processing is easy, since we're just trying to hold the amount of sensor enclosed by the box constant. We did simple XY image registration centered on a bright spot near the orange/blue/green box.
+The mouse is an extremely challenging context for this type of quantitative measurement. In <a href="./appendix.html#mitochondria_in_mammalian_cells">cultured cells</a>, we can use spatial resolution to assign signal to a particular organelle. In the mouse, scattering degrades our spatial resolution by orders of magnitude, and we rely exclusively on <a href="./appendix.html#mouse_imaging">genetic targetting</a> for organelle- and tissue-specific measurement. In transparent creatures like the worm, we could measure via either activation or relaxation rates. In the mouse, scattering makes calibrating our illumination intensity effectively impossible, and we can only make quantitative measurements via relaxation rates. In transparent creatures, we can take measurements more rapidly by using homogenous violet illumination to <a href="./appendix.html#elegans_imaging">force pH-Countdown</a> into a standard initial condition. In the mouse, scattering prevents deep penetration of violet light, and we must wait for thermal equilibrium if we want to start a measurement in a well-defined steady-state. The paralyzed worm held extremely still, but the heartbeat, breathing, and wiggling of the anaesthetized mouse required image registration to prevent measurement artifacts. Despite these challenges, we were pleased with the repeatability of our measurements; note that each color curve in the right panel of Figure 8 is actually two curves, from two consecutive repetitions of the same measurement.
 </p>
+
 <p>
 - We estimate our pH change is 0.2-0.3 units before and after drug. This is kinda small! It's hard to cause big changes that aren't lethal though. Good thing we're so sensitive.
 -If we wanted to draw biological conclusions, we'd need more mice and statistics, but since we're just trying to show an optical approach can work, in principle, n=1 is sufficient. This is literally the first (only) time we tried it, and it worked.
