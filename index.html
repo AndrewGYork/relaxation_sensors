@@ -15,6 +15,7 @@ Based on this theme: https://github.com/broccolini/dinky , which mentioned that 
     <meta name="citation_title" content="Relaxation Sensors">
     <meta name="citation_author" content="Zümra Peksağlam Seidel">
     <meta name="citation_author" content="John Wang">
+    <meta name="citation_author" content="Johannes Riegler">
     <meta name="citation_author" content="Andrew G. York">
     <meta name="citation_author" content="Maria del Mar Ingaramo">
     <meta name="citation_publication_date" content="2021/03/15">
@@ -57,7 +58,7 @@ The real text begins here.
 <section>
 <h1>Research article</h1>
 <h2>Relaxation Sensors</h2>
-<p class="author_list">Zümra Peksağlam Seidel, John Wang, Andrew G. York<sup>*</sup>, Maria Ingaramo<sup>&dagger;</sup></p>
+<p class="author_list">Zümra Peksağlam Seidel, John Wang, Johannes Riegler, Andrew G. York<sup>*</sup>, Maria Ingaramo<sup>&dagger;</sup></p>
 <p class="author_affiliations">Calico Life Sciences LLC, South San Francisco, CA 94080, USA</p>
 <p class="contact_email"><sup>*</sup>Permanent email: <a href="mailto:andrew.g.york+relaxationsensors@gmail.com" target="_self">andrew.g.york+relaxationsensors@gmail.com</a></p>
 <p class="contact_email"><sup>&dagger;</sup>Permanent email: <a href="mailto:maria.del.mar.ingaramo+relaxationsensors@gmail.com" target="_self">maria.del.mar.ingaramo+relaxationsensors@gmail.com</a></p>
@@ -163,7 +164,7 @@ called "<a href="https://www.fpbase.org/protein/padron/">Padron</a>"
 
 [<a class="citation" href="http://doi.org/10.1038/nbt.1493" title="Photoswitchable fluorescent proteins enable monochromatic multilabel imaging and dual color fluorescence nanoscopy; Martin Andresen, Andre C Stiel, Jonas Fölling, Dirk Wenzel, Andreas Schönle, Alexander Egner, Christian Eggeling, Stefan W Hell &amp; Stefan Jakobs; Nature Biotechnology 26, 1035–1040 (2008)">Andresen 2008</a>], 
 
-we iteratively introduced <a href="./appendix.html#mutation_history">roughly 20 mutations</a> to speed up spontaneous equilibration by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
+we iteratively introduced <a href="./appendix.html#mutation_history">roughly 20 mutations</a> to speed up spontaneous equilibration (and photoactivation) by roughly a thousandfold, while preserving the brightness, photostability, and contrast ratio of the parent, to produce a protein we call 
 "<a href="./appendix.html#sequences"
 title="
 MVSKGEENNM AVIKPDMKIK LRMEGSVNGH RFRIEGVGLG
@@ -259,9 +260,15 @@ Dual-color intensity measurements can help control for the amount of sensor. If 
 
 <a class="citation" href="http://doi.org/10.4236/abb.2011.23021" title="pHluorin2: an enhanced, ratiometric, pH-sensitive green florescent protein; Matthew John Mahon; Advances in Bioscience and Biotechnology, 2, 132-137 (2011)">Mahon 2011</a>]).
 
-Unfortunately, autofluorescence, scattering, or absorption from the sample distorts the ratio of the two channels. If the two channels come from two linked fluorescent proteins
+Unfortunately, autofluorescence, scattering, or absorption from the sample distorts the ratio of the two channels. Sensors based on luminescence
 
-(e.g. [<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>]),
+(e.g. [<a class="citation" href="https://doi.org/10.1039/c4pp00278d" title="Novel application of pH-sensitive firefly luciferases as dual reporter genes for simultaneous ratiometric analysis of intracellular pH and gene expression/location; Gabriele V.M. Gabriel, Vadim R. Viviani; Photochem. Photobiol. Sci., 13, 1661-1670 (2014)">Gabriel 2014</a>])
+
+eliminate autofluorescence, but scattering or absorption still distorts the ratio of the two channels. If the two channels come from two linked fluorescent proteins
+
+(e.g. [<a class="citation" href="http://doi.org/10.1016/j.cmet.2011.08.012" title="Imaging Cytosolic NADH-NAD+ Redox State with a Genetically Encoded Fluorescent Biosensor; Yin Pun Hung, John G. Albeck, Mathew Tantama &amp; Gary Yellen; Cell Metabolism 14, 545–555 (2011)">Hung 2011</a>,
+
+<a class="citation" href="https://doi.org/10.1371/journal.pone.0043072" title="pHlash: A New Genetically Encoded and Ratiometric Luminescence Sensor of Intracellular pH; Yunfei Zhang, Qiguang Xie, J. Brian Robertson, Carl Hirschie Johnson; PLoS ONE 7(8): e43072 (2012)">Zhang 2012</a>]),
 
 the two proteins also won't mature, degrade, or photobleach at the same rate. These sources of sample-dependent systematic errors are quite common, and difficult to eliminate, predict, or calibrate.
 </p>
@@ -277,11 +284,11 @@ Lifetime measurement is expensive, slow, and rare compared to intensity measurem
 </p>
 
 <p>
-In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-spectral-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption have <a href="./appendix.html#robust_against_perturbations">no systematic effect</a> on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
+In contrast, the decay rate of a relaxation sensor (Figure 3, bottom left panel) is self-normalizing and reveals absolute analyte quantity. The single-spectral-channel timelapse measurement is compatible with other fluorophores, and simple hardware. The amount of sensor, amount of background, or emission attenuation due to scattering/absorption has <a href="./appendix.html#robust_against_perturbations">no systematic effect</a> on the normalized signal, yielding a robust sample-independent measurement (Figure 2, bottom panel).
 </p>
 
 <p>
-Relaxation sensing shows incredible promise, but our current implementation leaves <a href="./index.html#discussion" target="_self">room for improvement</a>. pH-Countdown's apparent decay rate <a href="./appendix.html#activation_due_to_measurement">depends weakly on the amount of illumination</a> during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figure 2). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
+Relaxation sensing shows incredible promise, but our current implementation leaves <a href="./index.html#discussion" target="_self">room for improvement</a>. pH-Countdown's apparent decay rate <a href="./appendix.html#activation_due_to_measurement">depends weakly on the amount of illumination</a> during measurement, because cyan light drives both activation and excitation (bottom left panel of Figure 3 with <code>Animated quantity: Illumination</code> selected). This can be calibrated by using the same illumination for calibration and measurement (Figures 4-7), or predicted since the activation rate reveals the amount of illumination, or eliminated by using low intensity illumination (Figures 2 and 8). A relaxation sensor engineered from a photoswitcher with decoupled activation/excitation would also eliminate this concern
 
 [<a class="citation" href="https://doi.org/10.1038/nbt.1952" title="A reversibly photoswitchable GFP-like protein with fluorescence excitation decoupled from switching; Brakemann T, Stiel Ac, Weber G, Andresen M, Testa I, Grotjohann T, Leutenegger M, Plessmann U, Urlaub H, Eggeling C, Wahl Mc, Hell Sw, Jakobs S; Nature Biotechnology, 29(10), 942-947 (2011)">Brakemann 2011</a>].
 
@@ -471,7 +478,7 @@ $$\begin{equation}
 Opaque creatures</h4>
 
 <p>
-Encouraged by our results in <em>C. elegans</em>, we decided to attempt relaxation sensing in a much more challenging context: living mice. Figure 8 shows pH-Countdown measurements in a live (but anaesthatized) <em>Mus musculus</em>.
+Encouraged by our results in <em>C. elegans</em>, we decided to attempt relaxation sensing in a much more challenging context: living mice. Figure 8 shows pH-Countdown measurements in a live (but anaesthetized) <em>Mus musculus</em>.
 </p>
 
 <figure id="mouse_mito_bam_figure">
@@ -487,7 +494,7 @@ Encouraged by our results in <em>C. elegans</em>, we decided to attempt relaxati
 <figcaption><strong>Figure 8: Relaxation sensing noninvasively reveals quantitative organelle-specific drug-induced pH dynamics in a highly opaque living mouse.</strong>
 
 <strong><em>Left panel:</em></strong>:
-Raw timelapse animation (grayscale) of the back of a <a href="./appendix.html#mouse_imaging">BALB/cJ mouse</a> carrying a subcutaneous tumor expressing <a href="./appendix.html#sequences">mito-pH-Countdown</a>, measured in the GFP channel of a simple <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>. The field of view is TODO: Maria. Orange/blue/green box marks a region expressing pH-Countdown.
+Raw timelapse animation (grayscale) of the back of a <a href="./appendix.html#mouse_imaging">BALB/cJ mouse</a> carrying a subcutaneous tumor expressing <a href="./appendix.html#sequences">mito-pH-Countdown</a>, measured in the GFP channel of a simple <a href="./appendix.html#chicken_blaster">fluorescence photography system</a>. The field of view is TODO: Maria. Orange/blue/green box marks a region expressing mito-pH-Countdown.
 
 <strong><em>Right panel:</em></strong> Average fluorescent signal vs. time for two measurements before (orange, dots) and two measurements after (blue or green, triangles) administration of the mitochondrial uncoupler <a href="https://doi.org/10.1016/j.molmet.2013.11.005">BAM15</a>. Cyan box shows photoactivation interval (470&plusmn;20 nm, 60 mW/cm<sup>2</sup>). Light gray lines show calibration measurements for pH 7.5 (solid) and pH 8 (dashed).
 
@@ -508,26 +515,23 @@ Mitochondrial uncouplers transport protons into the mitochondrial matrix, which 
 </p>
 
 <p>
-As shown in Figure 8, the signal from fully subcutaneous pH-Countdown clearly reveals a drug-induced shift in mitochondrial pH, of roughly 0.2 pH units. This agrees qualitatively with <a href="./appendix.html#mitochondria_in_mammalian_cells">similar measurements in cultured cells</a>, where mitochondrial uncouplers rapidly lower mitochondrial pH. However, it disagrees <em>quantitatively</em> with our results when the same cell type is given the same drug in a dish, which yields a shift closer to 1 pH unit. It's not surprising that an animal buffers the effects of a drug on its cells, but it's exciting that we can now measure the difference quantitatively. Note that we can also explore pharmacokinetics; for example, the mitochondrial pH begins to return to baseline in an interval consistent with BAM15's reported half-life (Figure 8 with <code>Comparison: Before and 40 minutes after BAM15</code>).
+As shown in Figure 8, the signal from fully subcutaneous mito-pH-Countdown clearly reveals a drug-induced shift in mitochondrial pH, of roughly 0.2 pH units. This agrees qualitatively with <a href="./appendix.html#mitochondria_in_mammalian_cells">similar measurements in cultured cells</a>, where mitochondrial uncouplers rapidly lower mitochondrial pH. However, it disagrees <em>quantitatively</em> with our results when the same cell type is given the same drug in a dish, which yields a shift closer to 1 pH unit. It's not surprising that an animal buffers the effects of a drug on its cells, but it's exciting that we can now measure the difference quantitatively. Note that we can also explore pharmacokinetics; for example, the mitochondrial pH begins to return to baseline in an interval consistent with BAM15's reported half-life (Figure 8 with <code>Comparison: Before and 40 minutes after BAM15</code>).
 </p>
 
 <p>
-The mouse is an extremely challenging context for this type of quantitative measurement. In <a href="./appendix.html#mitochondria_in_mammalian_cells">cultured cells</a>, we can use spatial resolution to assign signal to a particular organelle. In the mouse, scattering degrades our spatial resolution by orders of magnitude, and we rely exclusively on <a href="./appendix.html#mouse_imaging">genetic targetting</a> for organelle- and tissue-specific measurement. In transparent creatures like the worm, we could measure via either activation or relaxation rates. In the mouse, scattering makes calibrating our illumination intensity effectively impossible, and we can only make quantitative measurements via relaxation rates. In transparent creatures, we can take measurements more rapidly by using homogenous violet illumination to <a href="./appendix.html#elegans_imaging">force pH-Countdown</a> into a standard initial condition. In the mouse, scattering prevents deep penetration of violet light, and we must wait for thermal equilibrium if we want to start a measurement in a well-defined steady-state. The paralyzed worm held extremely still, but the heartbeat, breathing, and wiggling of the anaesthetized mouse required image registration to prevent measurement artifacts. Despite these challenges, we were pleased with the repeatability of our measurements; note that each color curve in the right panel of Figure 8 is actually two curves, from two consecutive repetitions of the same measurement.
+The mouse is an extremely challenging context for this type of quantitative measurement. In <a href="./appendix.html#mitochondria_in_mammalian_cells">cultured cells</a>, we can use spatial resolution to assign signal to a particular organelle. In the mouse, scattering degrades our spatial resolution by orders of magnitude, and we rely exclusively on <a href="./appendix.html#mouse_imaging">genetic targeting</a> for organelle- and tissue-specific measurement. In transparent creatures like the worm, we could measure via either activation or relaxation rates. In the mouse, opacity makes calibrating our illumination intensity effectively impossible, and we can only make quantitative measurements via relaxation rates. In transparent creatures, we can take measurements more rapidly by using homogenous violet illumination to <a href="./appendix.html#elegans_imaging">force pH-Countdown</a> into a standard initial condition. In the mouse, opacity prevents deep penetration of violet light, and we must wait for thermal equilibrium if we want to start a measurement in a well-defined steady-state. The paralyzed worm held extremely still, but the heartbeat, breathing, and wiggling of the anaesthetized mouse required image registration to prevent measurement artifacts.
 </p>
 
 <p>
-- We estimate our pH change is 0.2-0.3 units before and after drug. This is kinda small! It's hard to cause big changes that aren't lethal though. Good thing we're so sensitive.
--If we wanted to draw biological conclusions, we'd need more mice and statistics, but since we're just trying to show an optical approach can work, in principle, n=1 is sufficient. This is literally the first (only) time we tried it, and it worked.
-- This is pretty damn cool. No other optical method can do this (correctly).
+The comparison between <em>in cellulo</em> and <em>in vivo</em> measurements is striking: ~fivefold smaller pH changes, terrible spatial resolution, inhomogenous opacity, and a moving sample. We expect these to be general features of most noninvasive measurements of nonlethal perturbations <em>in vivo</em>, which emphasizes the importance of sensitive, quantitative, robust sensing.  Despite these challenges, we were pleased with the repeatability of our measurements; note that each color curve in the right panel of Figure 8 is actually two curves, from two consecutive repetitions of the same measurement. We were pleasantly surprised that this approach worked so well on our first try; we expected mousework to be more frustrating. Of course, if we want to draw meaningful conclusions about BAM15 or mouse physiology, we would repeat this measurement in more mice, and more conditions. Since our primary goal is to establish that this type of optical measurement is possible in principle, we feel n=1 is still useful. To our knowledge, there is currently no other way to take this type of measurement.
 </p>
-
 
 
 <h3 id="discussion">
 Discussion</h3>
 <h4>Will this work in mice that aren't asleep?</h4>
 <p>
-One of our ambitions is to enable scientists and researchers to quickly, accurately measure the (sub)cutaneous concentration of a wide range of small molecules in freely-moving mice. We are optimistic, because a dead chicken is roughly optically equivalent to a live mouse. Of course, the chicken tends to hold still; to extend relaxation sensing to a wider range of creatures, we need strategies to deal with their motion.
+One of our ambitions is to enable scientists and researchers to quickly, accurately measure the (sub)cutaneous concentration of a wide range of small molecules in freely-moving mice. We are optimistic, because a dead chicken is roughly optically equivalent to a live mouse. Of course, the chicken tends to hold still; to extend relaxation sensing to a wider range of creatures in a wider range of conditions, we need strategies to deal with their motion.
 </p>
 <p>
 The simple algorithms that produce Figures 5, 6, and 7 use pixelwise subtraction, which assumes the fluorophores at each pixel hold still during relaxation. More generally, we can compare any two regions across time if we're confident the two regions contain the same set of fluorophores. For example, <a href="./appendix.html#mitochondria_in_mammalian_cells">mitochondria move substantially during relaxation</a>, but we can still accurately calculate <a href="./appendix.html#mitochondria_phcountdown_figure">whole-cell relaxation ratios</a>. This approach trades spatial resolution for simplicity and accuracy, but this may be a useful trade in many contexts.
@@ -542,7 +546,7 @@ Another strategy to deal with sample motion is to take our data more quickly. In
 
 [<a class="citation" href="https://doi.org/10.5281/zenodo.3244420" title="High NA single-objective light-sheet; Alfred Millett-Sikking, Kevin M. Dean, Reto Fiolka, Amir Fardad, Lachlan Whitehead, and Andrew G. York; doi:10.5281/zenodo.3244420 (2019)">Millett-Sikking 2019</a>],
 
-we can take whole-cell 3D pH-Countdown photoactivation curves in 10-100 ms. As shown in Figures 1, 2, 3 and 6, the <em>activation</em> rate of a relaxation sensor also depends on our quantity of interest, and as shown in Figure 7 with <code>Measurement type: Sensor activation rate</code>, we can use this rate to infer pH. Unfortunately, activation rates also depend on illumination intensity (Figure 3, bottom left panel with <code>Animated quantity: Illumination</code>), but this suggests an approach that uses photoactivation rates for high-speed measurement, calibrated <em>in situ</em> by slow but accurate relaxation rate measurements.
+we can take whole-cell 3D pH-Countdown photoactivation curves in 10-100 ms. As shown in Figures 1, 2, 3 and 6, the <em>activation</em> rate of a relaxation sensor also depends on our quantity of interest, and as shown in Figure 7 with <code>Measurement type: Sensor activation rate</code>, we can use this rate to infer pH. Unfortunately, activation rates also depend on illumination intensity (Figure 3, bottom left panel with <code>Animated quantity: Illumination</code>), but this suggests an approach that uses photoactivation rates for high-speed measurement in transparent creatures, calibrated <em>in situ</em> by slow but accurate relaxation rate measurements.
 </p>
 
 <p>
@@ -577,7 +581,7 @@ As shown in Figure 1 with <code>Binding domain: Internal to fluorescent domain</
 
 [<a class="citation" href="https://doi.org/10.1126/science.1208592" title="An Expanded Palette of Genetically Encoded Ca2+ Indicators; Yongxin Zhao, Satoko Araki, Jiahui Wu, Takayuki Teramoto, Yu-Fen Chang, Masahiro Nakano, Ahmed S Abdelfattah, Manabi Fujiwara, Takeshi Ishihara, Takeharu Nagai, Robert E Campbell; Science 333(6051):1888-91 (2011)">Zhao 2011</a>]
 
-with pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screened a variety of linkers</a> for Ca<sup>2+</sup>-dependent relaxation. As shown in Figure 8, this seems to work!
+with (normal, nonpermuted) pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screened a variety of linkers</a> for Ca<sup>2+</sup>-dependent relaxation. As shown in Figure 8, this seems to work!
 
 </p>
 <figure id="pH-Ca-Countdown_figure">
@@ -585,26 +589,26 @@ with pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screene
 <figcaption><strong>Figure 9: <a href="./appendix.html#sequences">A GECO 1.1/pH-Countdown</a> fusion with a calcium-dependent relaxation rate.</strong>
 
 <strong><em>Main panel</em></strong>:
-Caption goes here
-
+Normalized fluorescence signal vs. time during photoactivation and relaxation of GECO/pH-Countdown immobilized on Ni:NTA beads before (blue) and after (orange) addition of 3 mM CaCl<sub>2</sub>. Cyan box shows photoactivation interval (470±12 nm). Grey curves show pH-Countdown for control, before (solid) and after (dotted) addition of CaCl<sub>2</sub>.
 </figcaption>
 </figure><p></p>
 
 <p>
-Just a proof of principle, not a sensor yet. Lots of work to do: characterize, optimize.
-
-We didn't permute. Weird! Good?
-
-We didn't do anything to eliminate pH sensitivity. Engineer this out? Sense both, and combine with a pH sensor? Maybe multiplex via rates?
-
-Not just for small molecules: force, temperature, right?
+We emphasize that this is just a proof of principle. Before we'd call this a "sensor", we'd prefer to do several rounds of optimization, and extensive validation and characterization. However, we're quite pleased that it seems straightforward to couple a relaxation-based readout to an existing optimized exogenous binding domain. Note that the pH-Countdown fluorescent domain in this fusion is not circularly permuted. We speculate that this is why most of the linkers we screened yielded fluorescent, photoswitching fusions; only the calcium sensitivity seemed to depend on the linker. This makes us cautiously optimisitic about the modularity of relaxation sensing via Countdown, pH-Countdown, and other fluorophores which "relax". We also speculate that if "tugging on the linkers" of a fluorescent protein modifies the relaxation rate, readout via relaxation could report any quantity which can be coupled to "tugging" (e.g. tension).
 </p>
 
-<p>The point and the pivot.
+<h4>Does this work for any other fluorophores?</h4>
+<p>
+One of our ambitions is to extend relaxation sensing to a wide range of spectral channels. Countdown and pH-Countdown both use the GFP channel; sensors in other colors would allow multiplexing. Red-shifted sensors would be especially useful to improve depth penetration for <em>in vivo</em> measurements. The diversity of engineered fluorescent proteins and molecules provides a huge set of possibilities. Can we identify existing fluorescent domains which "relax", and couple this relaxation rate to quantity of interest?
 </p>
 
+<p>
+We decided to start with YFP, which has been reported to spontaneously "relax" after photoswitching.
 
-<h4>Does this only work for green fluorophores?</h4>
+
+to build on the substantial labor our peers have already invested in developing and optimizing calcium sensors. We replaced the cpGFP fluorescent domain of the GECO 1.1 sensor [Zhao 2011] with (normal, nonpermuted) pH-Countdown, and screened a variety of linkers for Ca2+-dependent relaxation. As shown in Figure 8, this seems to work!
+</p>
+
 <figure id="LigA_cpVenus_relaxes_figure">
 <img src="./images/modularity_figures/LigA_cpVenus_relaxes.png" alt="An existing NAD biosensor with NAD-dependent relaxation rates" id="LigA_cpVenus_relaxes_image">
 <figcaption><strong>Figure 10: The NAD<sup>+</sup> sensor <a href="https://doi.org/10.1126/science.aad5168">LigA-cpVenus</a> has an NAD<sup>+</sup>-dependent relaxation rate.</strong>
@@ -614,6 +618,12 @@ Caption goes here
 
 </figcaption>
 </figure><p></p>
+
+<p>
+
+[<a class="citation" href="https://doi.org/10.1126/science.aad5168" title="Biosensor reveals multiple sources for mitochondrial NAD+; Xiaolu A. Cambronne, Melissa L. Stewart, DongHo Kim, Amber M. Jones-Brunette, Rory K. Morgan, David L. Farrens, Michael S. Cohen, Richard H. Goodman; Science 352(6292):1474-1477 (2016)">Cambronne 2016</a>]
+
+</p>
 
 <p>
 Two demos in one! Yellow relaxation sensing, NAD sensing.
