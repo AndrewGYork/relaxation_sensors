@@ -369,7 +369,7 @@ The green "sensor" overlay in Figure 5 is simply the difference between the most
 </p>
 
 <p>
-To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced <a href="./appendix.html#mutation_history">an entire mutational series</a> with intermediate photoswitching and spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
+To estimate pH, we only need the green "sensor" channel. However, we can also estimate a "background" signal which is not due to pH-Countdown, shown as a magenta overlay in Figure 5<a title="Note that the linear combination we use in Figure 5 is subjective, and slightly incorrect. We chose 1.53 and 0.53 because they seem to separate green and magenta into spatially orthogonal images. However, we strongly suspect that the correct unmixing parameter is a function of pH. Presumably, the true pH at each pixel can be inferred from the relaxation rate, and used to estimate the correct unmixing parameter. We invite our computationally-skilled colleagues to attack this question with more sophisticated methods." href="#footnote_0"><sup>&dagger;</sup></a>. In this sample, the background channel clearly shows autofluorescent gut granules, familiar to any microscopist who has studied <em>C. elegans</em> with fluorescence. Since GFP-channel autofluorescence is quite similar to GFP fluorescence, this implies an exciting possibility: sensing with pH-Countdown uses the GFP spectral channel, but <em>does not interfere</em> with using GFP to tag another structure! Relaxation sensors like pH-Countdown are single-spectral-channel sensors, but from a multiplexing perspective, they consume <em>zero</em> spectral channels. We note that during mutagenesis to produce pH-Countdown, we produced <a href="./appendix.html#mutation_history">an entire mutational series</a> with intermediate photoswitching and spontaneous decay rates, and we speculate that these mutants could be the basis for highly-multiplexed fluorescent imaging in a single spectral channel.
 </p>
 
 <p>Figures 4 and 5 show that the <em>amount</em> of photoswitching lets us separate signal from background. Figure 6 shows how the <em>rate</em> of (photo)switching reveals our quantity of interest: pH.</p>
@@ -531,10 +531,10 @@ The comparison between <em>in cellulo</em> and <em>in vivo</em> measurements is 
 Discussion</h3>
 <h4>Will this work in mice that aren't asleep?</h4>
 <p>
-One of our ambitions is to enable scientists and researchers to quickly, accurately measure the (sub)cutaneous concentration of a wide range of small molecules in freely-moving mice. We are optimistic, because a dead chicken is roughly optically equivalent to a live mouse. Of course, the chicken tends to hold still; to extend relaxation sensing to a wider range of creatures in a wider range of conditions, we need strategies to deal with their motion.
+One of our ambitions is to enable scientists and researchers to quickly, accurately measure the (sub)cutaneous concentration of a wide range of small molecules in freely-moving animals. We are optimistic, because a dead chicken is roughly optically equivalent to a live chicken. Of course, the dead chicken tends to hold still; to extend relaxation sensing to a wider range of creatures in a wider range of conditions, we need strategies to deal with their motion.
 </p>
 <p>
-The simple algorithms that produce Figures 5, 6, and 7 use pixelwise subtraction, which assumes the fluorophores at each pixel hold still during relaxation. More generally, we can compare any two regions across time if we're confident the two regions contain the same set of fluorophores. For example, <a href="./appendix.html#mitochondria_in_mammalian_cells">mitochondria move substantially during relaxation</a>, but we can still accurately calculate <a href="./appendix.html#mitochondria_phcountdown_figure">whole-cell relaxation ratios</a>. This approach trades spatial resolution for simplicity and accuracy, but this may be a useful trade in many contexts.
+The simple algorithms that produce Figures 5, 6, and 7 use pixelwise subtraction, which assumes the fluorophores at each pixel hold still during relaxation. More generally, we can compare any two regions across time if we're confident the two regions contain the same set of fluorophores. For example, <a href="./appendix.html#mitochondria_in_mammalian_cells">mitochondria move substantially during relaxation</a>, but we can still accurately calculate <a href="./appendix.html#mitochondria_phcountdown_figure">whole-cell relaxation ratios</a>. This approach trades spatial resolution for simplicity and accuracy, but this may be a useful trade in many contexts. We invite our computationally-skilled colleagues to consider attacking this problem in a more sophisticated way.
 </p>
 
 <p>
@@ -557,10 +557,25 @@ We note two practical but important details that may ultimately limit the speed 
 Finally, we note that relaxation sensing naturally integrates over a finite time window. This is unsuitable for quick measurements in wiggly samples, but we could imagine contexts where measuring a time-averaged quantity is useful. As noted in our Results section, we have <a href="./appendix.html#mutation_history">a series of mutants</a> with spontaneous decay rates spanning the range from seconds to hours, which could be used to engineer time-integrating sensors.
 </p>
 
+<h4>Can we trust our measurement?</h4>
+<p>
+We've done our best to validate pH-Countdown as a reliable sensor, but real validation comes over time from use, experience and community consensus. We have a few suspicions where potential complications may emerge:
+<ul>
+<li>
+Any sensor which binds a small molecule, even transiently, can affect the effective concentration of that molecule. We suspect that pH-Countdown acts as a "<a title="We thank Adam Cohen for introducing us to the delightful concept of a photosponge: a light-driven binding/unbinding of a small molecule by an engineered protein or chemical, to manipulate intracellular concentration of that small molecule. We suspect that his idea may prove to be a very fun and useful tool in the future." href="#footnote_2">photosponge</a>" for protons, and during rapid photoswitching at high pH-Countdown concentration, could perhaps transiently perturb pH.
+</li>
+<li>
+pH-Countdown is a (distant) descendent of <a href="https://www.fpbase.org/protein/padron/">Padron</a>, which has a strongly oligomerization-dependent contrast ratio. The relaxation rate of pH-Countdown doesn't seem to depend on concentration in our hands, but presumably there exists some concentration at which oligomerization effects become important.
+</li>
+<li>
+We failed to observe substantial <a href="./appendix.html#off_target_sensing">off-target sensing</a>, but we emphasize that such testing is never exhaustive.
+</li>
+</ul>
+</p>
 
 <h4>Does this work for anything but pH?</h4>
 
-<p>One of our ambitions is to extend relaxation sensing to a wide range of small molecules (and other quantities of interest). A typical approach to couple a quantity-of-interest to a fluorophore is to fuse a naturally-evolved binding domain to a fluorescent protein, as shown in Figure 1 with <code>Binding domain: External to fluorescent domain</code>. The diversity of evolved binding domains provides a straightforward (albeit laborious) path to modularity
+<p>One of our ambitions is to extend relaxation sensing to a wide range of target molecules (and other quantities of interest). A typical approach to couple a molecule's concentration to a fluorophore is to fuse a naturally-evolved binding domain to a fluorescent protein, as shown in <a href="#concept_animation_figure" target="_self">Figure 1</a> with <code>Binding domain: External to fluorescent domain</code>. The diversity of evolved binding domains provides a straightforward (albeit laborious) path to modularity
 
 [<a class="citation" href="http://doi.org/10.1038/84397" title="A high signal-to-noise Ca2+ probe composed of a single green fluorescent protein; Junichi Nakai, Masamichi Ohkura &amp; Keiji Imoto; Nature Biotechnology 19, 137–141 (2001)">Nakai 2001</a>,
 
@@ -581,7 +596,7 @@ As shown in Figure 1 with <code>Binding domain: Internal to fluorescent domain</
 
 [<a class="citation" href="https://doi.org/10.1126/science.1208592" title="An Expanded Palette of Genetically Encoded Ca2+ Indicators; Yongxin Zhao, Satoko Araki, Jiahui Wu, Takayuki Teramoto, Yu-Fen Chang, Masahiro Nakano, Ahmed S Abdelfattah, Manabi Fujiwara, Takeshi Ishihara, Takeharu Nagai, Robert E Campbell; Science 333(6051):1888-91 (2011)">Zhao 2011</a>]
 
-with (normal, nonpermuted) pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screened a variety of linkers</a> for Ca<sup>2+</sup>-dependent relaxation. As shown in Figure 8, this seems to work!
+with (normal, nonpermuted) pH-Countdown, and <a href="./appendix.html#calcium_sensing_library">screened a variety of linkers</a> for Ca<sup>2+</sup>-dependent relaxation. As shown in Figure 9, this seems to work!
 
 </p>
 <figure id="pH-Ca-Countdown_figure">
@@ -599,14 +614,15 @@ We emphasize that this is just a proof of principle. Before we'd call this a "se
 
 <h4>Does this work for any other fluorophores?</h4>
 <p>
-One of our ambitions is to extend relaxation sensing to a wide range of spectral channels. Countdown and pH-Countdown both use the GFP channel; sensors in other colors would allow multiplexing. Red-shifted sensors would be especially useful to improve depth penetration for <em>in vivo</em> measurements. The diversity of engineered fluorescent proteins and molecules provides a huge set of possibilities. Can we identify existing fluorescent domains which "relax", and couple this relaxation rate to quantity of interest?
+One of our ambitions is to extend relaxation sensing to a wide range of spectral channels. Countdown and pH-Countdown both use the GFP channel; sensors in other colors would allow multiplexing. Red-shifted sensors would be especially useful to improve depth penetration for <em>in vivo</em> measurements. The diversity of engineered fluorescent proteins and molecules provides a huge set of possibilities. Can we identify existing fluorescent domains which "relax", and couple this relaxation rate to a quantity of interest?
 </p>
 
 <p>
-We decided to start with YFP, which has been reported to spontaneously "relax" after photoswitching.
+A wide variety of GFP-derived fluorophores (e.g. eCFP, eYFP, Citrine) have been observed to spontaneously recover after (apparently) photobleaching during imaging
 
+[<a class="citation" href="https://doi.org/10.1021/bi047881x" title="Reversible photobleaching of enhanced green fluorescent proteins; D. Sinnecker, P. Voigt, N. Hellwig, M. Schaefer; Biochemistry 44(18):7085-94 (2005)">Sinnecker 2005</a>].
 
-to build on the substantial labor our peers have already invested in developing and optimizing calcium sensors. We replaced the cpGFP fluorescent domain of the GECO 1.1 sensor [Zhao 2011] with (normal, nonpermuted) pH-Countdown, and screened a variety of linkers for Ca2+-dependent relaxation. As shown in Figure 8, this seems to work!
+From our perspective, reversible photobleaching followed by spontaneous recovery-in-the-dark is equivalent to photoswitching followed by relaxation. Therefore, we examined an existing cpVenus-based NAD<sup>+</sup> biosensor for NAD<sup>+</sup>-dependent relaxation. As shown in Figure 10, this seems to work!
 </p>
 
 <figure id="LigA_cpVenus_relaxes_figure">
@@ -614,51 +630,46 @@ to build on the substantial labor our peers have already invested in developing 
 <figcaption><strong>Figure 10: The NAD<sup>+</sup> sensor <a href="https://doi.org/10.1126/science.aad5168">LigA-cpVenus</a> has an NAD<sup>+</sup>-dependent relaxation rate.</strong>
 
 <strong><em>Main panel</em></strong>:
-Caption goes here
+Normalized fluorescence signal vs. time during photodeactivation and relaxation of LigA-cpVenus immobilized on Ni:NTA beads before (blue) and after (orange) addition of 1 mM NAD<sup>+</sup>. Violet box shows photodeactivation interval (395±12.5 nm).
 
 </figcaption>
 </figure><p></p>
 
 <p>
+LigA-cpVenus sensing of NAD<sup>+</sup> was initially demonstrated via dual-color intensity-ratio-based readout from the single cpVenus fluorescent domain
 
-[<a class="citation" href="https://doi.org/10.1126/science.aad5168" title="Biosensor reveals multiple sources for mitochondrial NAD+; Xiaolu A. Cambronne, Melissa L. Stewart, DongHo Kim, Amber M. Jones-Brunette, Rory K. Morgan, David L. Farrens, Michael S. Cohen, Richard H. Goodman; Science 352(6292):1474-1477 (2016)">Cambronne 2016</a>]
+[<a class="citation" href="https://doi.org/10.1126/science.aad5168" title="Biosensor reveals multiple sources for mitochondrial NAD+; Xiaolu A. Cambronne, Melissa L. Stewart, DongHo Kim, Amber M. Jones-Brunette, Rory K. Morgan, David L. Farrens, Michael S. Cohen, Richard H. Goodman; Science 352(6292):1474-1477 (2016)">Cambronne 2016</a>].
 
+As we describe in our introduction, a dual-color intensity ratio can yield simple and accurate sensor readout in transparent, background-free samples. We speculate that since relaxation also depends here on NAD<sup>+</sup>, it could enable accurate readout in partially opaque, autofluorescent samples. We also suspect that further engineering could enhance this modest, accidental relaxation-based readout to more useful levels. Perhaps other existing sensors are also accidentaly relaxation sensors, and checking for this property could prove useful.
 </p>
 
-<p>
-Two demos in one! Yellow relaxation sensing, NAD sensing.
+<p>Many other fluorescent proteins have been observed to rapidly "relax", including
+<a href="https://www.fpbase.org/protein/dronpa-2/">Dronpa-2</a>,
+<a href="https://www.fpbase.org/protein/mapple/">mApple</a>,
+<a href="https://www.fpbase.org/protein/rscherryrev/">rsCherryRev</a>,
+and <a href="https://www.fpbase.org/protein/shyrfp/">ShyRFP</a>,
 
-Mention shy-RFP is already a relaxation sensor kinda. Red would be nice, too!
+and they represent promising alternative starting points for engineering relaxation sensors
 
-Mention Adam Cohen's work on things that are like relaxation sensors?
+[<a class="citation" href="https://doi.org/10.1529/biophysj.107.105882" title="Highlighted Generation of Fluorescence Signals Using Simultaneous Two-Color Irradiation on Dronpa Mutants; Ando R, Flors C, Mizuno H, Hofkens J, Miyawaki A; Biophysical Journal, 92(12) L97-L99 (2007)">Ando 2007</a>,
 
-Disruptive/nondisruptive measurement
+<a class="citation" href="https://doi.org/10.1038/nmeth.1209" title="Improving the photostability of bright monomeric orange and red fluorescent proteins; Nathan C. Shaner, Michael Z. Lin, Michael R. McKeown, Paul A. Steinbach, Kristin L. Hazelwood, Michael W. Davidson, and Roger Y. Tsien; Nat Methods 5(6):545–551 (2008)">Shaner 2008</a>,
+
+<a class="citation" href="https://doi.org/10.1529/biophysj.108.130146" title="Generation of Monomeric Reversibly Switchable Red Fluorescent Proteins for Far-Field Fluorescence Nanoscopy; Stiel Ac, Andresen M, Bock H, Hilbert M, Schilde J, Schönle A, Eggeling C, Egner A, Hell Sw, Jakobs S; Biophysical Journal, 95(6) 2989-2997 (2008)">Stiel 2008</a>,
+
+<a class="citation" href="https://doi.org/10.1039/c4ra10107c" title="A photochromic and thermochromic fluorescent protein; Shen Y, Wiens Md, Campbell Re; RSC Adv., 4(100) 56762-56765 (2014)">Shen 2014</a>].
+
+Rhodopsin-based spontaneous switching has also been described as a readout mechanism for fluoresent biosensing [cite: TODO MARIA]. Even dyes which spontaneously blink 
+
+[<a class="citation" href="https://doi.org/10.1038/nchem.2002" title="A spontaneously blinking fluorophore based on intramolecular spirocyclization for live-cell super-resolution imaging; Shin-nosuke Uno, Mako Kamiya, Toshitada Yoshihara, Ko Sugawara, Kohki Okabe, Mehmet C. Tarhan, Hiroyuki Fujita, Takashi Funatsu, Yasushi Okada, Seiji Tobita &amp; Yasuteru Urano; Nature Chemistry 6 681–689 (2014)">Uno 2014</a>]
+
+could potentially be coupled to quantities of interest
+
+[<a class="citation" href="https://doi.org//10.1038/s41589-021-00775-w" title="The HaloTag as a general scaffold for far-red tunable chemigenetic indicators; Claire Deo, Ahmed S. Abdelfattah, Hersh K. Bhargava, Adam J. Berro1, Natalie Falco, Helen Farrants, Benjamien Moeyaert, Mariam Chupanova, Luke D. Lavis and Eric R. Schreiter; Nat Chem Biol 17, 718–723 (2021).">Deo 2021</a>], 
+
+and read out via relaxation to improve performance in opaque, high-background samples.
 </p>
 
-<h4>Can we trust our measurement?</h4>
-Oligomerization: the silent killer. Contrast ratio of padron depends tremendously on concentration.
-Off-target sensing.
-Somehow account for temperature?
-
-<h4>Opportunities for inventors, innovators, and computational specialists.</h4>
-
-For speed: tracking type approaches could allow us to tolerate sample motion
-
-For sensing other things: can we tease apart the contributions from pH and Ca in the pH-Ca sensor we made? Can we tease apart the contributions from pH vs. temperature? How about intensity? Maybe multiplexing sensors is a good way to get at this!
-
-For multiplexing: what's the right way to use our mutational series of photoswitching rates?
-How can we infer each fluorophore population from a time series measurement?
-The unmixing we do in Figure 5 is useful, but a little wrong. We use a single unmixing parameter, but a more sophisticated algorithm would account for the fact that the unmixing parameter is pH dependent. So we'd use rates to infer pH, pH to infer unmixing, etc. Full sensor-aware deconvolution would be even better!
-
-For SNR: What's the right way to estimate a quantity-of-interest from our measurements? probably not relaxation ratio, or activation nonlinearity.
-My gosh is sag-based rate estimation worse SNR than change-based rate estimation. This is obvious, from a certain perspective, but wasn't obvious to me a year ago.
-</p>
-
-<p>Other uses of Countdown:
-Mention the two-step paper?
-It switches super fast, might be nice for resolft etc
-You could even get superres chemical information with resolft!
-</p>
 
 <h3>
 Open-source software</h3>
