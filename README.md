@@ -1,6 +1,6 @@
 # Relaxation Sensors
 
-<a href="https://doi.org/10.5281/zenodo.XXXXXXX"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3665824.svg" alt="DOI"></a> TODO: fix DOI
+<a href="https://doi.org/10.5281/zenodo.5810930"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.5810930.svg" alt="DOI"></a>
 
 A scientific publication that describes a new approach for quantitative readout of fluorescent biosensors, based on spontaneous isomerization rates. This repository hosts everything you need to reproduce our results. Read the publication here: https://andrewgyork.github.io/relaxation_sensors (hosted via Andrew York's personal GitHub account) or here: https://marimar128.github.io/relaxation_sensors (hosted via Maria Ingaramo's personal GitHub account).
 
