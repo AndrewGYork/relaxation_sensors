@@ -3,6 +3,8 @@
 from pathlib import Path
 import shutil     # For copying files
 import subprocess # For calling ffmpeg to make animations
+import urllib.request  # For downloading raw data
+import zipfile         # For unzipping downloads
 # You can use 'pip' to install these dependencies:
 import numpy as np
 from scipy import optimize
@@ -19,46 +21,47 @@ temp_dir = ( # A temp directory, three folders up:
 output_dir = ( # The 'images' directory, two folders up:
     Path(__file__).parents[2] / 'images' / 'robust_against_background_figure')
 # Sanity checks:
+input_dir.mkdir(exist_ok=True, parents=True)
 temp_dir.mkdir(exist_ok=True, parents=True)
 output_dir.mkdir(exist_ok=True)
 
-# Load data
-print("Loading...", end='')
-fluorescence = imread(
-    input_dir / '2021_13_10c_capillaries_under_chicken_skin.tif')
-reflected = imread(
-    input_dir / '2021_13_10c_capillaries_under_chicken_skin_reflected.tif')
-print(" done.")
-
 def main():
+    # Load data
+    print("Loading...", end='')
+    fluorescence = load_tif(
+        input_dir / '2021_06_13_capillaries_under_chicken_skin.tif')
+    reflected = load_tif(
+        input_dir / '2021_06_13_capillaries_under_chicken_skin_reflected.tif')
+    d = (fluorescence, reflected)
+    print(" done.")
+
     print("Saving frames...", sep='', end='')
-##    for i in range(51, 52):
-##    for i in (28, 35, 38, 41, 43, 56, 58, 61, 79):
     out_frame = 0
     for i in range(15):
-        save_animation_frame(in_frame=28, out_frame=out_frame, bb=0.1)
+        save_animation_frame(in_frame=28, out_frame=out_frame, data=d, bb=0.1)
         out_frame += 1
     for i in (28, 35, 38, 41, 43) + tuple(range(51, 80)):
-        save_animation_frame(in_frame=i, out_frame=out_frame, bb=0.1)
+        save_animation_frame(in_frame=i, out_frame=out_frame, data=d, bb=0.1)
         out_frame += 1
     for i in range(5):
-        save_animation_frame(in_frame=79, out_frame=out_frame,
+        save_animation_frame(in_frame=79, out_frame=out_frame, data=d,
                              bb=0.1 + 0.9*(i+1)/5)
         out_frame += 1
     for i in range(36):
-        save_animation_frame(in_frame=79, out_frame=out_frame, bb=1)
+        save_animation_frame(in_frame=79, out_frame=out_frame, data=d, bb=1)
         out_frame += 1
     for i in range(5):
-        save_animation_frame(in_frame=79, out_frame=out_frame,
+        save_animation_frame(in_frame=79, out_frame=out_frame, data=d,
                              bb=0.1 + 0.9*(5-i)/5)
         out_frame += 1
     for i in range(5):
-        save_animation_frame(in_frame=79, out_frame=out_frame, bb=0.1)
+        save_animation_frame(in_frame=79, out_frame=out_frame, data=d, bb=0.1)
         out_frame += 1
     print("done.")
     make_gif()
 
-def save_animation_frame(in_frame, out_frame, bb=1):
+def save_animation_frame(in_frame, out_frame, data, bb=1):
+    fluorescence, reflected = data
     # Decode timestamps
     t = decode_timestamps(fluorescence)['microseconds'] * 1e-6
     t -= t[51]
@@ -233,6 +236,63 @@ def save_animation_frame(in_frame, out_frame, bb=1):
     print('.', sep='', end='')
 ##    plt.show()
     plt.close(fig)
+
+def load_tif(image_data_filename):
+    if not image_data_filename.is_file():
+        print("The expected data file:")
+        print(image_data_filename)
+        print("...isn't where we expect it.\n")
+        print(" * Let's try to unzip it...")
+        zipped_data_filename = (
+            input_dir / "Capillaries_under_chicken_skin_data.zip")
+        if not zipfile.is_zipfile(zipped_data_filename):
+            print("\n  The expected zipped data file:")
+            print(zipped_data_filename)
+            print("  ...isn't where we expect it.\n")
+            print(" * * Let's try to download it from Zenodo.")
+            download_data(zipped_data_filename)
+        assert zipped_data_filename.is_file()
+        assert zipfile.is_zipfile(zipped_data_filename)
+        print(" Unzipping...")
+        with zipfile.ZipFile(zipped_data_filename) as zf:
+            zf.extract(image_data_filename.name,
+                       image_data_filename.parent)
+        print(" Successfully unzipped data.\n")
+    assert image_data_filename.is_file()
+    print("Loading data...")
+    data = imread(image_data_filename)
+    print("Successfully loaded data.")
+    print("Data shape:", data.shape)
+    print("Data dtype:", data.dtype)
+    print()
+    return data
+
+def download_data(filename):
+    url = ("https://zenodo.org/record/5819067/files/" +
+           "Capillaries_under_chicken_skin_data.zip")
+    u = urllib.request.urlopen(url)
+    file_size = int(u.getheader("Content-Length"))
+    block_size = 8192
+    while block_size * 80 < file_size:
+        block_size *= 2
+    bar_size = max(1, int(0.5 * (file_size / block_size - 12)))
+
+    print("    Downloading from:")
+    print(url)
+    print("    Downloading to:")
+    print(filename)
+    print("    File size: %0.2f MB"%(file_size/2**20))
+    print("\nDownloading might take a while, so here's a progress bar:")
+    print('0%', "-"*bar_size, '50%', "-"*bar_size, '100%')
+    with open(filename, 'wb') as f:
+        while True:
+            buffer = u.read(block_size)
+            if not buffer:
+                break
+            f.write(buffer)
+            print('|', sep='', end='')
+    print("\nDone downloading.\n")
+    return None
 
 def make_gif():
     # Animate the frames into a gif:
