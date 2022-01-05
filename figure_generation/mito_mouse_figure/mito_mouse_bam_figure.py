@@ -2,6 +2,8 @@
 # Dependencies from the python standard library:
 from pathlib import Path
 import subprocess # For calling ffmpeg to make animations
+import urllib.request  # For downloading raw data
+import zipfile         # For unzipping downloads
 # You can use 'pip' to install these dependencies:
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,15 +46,16 @@ def main():
 
 def load_and_organize_data():
     # Load
-    data_1 = tf.imread(input_dir / '2021_10_21_1_mito_mouse_before_bam.tif')
-    data_2 = tf.imread(input_dir / '2021_10_21_2_mito_mouse_10m_after_bam.tif')
-    data_3 = tf.imread(input_dir / '2021_10_21_3_mito_mouse_40m_after_bam.tif')
-    calibr = tf.imread(input_dir / '2021_10_22_protein_like_mouse.tif')
+    data_1 = load_tif(input_dir / '2021_10_21_1_mito_mouse_before_bam.tif')
+    data_2 = load_tif(input_dir / '2021_10_21_2_mito_mouse_10m_after_bam.tif')
+    data_3 = load_tif(input_dir / '2021_10_21_3_mito_mouse_40m_after_bam.tif')
+    calibr = load_tif(input_dir / '2021_10_22_calibration.tif')
+    calibr_ts = load_tif(input_dir / '2021_10_22_calibration_timestamps.tif')
     # Extract timestamps
     time_1_s = 1e-6*decode_timestamps(data_1)['microseconds']
     time_2_s = 1e-6*decode_timestamps(data_2)['microseconds']
     time_3_s = 1e-6*decode_timestamps(data_3)['microseconds']
-    time_c_s = 1e-6*decode_timestamps(calibr)['microseconds']
+    time_c_s = 1e-6*decode_timestamps(calibr_ts)['microseconds']
     # Register based on a sub-landmark
     landmark_1 = data_1[:, 1511:1552, 988:1030].astype('float64')
     shifts_1 = sr.stack_registration(
@@ -79,8 +82,8 @@ def load_and_organize_data():
     signal_1 = data_1[:, box_yi:box_yf, box_xi:box_xf]
     signal_2 = data_2[:, box_yi:box_yf, box_xi:box_xf]
     signal_3 = data_3[:, box_yi:box_yf, box_xi:box_xf]
-    signal_ph_7p5 = calibr[:, 1306:1358, 914:961]
-    signal_ph_8p0 = calibr[:, 1508:1560, 918:965]
+    signal_ph_7p5 = calibr[:,  906:958,  114:161]
+    signal_ph_8p0 = calibr[:, 1108:1160, 118:165]
     # Reorganize
     mean_1a = signal_1.mean(axis=(-1, -2))[:41]
     mean_1b = signal_1.mean(axis=(-1, -2))[69:]
@@ -109,6 +112,62 @@ def load_and_organize_data():
             mean_2a, mean_2b, time_2a_s, time_2b_s,
             mean_3a, mean_3b, time_3a_s, time_3b_s,
             mean_ph_7p5, mean_ph_8p0, time_c_s)
+
+def load_tif(image_data_filename):
+    if not image_data_filename.is_file():
+        print("The expected data file:")
+        print(image_data_filename)
+        print("...isn't where we expect it.\n")
+        print(" * Let's try to unzip it...")
+        zipped_data_filename = input_dir / "mito_ph_mouse_with_bam_data.zip"
+        if not zipfile.is_zipfile(zipped_data_filename):
+            print("\n  The expected zipped data file:")
+            print(zipped_data_filename)
+            print("  ...isn't where we expect it.\n")
+            print(" * * Let's try to download it from Zenodo.")
+            download_data(zipped_data_filename)
+        assert zipped_data_filename.is_file()
+        assert zipfile.is_zipfile(zipped_data_filename)
+        print(" Unzipping...")
+        with zipfile.ZipFile(zipped_data_filename) as zf:
+            zf.extract(image_data_filename.name,
+                       image_data_filename.parent)
+        print(" Successfully unzipped data.\n")
+    assert image_data_filename.is_file()
+    print("Loading data...")
+    data = tf.imread(image_data_filename)
+    print("Successfully loaded data.")
+    print("Data shape:", data.shape)
+    print("Data dtype:", data.dtype)
+    print()
+    return data
+
+def download_data(filename):
+    url = ("https://zenodo.org/record/5818986/files/" +
+           "mito_ph_mouse_with_bam_data.zip")
+    u = urllib.request.urlopen(url)
+    file_size = int(u.getheader("Content-Length"))
+    block_size = 8192
+    while block_size * 80 < file_size:
+        block_size *= 2
+    bar_size = max(1, int(0.5 * (file_size / block_size - 12)))
+
+    print("    Downloading from:")
+    print(url)
+    print("    Downloading to:")
+    print(filename)
+    print("    File size: %0.2f MB"%(file_size/2**20))
+    print("\nDownloading might take a while, so here's a progress bar:")
+    print('0%', "-"*bar_size, '50%', "-"*bar_size, '100%')
+    with open(filename, 'wb') as f:
+        while True:
+            buffer = u.read(block_size)
+            if not buffer:
+                break
+            f.write(buffer)
+            print('|', sep='', end='')
+    print("\nDone downloading.\n")
+    return None
 
 def make_figure(semiorganized_data,
                 which_input_frame,
