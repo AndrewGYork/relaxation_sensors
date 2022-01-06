@@ -63,3 +63,9 @@ function update_buffer_sensitivity_figure() {
   var image = document.getElementById("temperature_sensitivity");
   image.src = filename;
   } 
+
+    function update_yeast_ph_figure() {
+  var filename = "./images/yeast/" + document.getElementById("yeast_ph_").value; 
+  var image = document.getElementById("yeast_ph");
+  image.src = filename;
+  } 
