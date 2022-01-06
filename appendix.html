@@ -71,7 +71,28 @@ Left panel:</em></strong> Timelapse images of mitochondria tagged with pH-Countd
 
 <h3 id="ph_countdown_in_yeast">
 Yeast</h3>
-<img src="./images/yeast/yeast.png" alt="A photograph of yeast">
+<p>
+Yeasts (<em>S. cerevisiae </em>BY4741) expressing pH-countdown from a p416 plasmid and <a href="https://era.library.ualberta.ca/items/2fdf6a23-475d-4b9e-a693-3d2c2b5638dd">pHlorina</a> (a pH-sensitive, ratiometric red fluorescent protein derived from mApple) from a p413 plasmid were grown in synthetic media without URA  or HIS for 24 hours. 6150 µL of fresh media were inocculated with 50 µL of the overnight growth, and sampled every 75 minutes for OD<sub>600</sub> and fluorescence measurements. To measure pH-countdown relaxation ratios and pHlorina fluorescence excitation ratios, we used a Leica DMI8 wide-field microscope with a SOLA light engine, a 40X 0.85 NA objective, a 1.6X mag changer, and a DAPI, GFP, TXR, and a custom cube (Semrock FF01-440/40, FF470-Di0, FF01-585/40). We performed the decay measurements in the '<a href="#activation_due_to_measurement" target="_self">disruptive</a>' regime, with a spontaneous decay interval of 15 seconds. Calibration was done in permeabilized yeast in Carmody buffer, pH 6 to 8, with 0.1 % digitonin. 
+</p>
+<p> 
+As yeast approach saturation, the pH drops from ~7.4 to 6.8. Cytosolic pH in yeast is known to be correlated with growth rate and decreases as the cultures reach saturation. pH timecourses using the red ratiometric pH reporter pHlorina also display the same trend. 
+</p>
+
+<figure id="yeast_ph_figure">
+<img src="./images/yeast/yeast1.png" alt="Yeast ph figurefigure" id="yeast_ph">
+<table class="figure_controls">
+  <tr>
+  <td>Plot: </td><td>
+    <select id="yeast_ph_" onchange="update_yeast_ph_figure()">
+    <option value="yeast1.png" selected="selected">pH-countdown</option>  
+    <option value="yeast2.png">pH-countdown and pHluorina</option> 
+  </select>
+</td>
+    </tr>
+</table>
+ <figcaption><strong>Figure: Yeast cytosolic pH decreases as the culture reaches saturation.</strong><em><strong> Left panel:</strong></em> calibration curve for pH-countdown. <strong><em>Right panel:</em></strong> pH-countdown or pH-countdown plus pHlorina traces.
+ </figcaption>
+</figure>
 
 <h3 id="temperature_dependence">
 Relaxation rate temperature dependence</h3>
